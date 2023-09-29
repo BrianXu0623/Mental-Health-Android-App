@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Locale;
 
 import comp5216.sydney.edu.au.mentalhealth.R;
+import comp5216.sydney.edu.au.mentalhealth.activities.PostDetailActivity;
 import comp5216.sydney.edu.au.mentalhealth.entities.Post;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
@@ -24,16 +25,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     private List<Post> posts = new ArrayList<>();
     private Context context;
 
-//    public PostAdapter(Context context, List<Post> posts) {
-//        this.context = context;
-//        this.posts = posts;
-//    }
+    public PostAdapter(Context context) {
+        this.context = context;
+    }
 
     public void setPosts(List<Post> posts) {
         Collections.sort(posts, new Comparator<Post>() {
             @Override
             public int compare(Post post1, Post post2) {
-                // 比较时间戳，以便降序排列
                 return post2.getTimestamp().compareTo(post1.getTimestamp());
             }
         });
@@ -56,14 +55,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         String formattedTimestamp = dateFormat.format(post.getTimestamp().toDate());
         holder.timestampTextView.setText(formattedTimestamp);
 
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(context, PostDetailActivity.class);
-//                intent.putExtra("post", post);
-//                context.startActivity(intent);
-//            }
-//        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, PostDetailActivity.class);
+                intent.putExtra("postTitle", post.getTitle());
+                intent.putExtra("postContent", post.getContent());
+                intent.putExtra("postId", post.getPostId());
+                intent.putExtra("userId", post.getUserId());
+                intent.putExtra("timestamp", post.getTimestamp());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

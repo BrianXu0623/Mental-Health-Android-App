@@ -1,4 +1,4 @@
-package comp5216.sydney.edu.au.mentalhealth;
+package comp5216.sydney.edu.au.mentalhealth.activities;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -26,6 +26,7 @@ import com.google.firebase.firestore.WriteBatch;
 import java.util.ArrayList;
 import java.util.List;
 
+import comp5216.sydney.edu.au.mentalhealth.R;
 import comp5216.sydney.edu.au.mentalhealth.adapters.PostAdapter;
 import comp5216.sydney.edu.au.mentalhealth.entities.Post;
 
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new PostAdapter();
+        adapter = new PostAdapter(this);
         recyclerView.setAdapter(adapter);
         searchEditText = findViewById(R.id.searchEditText);
 
