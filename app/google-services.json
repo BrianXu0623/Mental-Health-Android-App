@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "111256383236",
+    "project_id": "mental-health-app-26781",
+    "storage_bucket": "mental-health-app-26781.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111256383236:android:82f5c65168b1bd50f86a51",
+        "android_client_info": {
+          "package_name": "comp5216.sydney.edu.au.mentalhealth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMNDqzE6-C8ixM0i27LTEhoeqzG0paW9w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
