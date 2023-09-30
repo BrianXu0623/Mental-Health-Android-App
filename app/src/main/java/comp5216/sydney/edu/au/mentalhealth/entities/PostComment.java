@@ -1,6 +1,6 @@
 package comp5216.sydney.edu.au.mentalhealth.entities;
 
-import java.sql.Timestamp;
+import com.google.firebase.Timestamp;
 
 public class PostComment {
     private String commentId;

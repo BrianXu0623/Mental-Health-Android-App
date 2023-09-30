@@ -6,7 +6,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import comp5216.sydney.edu.au.mentalhealth.R;
 import comp5216.sydney.edu.au.mentalhealth.entities.PostComment;
@@ -31,7 +34,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         PostComment postComment = postComments.get(position);
         holder.authorNameTextView.setText(postComment.getUserId());
         holder.commentContentTextView.setText(postComment.getText());
-        holder.commentTimestampTextView.setText(postComment.getTimestamp().toString());
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+        String formattedTimestamp = dateFormat.format(postComment.getTimestamp().toDate());
+        holder.commentTimestampTextView.setText(formattedTimestamp);
     }
 
     @Override
@@ -51,4 +57,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             commentTimestampTextView = itemView.findViewById(R.id.commentTimestampTextView);
         }
     }
+    public List<PostComment> getComments() {
+        return postComments;
+    }
+
+    public void setComments(List<PostComment> postComments) {
+        this.postComments = postComments;
+    }
+
 }

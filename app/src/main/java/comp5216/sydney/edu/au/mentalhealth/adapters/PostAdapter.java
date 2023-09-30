@@ -1,5 +1,6 @@
 package comp5216.sydney.edu.au.mentalhealth.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -24,6 +25,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     private List<Post> posts = new ArrayList<>();
     private Context context;
+    private static final int REQUEST_CODE_POST_DETAIL = 1234;
+
 
     public PostAdapter(Context context) {
         this.context = context;
@@ -64,9 +67,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 intent.putExtra("postId", post.getPostId());
                 intent.putExtra("userId", post.getUserId());
                 intent.putExtra("timestamp", post.getTimestamp());
-                context.startActivity(intent);
+
+                if (context instanceof Activity) {
+                    ((Activity) context).startActivityForResult(intent, REQUEST_CODE_POST_DETAIL);
+                } else {
+                    context.startActivity(intent);
+                }
             }
         });
+
     }
 
     @Override

@@ -1,13 +1,17 @@
 package comp5216.sydney.edu.au.mentalhealth.activities;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -31,12 +36,13 @@ import comp5216.sydney.edu.au.mentalhealth.adapters.PostAdapter;
 import comp5216.sydney.edu.au.mentalhealth.entities.Post;
 
 public class MainActivity extends AppCompatActivity {
-
+    private static final int REQUEST_CODE_POST_DETAIL = 1234;
     private RecyclerView recyclerView;
     private PostAdapter adapter;
     private FirebaseFirestore db;
     private CollectionReference postsCollection;
     private EditText searchEditText;
+    private FloatingActionButton floatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +55,14 @@ public class MainActivity extends AppCompatActivity {
         adapter = new PostAdapter(this);
         recyclerView.setAdapter(adapter);
         searchEditText = findViewById(R.id.searchEditText);
+        floatingActionButton = findViewById(R.id.floatingActionButton);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CreatePostActivity.class);
+                startActivity(intent);
+            }
+        });
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
@@ -77,7 +91,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadPosts();
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_POST_DETAIL && resultCode == Activity.RESULT_OK) {
+            // 如果在PostDetailActivity中有更改（例如删除帖子），则重新加载帖子
+            loadPosts();
+        }
+    }
     private void createSamplePosts() {
         List<Post> postsToCreate = generateSamplePosts();
 
