@@ -30,6 +30,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.WriteBatch;
 
 import comp5216.sydney.edu.au.mentalhealth.R;
 import comp5216.sydney.edu.au.mentalhealth.adapters.CommentAdapter;
@@ -96,7 +97,7 @@ public class PostDetailActivity extends AppCompatActivity {
                 deleteButton.setOnClickListener(new View.OnClickListener() {
                      @Override
                     public void onClick(View v) {
-                        deletePost(postId);
+                         deletePostByField(postId);
                     }
                 });
             } else {
@@ -157,34 +158,48 @@ public class PostDetailActivity extends AppCompatActivity {
         //Todo:根据用户身份验证系统来实现
         return "sampleUserId";
     }
-    private void deletePost(String postId) {
-        CollectionReference postsRef = db.collection("posts");
-
-        postsRef.whereEqualTo("postId", postId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        document.getReference().delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
+    private void deletePostByField(String postId) {
+        // 先找到帖子
+        db.collection("posts")
+                .whereEqualTo("postId", postId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                // 删除找到的帖子
+                                db.collection("posts").document(document.getId()).delete();
+                                // 同时删除与该帖子关联的所有评论
+                                deleteCommentsByPostId(postId);
                                 setResult(Activity.RESULT_OK);
-                                finish();  // 关闭此Activity并返回到前一个Activity
-                                Log.d("PostDetailActivity", "Post with postId: " + postId + " deleted successfully");
+                                finish();
                             }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(PostDetailActivity.this, "Error deleting post!", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        } else {
+                            Log.w("PostDetailActivity", "Error deleting post.", task.getException());
+                        }
                     }
-                } else {
-                    Log.d("PostDetailActivity", "Error finding post with postId: " + postId, task.getException());
-                }
-            }
-        });
+                });
     }
+
+    private void deleteCommentsByPostId(String postId) {
+        db.collection("comments")
+                .whereEqualTo("postId", postId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                db.collection("comments").document(document.getId()).delete();
+                            }
+                        } else {
+                            Log.w("PostDetailActivity", "Error deleting comments.", task.getException());
+                        }
+                    }
+                });
+    }
+
 
     private void saveCommentToDatabase(String postId, String userId, String commentText) {
         CollectionReference commentsCollection = db.collection("comments");
