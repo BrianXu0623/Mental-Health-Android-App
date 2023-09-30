@@ -16,8 +16,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -61,6 +63,11 @@ public class PostDetailActivity extends AppCompatActivity {
         submitCommentButton = findViewById(R.id.submitCommentButton);
         String currentUserId = getCurrentUserId();
 
+        // 设置个空的适配器
+        commentAdapter = new CommentAdapter(new ArrayList<>());
+        commentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        commentsRecyclerView.setAdapter(commentAdapter);
+
         // 获取传递的数据
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -81,13 +88,8 @@ public class PostDetailActivity extends AppCompatActivity {
             authorNameTextView.setText(authorName);
             authorAvatarImageView.setImageResource(authorAvatarResId);
 
-            // 从数据库中获取该帖子的所有评论（示例，实际中需要替换为真实的数据库查询）
-            List<PostComment> comments = getCommentsForPost(postId); // 替换为实际的查询评论的方法
-            commentAdapter = new CommentAdapter(comments);
-            commentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-            commentsRecyclerView.setAdapter(commentAdapter);
-
-            Button deleteButton = findViewById(R.id.deleteButton); // 先确保你的activity_post_detail.xml中有一个ID为deleteButton的Button，并默认设置为不可见（android:visibility="gone"）
+            loadComments(postId);
+            Button deleteButton = findViewById(R.id.deleteButton);
 
             if (currentUserId != null && currentUserId.equals(userId)) {
                 deleteButton.setVisibility(View.VISIBLE);
@@ -123,27 +125,33 @@ public class PostDetailActivity extends AppCompatActivity {
         // 查询数据库获取作者头像的逻辑
         return R.drawable.default_avatar; // 示例数据
     }
+    private void loadComments(String postId) {
+        CollectionReference commentsRef = db.collection("comments");
 
-    // 从数据库中获取该帖子的所有评论（示例，实际中需要替换为真实的数据库查询）
-    private List<PostComment> getCommentsForPost(String postId) {
-        // 查询数据库获取帖子评论的逻辑
-        List<PostComment> commentsList = new ArrayList<>();
+        // 使用whereEqualTo来只查询与当前帖子关联的评论
+        Query query = commentsRef.whereEqualTo("postId", postId).orderBy("timestamp", Query.Direction.ASCENDING);
 
-        CollectionReference commentsRef = db.collection("posts").document(postId).collection("comments");
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<PostComment> commentsList = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        PostComment comment = document.toObject(PostComment.class);
+                        commentsList.add(comment);
+                    }
 
-        // Order the comments by timestamp
-        Query query = commentsRef.orderBy("timestamp", Query.Direction.ASCENDING);
-        try {
-            QuerySnapshot querySnapshot = Tasks.await(query.get());
-            for (QueryDocumentSnapshot document : querySnapshot) {
-                PostComment comment = document.toObject(PostComment.class);
-                commentsList.add(comment);
+                    // 更新RecyclerView的Adapter数据
+                    commentAdapter.setComments(commentsList);
+                    commentAdapter.notifyDataSetChanged();
+                } else {
+                    Log.w("PostDetailActivity", "Error getting comments.", task.getException());
+                }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return commentsList;
+        });
     }
+
+
     // 得到查看帖子当前用户的id
     private String getCurrentUserId() {
         //Todo:根据用户身份验证系统来实现
@@ -168,7 +176,7 @@ public class PostDetailActivity extends AppCompatActivity {
                 });
     }
     private void saveCommentToDatabase(String postId, String userId, String commentText) {
-        CollectionReference commentsCollection = db.collection("posts").document(postId).collection("comments");
+        CollectionReference commentsCollection = db.collection("comments");
 
         PostComment newComment = new PostComment(null, postId, userId, commentText, Timestamp.now());
 
@@ -176,9 +184,8 @@ public class PostDetailActivity extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                       commentEditText.setText("");  // 清除EditText的内容
+                        commentEditText.setText("");  // 清除EditText的内容
                         newComment.setCommentId(documentReference.getId());
-                        documentReference.set(newComment);
                         // 添加新评论到评论列表并更新UI
                         List<PostComment> currentComments = commentAdapter.getComments(); // 获取当前评论列表
                         currentComments.add(newComment);
