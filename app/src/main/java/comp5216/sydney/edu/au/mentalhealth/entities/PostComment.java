@@ -6,6 +6,9 @@ public class PostComment {
     private String commentId;
     private String postId;
     private String userId;
+    public PostComment() {
+        // 空构造函数，必须存在
+    }
 
     public PostComment(String commentId, String postId, String userId, String text, Timestamp timestamp) {
         this.commentId = commentId;

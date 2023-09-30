@@ -15,7 +15,6 @@ import comp5216.sydney.edu.au.mentalhealth.R;
 import comp5216.sydney.edu.au.mentalhealth.entities.PostComment;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentViewHolder> {
-
     private List<PostComment> postComments;
 
     public CommentAdapter(List<PostComment> postComments) {

@@ -20,7 +20,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -48,6 +47,7 @@ public class PostDetailActivity extends AppCompatActivity {
     private EditText commentEditText;
     private Button submitCommentButton;
     private Timestamp timestamp;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +94,7 @@ public class PostDetailActivity extends AppCompatActivity {
             if (currentUserId != null && currentUserId.equals(userId)) {
                 deleteButton.setVisibility(View.VISIBLE);
                 deleteButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
+                     @Override
                     public void onClick(View v) {
                         deletePost(postId);
                     }
@@ -158,23 +158,34 @@ public class PostDetailActivity extends AppCompatActivity {
         return "sampleUserId";
     }
     private void deletePost(String postId) {
-        db.collection("posts").document(postId)
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        setResult(Activity.RESULT_OK);
-                        finish();  // 关闭此Activity并返回到前一个Activity
-                        Log.d("PostDetailActivity", "Post with ID: " + postId + " deleted successfully");
+        CollectionReference postsRef = db.collection("posts");
+
+        postsRef.whereEqualTo("postId", postId).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        document.getReference().delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                setResult(Activity.RESULT_OK);
+                                finish();  // 关闭此Activity并返回到前一个Activity
+                                Log.d("PostDetailActivity", "Post with postId: " + postId + " deleted successfully");
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(PostDetailActivity.this, "Error deleting post!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(PostDetailActivity.this, "Error deleting post!", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                } else {
+                    Log.d("PostDetailActivity", "Error finding post with postId: " + postId, task.getException());
+                }
+            }
+        });
     }
+
     private void saveCommentToDatabase(String postId, String userId, String commentText) {
         CollectionReference commentsCollection = db.collection("comments");
 
@@ -186,6 +197,7 @@ public class PostDetailActivity extends AppCompatActivity {
                     public void onSuccess(DocumentReference documentReference) {
                         commentEditText.setText("");  // 清除EditText的内容
                         newComment.setCommentId(documentReference.getId());
+                        documentReference.set(newComment);
                         // 添加新评论到评论列表并更新UI
                         List<PostComment> currentComments = commentAdapter.getComments(); // 获取当前评论列表
                         currentComments.add(newComment);
