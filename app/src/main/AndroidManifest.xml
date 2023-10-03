@@ -13,6 +13,9 @@
         android:theme="@style/Theme.MentalHealth"
         tools:targetApi="31">
         <activity
+            android:name=".activities.UserProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.CreatePostActivity"
             android:exported="false" />
         <activity
@@ -26,7 +29,7 @@
         </activity>
         <activity
             android:name=".activities.PostDetailActivity"
-            android:label="Post Detail"></activity>
+            android:label="Post Detail" />
     </application>
 
 </manifest>
