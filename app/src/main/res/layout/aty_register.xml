@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <RelativeLayout
+        android:id="@+id/titleRLyt"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_marginTop="14dp">
+
+        <TextView
+            android:id="@+id/titleContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="注册"
+            android:textColor="#000000"
+            android:textSize="18.5sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/titleRLyt"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true">
+
+            <ImageView
+                android:id="@+id/img_register_icon"
+                android:layout_width="76dp"
+                android:layout_height="76dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/ic_launcher" />
+
+            <EditText
+                android:id="@+id/et_register_username"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/img_register_icon"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="23dp"
+                android:layout_marginRight="30dp"
+                android:gravity="center|left"
+                android:hint="请输入用户名"
+                android:imeOptions="actionNext"
+                android:maxLength="11"
+                android:singleLine="true"
+                android:textColor="#FF3F3F50"
+                android:textColorHint="#4d3F3F50"
+                android:textSize="15sp" />
+
+
+
+
+            <EditText
+                android:id="@+id/et_register_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/et_register_username"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:gravity="center|left"
+                android:hint="请输入密码"
+                android:inputType="textPassword"
+                android:singleLine="true"
+                android:textColor="#FF3F3F50"
+                android:textColorHint="#4d3F3F50"
+                android:textSize="15sp" />
+
+
+            <TextView
+                android:id="@+id/agreTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/et_register_pwd"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="18dp"
+                android:text="注册即代表同意 "
+                android:textColor="#313757"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/agreTxtSec"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/et_register_pwd"
+                android:layout_marginTop="18dp"
+                android:layout_toRightOf="@+id/agreTxt"
+                android:text="《用户协议》"
+                android:textColor="#328AFE"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/yu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/et_register_pwd"
+                android:layout_marginTop="18dp"
+                android:layout_toRightOf="@+id/agreTxtSec"
+                android:text="与"
+                android:textColor="#328AFE"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/privacySec"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/et_register_pwd"
+                android:layout_marginTop="18dp"
+                android:layout_toRightOf="@+id/yu"
+                android:text="《隐私保护政策》"
+                android:textColor="#328AFE"
+                android:textSize="12sp" />
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/et_register_pwd"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="65dp"
+                android:layout_marginRight="40dp"
+                android:gravity="center"
+                android:stateListAnimator="@null"
+                android:text="注册"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>
+
