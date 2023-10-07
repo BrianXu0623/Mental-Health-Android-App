@@ -69,9 +69,12 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            if(item.getItemId() == R.id.nav_forum) {
+            if (item.getItemId() == R.id.nav_forum) {
                 loadPosts();
                 return true;
+            } else if (item.getItemId() == R.id.nav_event) {
+                Intent intent = new Intent(MainActivity.this, EventAty.class);
+                startActivity(intent);
             }
             return false;
         });
@@ -95,11 +98,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     @Override
     protected void onResume() {
         super.onResume();
         loadPosts();
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -108,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
             loadPosts();
         }
     }
+
     private void createSamplePosts() {
         List<Post> postsToCreate = generateSamplePosts();
 

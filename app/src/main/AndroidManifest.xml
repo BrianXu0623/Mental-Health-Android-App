@@ -19,7 +19,7 @@
             android:name=".activities.CreatePostActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".activities.LoginAty"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,7 +29,13 @@
         </activity>
         <activity
             android:name=".activities.PostDetailActivity"
-            android:label="Post Detail" />
+            android:label="Post Detail"></activity>
+
+        <activity android:name=".activities.MainActivity" />
+        <activity android:name=".activities.RegisterAty" />
+        <activity android:name=".activities.EventAty" />
+        <activity android:name=".activities.EventDetailsAty" />
+        <activity android:name=".activities.EditEventDetailsAty" />
     </application>
 
 </manifest>
