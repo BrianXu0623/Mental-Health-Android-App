@@ -27,6 +27,8 @@ public class UserProfileActivity extends AppCompatActivity {
     TextView userProfileName;
     ImageView docIcon;
 
+    TextView userProfileId;
+
     TextView userProfileAge;
     TextView userProfileEmail;
     TextView userProfileHobbies;
@@ -49,6 +51,7 @@ public class UserProfileActivity extends AppCompatActivity {
         // 初始化UI组件
         userProfileImage = findViewById(R.id.user_profile_image);
         docIcon = findViewById(R.id.doctor_icon);
+        userProfileId = findViewById(R.id.user_profile_id);
         userProfileName = findViewById(R.id.user_profile_name);
         userProfileAge = findViewById(R.id.user_age);
         userProfileEmail = findViewById(R.id.user_email);
@@ -71,6 +74,8 @@ public class UserProfileActivity extends AppCompatActivity {
                         }else {
                             docIcon.setVisibility(View.GONE);
                         }
+                        userProfileId.setText(userId);
+
 
                         if(document.getBoolean("hidden")){
                             userProfileAge.setVisibility(View.GONE);

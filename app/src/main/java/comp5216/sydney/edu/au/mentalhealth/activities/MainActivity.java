@@ -75,12 +75,17 @@ public class MainActivity extends AppCompatActivity {
             } else if (item.getItemId() == R.id.nav_event) {
                 Intent intent = new Intent(MainActivity.this, EventAty.class);
                 startActivity(intent);
+            }else if(item.getItemId() == R.id.nav_profile) {
+                Intent intent = new Intent(this, EditUserProfile.class);
+                // get current user id
+                intent.putExtra("userId", "user3");
+                startActivity(intent);
             }
             return false;
         });
         postsCollection = db.collection("posts");
 //        createSamplePosts();
-        generateSampleUsers();
+//        generateSampleUsers();
         loadPosts();
 
         searchEditText.addTextChangedListener(new TextWatcher() {

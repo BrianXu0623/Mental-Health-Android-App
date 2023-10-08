@@ -1,4 +1,3 @@
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -19,7 +18,7 @@
         android:orientation="horizontal"
         android:layout_marginTop="16dp">
 
-        <TextView
+        <EditText
             android:id="@+id/user_profile_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,40 +45,57 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="User Id"
-        android:textSize="12sp"
+        android:textSize="16sp"
         android:layout_marginStart="8dp"
         android:layout_gravity="left"/>
 
-    <TextView
+    <EditText
         android:id="@+id/user_age"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="16sp"
         android:text="TextView" />
 
-    <TextView
+    <EditText
         android:id="@+id/user_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="16sp"
         android:text="TextView" />
 
-    <TextView
+    <EditText
         android:id="@+id/user_hobbies"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="16sp"
         android:text="TextView" />
 
-    <TextView
+    <EditText
         android:id="@+id/user_major"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="16sp"
         android:text="TextView" />
 
-    <TextView
+    <EditText
         android:id="@+id/user_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textSize="16sp"
         android:text="TextView" />
 
+    <Switch
+        android:id="@+id/hidden_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="hide your profile" />
+
+    <Button
+        android:id="@+id/save_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="saveButton"
+        android:text="save" />
 
 
 
