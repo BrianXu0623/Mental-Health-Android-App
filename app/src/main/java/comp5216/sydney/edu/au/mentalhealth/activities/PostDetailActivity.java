@@ -30,7 +30,6 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.WriteBatch;
 
 import comp5216.sydney.edu.au.mentalhealth.R;
 import comp5216.sydney.edu.au.mentalhealth.adapters.CommentAdapter;
@@ -47,7 +46,7 @@ public class PostDetailActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private EditText commentEditText;
     private Button submitCommentButton;
-    private Timestamp timestamp;
+    private TextView timestampTextView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,6 +62,7 @@ public class PostDetailActivity extends AppCompatActivity {
         commentEditText = findViewById(R.id.commentEditText);
         submitCommentButton = findViewById(R.id.submitCommentButton);
         String currentUserId = getCurrentUserId();
+        timestampTextView = findViewById(R.id.timestampPostDetailTextView);
 
         // 设置个空的适配器
         commentAdapter = new CommentAdapter(new ArrayList<>());
@@ -88,6 +88,7 @@ public class PostDetailActivity extends AppCompatActivity {
 
             authorNameTextView.setText(authorName);
             authorAvatarImageView.setImageResource(authorAvatarResId);
+            timestampTextView.setText(timestamp);
 
             loadComments(postId);
             Button deleteButton = findViewById(R.id.deleteButton);

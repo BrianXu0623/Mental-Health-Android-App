@@ -66,7 +66,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 intent.putExtra("postContent", post.getContent());
                 intent.putExtra("postId", post.getPostId());
                 intent.putExtra("userId", post.getUserId());
-                intent.putExtra("timestamp", post.getTimestamp());
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+                String formattedTimestamp = dateFormat.format(post.getTimestamp().toDate());
+                intent.putExtra("timestamp", formattedTimestamp);
 
                 if (context instanceof Activity) {
                     ((Activity) context).startActivityForResult(intent, REQUEST_CODE_POST_DETAIL);
