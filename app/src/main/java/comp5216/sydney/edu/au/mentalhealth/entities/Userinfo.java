@@ -5,6 +5,7 @@ public class Userinfo {
     private String userId;
     private String pwd;
     private String userName;
+    private String role = "normal";
 
     public String getUserId() {
         return userId;
