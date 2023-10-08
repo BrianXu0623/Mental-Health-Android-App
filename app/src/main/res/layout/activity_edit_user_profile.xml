@@ -8,8 +8,9 @@
         android:id="@+id/user_profile_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/default_avatar"
-        android:layout_gravity="left"/>
+        android:layout_gravity="left"
+        android:onClick="pickPic"
+        android:src="@drawable/default_avatar" />
 
 
     <LinearLayout

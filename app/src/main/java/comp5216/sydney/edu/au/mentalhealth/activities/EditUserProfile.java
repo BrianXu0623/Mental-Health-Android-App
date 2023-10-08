@@ -1,10 +1,20 @@
 package comp5216.sydney.edu.au.mentalhealth.activities;
 
+
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -43,6 +53,7 @@ public class EditUserProfile extends AppCompatActivity {
 
     private FirebaseFirestore db;
     private static final String TAG = "EditUserProfile";
+    private static final int PHOTO_PICK_REQUEST_CODE = 101;
 
     String userId;
 
@@ -132,4 +143,26 @@ public class EditUserProfile extends AppCompatActivity {
                 });
 
     }
+
+    // onActivityResult() handles callbacks from the photo picker.
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+    }
+
+
+
+
+    public void pickPic(View v){
+        // Launches photo picker in single-select mode.
+        // This means that the user can select one photo or video.
+        Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
+        intent.setType("image/*");
+        startActivityForResult(intent, PHOTO_PICK_REQUEST_CODE);
+    }
+
+
 }
