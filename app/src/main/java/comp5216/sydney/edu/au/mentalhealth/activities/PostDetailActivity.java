@@ -33,6 +33,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import comp5216.sydney.edu.au.mentalhealth.R;
 import comp5216.sydney.edu.au.mentalhealth.adapters.CommentAdapter;
+import comp5216.sydney.edu.au.mentalhealth.entities.CurUserInfo;
 import comp5216.sydney.edu.au.mentalhealth.entities.PostComment;
 
 public class PostDetailActivity extends AppCompatActivity {
@@ -61,7 +62,7 @@ public class PostDetailActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         commentEditText = findViewById(R.id.commentEditText);
         submitCommentButton = findViewById(R.id.submitCommentButton);
-        String currentUserId = getCurrentUserId();
+        String currentUserId = CurUserInfo.userId;
         timestampTextView = findViewById(R.id.timestampPostDetailTextView);
 
         // 设置个空的适配器
@@ -155,10 +156,7 @@ public class PostDetailActivity extends AppCompatActivity {
 
 
     // 得到查看帖子当前用户的id
-    private String getCurrentUserId() {
-        //Todo:根据用户身份验证系统来实现
-        return "sampleUserId";
-    }
+
     private void deletePostByField(String postId) {
         // 先找到帖子
         db.collection("posts")
