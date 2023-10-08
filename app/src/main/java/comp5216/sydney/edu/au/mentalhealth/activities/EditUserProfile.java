@@ -1,18 +1,11 @@
 package comp5216.sydney.edu.au.mentalhealth.activities;
 
-
-
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.PickVisualMediaRequest;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -147,10 +140,17 @@ public class EditUserProfile extends AppCompatActivity {
     // onActivityResult() handles callbacks from the photo picker.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
-
         super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode != Activity.RESULT_OK){
+            return;
+        }
+        if(requestCode == PHOTO_PICK_REQUEST_CODE){
+            Uri currentUri = data.getData();
 
 
+
+
+        }
     }
 
 
