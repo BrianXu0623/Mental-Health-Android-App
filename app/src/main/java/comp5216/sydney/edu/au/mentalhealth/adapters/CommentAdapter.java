@@ -3,6 +3,7 @@ package comp5216.sydney.edu.au.mentalhealth.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,6 +38,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
         String formattedTimestamp = dateFormat.format(postComment.getTimestamp().toDate());
         holder.commentTimestampTextView.setText(formattedTimestamp);
+        int authorAvatarResId = getAuthorAvatar(postComment.getUserId()); // 替换为实际的查询用户头像的方法
+        holder.authorAvatarImageView.setImageResource(authorAvatarResId);
     }
 
     @Override
@@ -48,12 +51,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         TextView authorNameTextView;
         TextView commentContentTextView;
         TextView commentTimestampTextView;
+        ImageView authorAvatarImageView;
 
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
-            authorNameTextView = itemView.findViewById(R.id.authorNameTextView);
+            authorNameTextView = itemView.findViewById(R.id.commentAuthorNameTextView);
             commentContentTextView = itemView.findViewById(R.id.commentContentTextView);
             commentTimestampTextView = itemView.findViewById(R.id.commentTimestampTextView);
+            authorAvatarImageView = itemView.findViewById(R.id.commentAuthorAvatarImageView);
         }
     }
     public List<PostComment> getComments() {
@@ -64,4 +69,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         this.postComments = postComments;
     }
 
+    private int getAuthorAvatar(String userId) {
+        // 查询数据库获取作者头像的逻辑
+        return R.drawable.default_avatar; // 示例数据
+    }
 }

@@ -2,28 +2,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:padding="8dp">
 
-    <TextView
-        android:id="@+id/authorNameTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        android:text="Author Name"/>
+    <ImageView
+        android:id="@+id/commentAuthorAvatarImageView"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/default_avatar"
+        android:scaleType="centerCrop" />
 
-    <TextView
-        android:id="@+id/commentContentTextView"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Comment Content"/>
+        android:layout_weight="1"
+        android:layout_marginStart="8dp"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/commentTimestampTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Comment Timestamp"/>
+        <TextView
+            android:id="@+id/commentAuthorNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="italic"
+            android:textSize="14sp"
+            android:textColor="#333" />
+
+        <TextView
+            android:id="@+id/commentContentTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="#666" />
+
+        <TextView
+            android:id="@+id/commentTimestampTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#888" />
+    </LinearLayout>
+
 </LinearLayout>

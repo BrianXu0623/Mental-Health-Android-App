@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import comp5216.sydney.edu.au.mentalhealth.R;
+import comp5216.sydney.edu.au.mentalhealth.entities.CurUserInfo;
 import comp5216.sydney.edu.au.mentalhealth.entities.PostComment;
 import comp5216.sydney.edu.au.mentalhealth.entities.Userinfo;
 
@@ -80,6 +81,8 @@ public class LoginAty extends AppCompatActivity {
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     Userinfo userinfo = document.toObject(Userinfo.class);
                     if (!TextUtils.isEmpty(userinfo.getUserName())) {
+                        CurUserInfo.userName = userinfo.getUserName();
+                        CurUserInfo.userId = userinfo.getUserId();
                         isLogin = true;
                     }
                 }

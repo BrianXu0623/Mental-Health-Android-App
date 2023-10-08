@@ -62,7 +62,8 @@ public class MainActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CreatePostActivity.class);
+                Intent intent = new Intent(MainActivity.this,
+                        CreatePostActivity.class);
                 startActivity(intent);
             }
         });
@@ -143,8 +144,8 @@ public class MainActivity extends AppCompatActivity {
 
         Query searchQuery = postsRef
                 .orderBy("title")
-                .startAt(queryLowerCase)
-                .endAt(queryLowerCase + "\uf8ff");
+                .startAt(query)
+                .endAt(query + "\uf8ff");
 
         searchQuery.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -172,17 +173,17 @@ public class MainActivity extends AppCompatActivity {
     private List<Post> generateSamplePosts() {
         List<Post> posts = new ArrayList<>();
         posts.add(new Post("user1", "title1", "content1"));
-        posts.add(new Post("user2", "title2", "content2"));
-        posts.add(new Post("user3", "title3", "content3"));
-        posts.add(new Post("user1", "title1", "content1"));
-        posts.add(new Post("user2", "title2", "content2"));
-        posts.add(new Post("user3", "title3", "content3"));
-        posts.add(new Post("user1", "title1", "content1"));
-        posts.add(new Post("user2", "title2", "content2"));
-        posts.add(new Post("user3", "title3", "content3"));
-        posts.add(new Post("user1", "title1", "content1"));
-        posts.add(new Post("user2", "title2", "content2"));
-        posts.add(new Post("user3", "title3", "content3"));
+//        posts.add(new Post("user2", "title2", "content2"));
+//        posts.add(new Post("user3", "title3", "content3"));
+//        posts.add(new Post("user1", "title1", "content1"));
+//        posts.add(new Post("user2", "title2", "content2"));
+//        posts.add(new Post("user3", "title3", "content3"));
+//        posts.add(new Post("user1", "title1", "content1"));
+//        posts.add(new Post("user2", "title2", "content2"));
+//        posts.add(new Post("user3", "title3", "content3"));
+//        posts.add(new Post("user1", "title1", "content1"));
+//        posts.add(new Post("user2", "title2", "content2"));
+//        posts.add(new Post("user3", "title3", "content3"));
         return posts;
     }
 
