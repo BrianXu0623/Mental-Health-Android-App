@@ -22,42 +22,43 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import comp5216.sydney.edu.au.mentalhealth.R;
+import comp5216.sydney.edu.au.mentalhealth.entities.CurUserInfo;
 import comp5216.sydney.edu.au.mentalhealth.entities.UserProfile;
 
 public class EditUserProfile extends AppCompatActivity {
 
 
     ImageView userProfileImage;
-    EditText userProfileName;
+    String userName;
+    TextView userProfileName;
     ImageView docIcon;
     boolean doc;
     boolean hide;
-    TextView userProfileId;
     EditText userProfileAge;
     EditText userProfileEmail;
     EditText userProfileHobbies;
     EditText getUserProfileMajor;
-
     EditText getUserProfileDes;
-
     Switch hiddenSwitch;
-
     private FirebaseFirestore db;
+    FirebaseStorage storage;
     private static final String TAG = "EditUserProfile";
     private static final int PHOTO_PICK_REQUEST_CODE = 101;
 
-    String userId;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user_profile);
-        userId = getIntent().getStringExtra("userId");
+        userName = CurUserInfo.userName;
 
-        userProfileId = findViewById(R.id.user_profile_id);
         userProfileImage = findViewById(R.id.user_profile_image);
         docIcon = findViewById(R.id.doctor_icon);
         userProfileName = findViewById(R.id.user_profile_name);
@@ -69,15 +70,17 @@ public class EditUserProfile extends AppCompatActivity {
         hiddenSwitch = findViewById(R.id.hidden_switch);
 
         db = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance();
 
-        DocumentReference userRef = db.collection("UserProfiles").document(userId);
+
+        DocumentReference userRef = db.collection("UserProfiles").document(userName);
         userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        userProfileName.setText(document.getString("userName"));
+                        userProfileName.setText(userName);
                         if(document.getBoolean("doc")){
                             docIcon.setVisibility(View.VISIBLE);
                             doc = true;
@@ -85,8 +88,6 @@ public class EditUserProfile extends AppCompatActivity {
                             docIcon.setVisibility(View.GONE);
                             doc = false;
                         }
-                        userProfileId.setText(userId);
-
                         userProfileAge.setText(document.getString("userBirth"));
                         userProfileEmail.setText(document.getString("userEmail"));
                         userProfileHobbies.setText(document.getString("userHobbies"));
@@ -103,7 +104,7 @@ public class EditUserProfile extends AppCompatActivity {
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                     } else {
                         Log.d(TAG, "No such document");
-                        Log.d(TAG, userId);
+                        Log.d(TAG, userName);
                     }
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
@@ -115,8 +116,8 @@ public class EditUserProfile extends AppCompatActivity {
     }
 
     public void saveButton(View v){
-        DocumentReference userRef = db.collection("UserProfiles").document(userId);
-        UserProfile profile = new UserProfile(userId, userProfileName.getText().toString(),doc, hiddenSwitch.isChecked(), userProfileEmail.getText().toString(),
+        DocumentReference userRef = db.collection("UserProfiles").document(userName);
+        UserProfile profile = new UserProfile(userName, userProfileName.getText().toString(),doc, hiddenSwitch.isChecked(), userProfileEmail.getText().toString(),
                 userProfileHobbies.getText().toString(),
                 getUserProfileMajor.getText().toString(),
                 getUserProfileDes.getText().toString());
@@ -145,7 +146,24 @@ public class EditUserProfile extends AppCompatActivity {
             return;
         }
         if(requestCode == PHOTO_PICK_REQUEST_CODE){
-            Uri currentUri = data.getData();
+            Uri file = data.getData();
+            StorageReference storageRef = storage.getReference();
+            StorageReference riversRef = storageRef.child(CurUserInfo.userName+".png");
+            UploadTask uploadTask = riversRef.putFile(file);
+
+            // Register observers to listen for when the download is done or if it fails
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception exception) {
+                    // Handle unsuccessful uploads
+                }
+            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                    // ...
+                }
+            });
 
 
 
