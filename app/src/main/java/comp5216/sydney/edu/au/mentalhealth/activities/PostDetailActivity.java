@@ -35,6 +35,7 @@ import comp5216.sydney.edu.au.mentalhealth.R;
 import comp5216.sydney.edu.au.mentalhealth.adapters.CommentAdapter;
 import comp5216.sydney.edu.au.mentalhealth.entities.CurUserInfo;
 import comp5216.sydney.edu.au.mentalhealth.entities.PostComment;
+import comp5216.sydney.edu.au.mentalhealth.entities.UserProfile;
 
 public class PostDetailActivity extends AppCompatActivity {
 
@@ -48,6 +49,8 @@ public class PostDetailActivity extends AppCompatActivity {
     private EditText commentEditText;
     private Button submitCommentButton;
     private TextView timestampTextView;
+
+    String userId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,7 +79,7 @@ public class PostDetailActivity extends AppCompatActivity {
             String title = extras.getString("postTitle");
             String content = extras.getString("postContent");
             String postId = extras.getString("postId");
-            String userId = extras.getString("userId");
+            userId = extras.getString("userId");
             String timestamp = extras.getString("timestamp");
 
             // 设置帖子详细信息
@@ -228,5 +231,11 @@ public class PostDetailActivity extends AppCompatActivity {
                     }
                 });
     }
+
+
+    public void openUserProfile(View v){
+        UserProfileActivity.UserProfileActivity(this,userId);
+    }
+
 
 }

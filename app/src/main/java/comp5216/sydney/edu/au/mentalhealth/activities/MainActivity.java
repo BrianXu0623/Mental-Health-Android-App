@@ -16,8 +16,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
@@ -34,6 +36,7 @@ import java.util.List;
 import comp5216.sydney.edu.au.mentalhealth.R;
 import comp5216.sydney.edu.au.mentalhealth.adapters.PostAdapter;
 import comp5216.sydney.edu.au.mentalhealth.entities.Post;
+import comp5216.sydney.edu.au.mentalhealth.entities.UserProfile;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_POST_DETAIL = 1234;
@@ -73,11 +76,17 @@ public class MainActivity extends AppCompatActivity {
             } else if (item.getItemId() == R.id.nav_event) {
                 Intent intent = new Intent(MainActivity.this, EventAty.class);
                 startActivity(intent);
+            }else if(item.getItemId() == R.id.nav_profile) {
+                Intent intent = new Intent(this, EditUserProfile.class);
+                // get current user id
+                intent.putExtra("userId", "user3");
+                startActivity(intent);
             }
             return false;
         });
         postsCollection = db.collection("posts");
 //        createSamplePosts();
+//        generateSampleUsers();
         loadPosts();
 
         searchEditText.addTextChangedListener(new TextWatcher() {
@@ -194,4 +203,28 @@ public class MainActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                 });
     }
+
+
+    private void generateSampleUsers(){
+        List<UserProfile> profiles = new ArrayList<>();
+        profiles.add(new UserProfile("sampleUserId","user1", false, false, "test1@mentalHealth.com", "test hobby1", "test major1", "1111"));
+        profiles.add(new UserProfile("user1","user1", false, false, "test1@mentalHealth.com", "test hobby1", "test major1", "1111"));
+        profiles.add(new UserProfile("user2","user2", true, false, "test2@mentalHealth.com", "test hobby2", "test major2", "2222"));
+        profiles.add(new UserProfile("user3","user3", true, true, "test3@mentalHealth.com", "test hobby3", "test major3", "3333"));
+        CollectionReference userProfiles = db.collection("UserProfiles");
+        WriteBatch batch = db.batch();
+        for(UserProfile profile: profiles){
+            batch.set(userProfiles.document(profile.getUserId()), profile);
+
+        }
+
+        batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Log.d("UserProfiles", "generate success");
+            }
+        });
+
+    }
+
 }
