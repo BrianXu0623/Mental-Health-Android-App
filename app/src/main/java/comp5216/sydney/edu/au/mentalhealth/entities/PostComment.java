@@ -6,6 +6,16 @@ public class PostComment {
     private String commentId;
     private String postId;
     private String userId;
+
+    public boolean isProfessional() {
+        return isProfessional;
+    }
+
+    public void setProfessional(boolean professional) {
+        isProfessional = professional;
+    }
+
+    private boolean isProfessional = false;
     public PostComment() {
         // 空构造函数，必须存在
     }

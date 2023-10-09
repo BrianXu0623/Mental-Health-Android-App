@@ -82,7 +82,7 @@ public class LoginAty extends AppCompatActivity {
                     Userinfo userinfo = document.toObject(Userinfo.class);
                     if (!TextUtils.isEmpty(userinfo.getUserName())) {
                         CurUserInfo.userName = userinfo.getUserName();
-                        CurUserInfo.userId = userinfo.getUserId();
+//                        CurUserInfo.userId = userinfo.getUserId();
                         isLogin = true;
                     }
                 }

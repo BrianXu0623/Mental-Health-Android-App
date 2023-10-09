@@ -33,6 +33,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import comp5216.sydney.edu.au.mentalhealth.R;
 import comp5216.sydney.edu.au.mentalhealth.adapters.CommentAdapter;
+import comp5216.sydney.edu.au.mentalhealth.entities.CurUserInfo;
 import comp5216.sydney.edu.au.mentalhealth.entities.PostComment;
 
 public class PostDetailActivity extends AppCompatActivity {
@@ -83,7 +84,7 @@ public class PostDetailActivity extends AppCompatActivity {
             contentTextView.setText(content);
 
             // 从数据库中获取作者名字和头像（示例，实际中需要替换为真实的数据库查询）
-            String authorName = getAuthorName(userId); // 替换为实际的查询用户名字的方法
+            String authorName = userId; // 替换为实际的查询用户名字的方法
             int authorAvatarResId = getAuthorAvatar(userId); // 替换为实际的查询用户头像的方法
 
             authorNameTextView.setText(authorName);
@@ -114,12 +115,6 @@ public class PostDetailActivity extends AppCompatActivity {
                 }
             });
         }
-    }
-
-    // 从数据库中获取作者名字（示例，实际中需要替换为真实的数据库查询）
-    private String getAuthorName(String userId) {
-        // 查询数据库获取作者名字的逻辑
-        return "Author Name"; // 示例数据
     }
 
     // 从数据库中获取作者头像（示例，实际中需要替换为真实的数据库查询）
@@ -156,8 +151,7 @@ public class PostDetailActivity extends AppCompatActivity {
 
     // 得到查看帖子当前用户的id
     private String getCurrentUserId() {
-        //Todo:根据用户身份验证系统来实现
-        return "sampleUserId";
+        return CurUserInfo.userName;
     }
     private void deletePostByField(String postId) {
         // 先找到帖子

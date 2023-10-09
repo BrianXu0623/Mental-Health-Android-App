@@ -17,6 +17,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import comp5216.sydney.edu.au.mentalhealth.R;
+import comp5216.sydney.edu.au.mentalhealth.entities.CurUserInfo;
 import comp5216.sydney.edu.au.mentalhealth.entities.Post;
 
 public class CreatePostActivity extends AppCompatActivity {
@@ -53,6 +54,9 @@ public class CreatePostActivity extends AppCompatActivity {
         }
         String currentUserId = getCurrentUserId();
         Post newPost = new Post(currentUserId, title, content);
+        if(CurUserInfo.isProfessional) {
+            newPost.setProfessional(true);
+        }
 
         postsCollection.add(newPost)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -70,7 +74,6 @@ public class CreatePostActivity extends AppCompatActivity {
                 });
     }
     private String getCurrentUserId() {
-        //Todo:根据用户身份验证系统来实现
-        return "sampleUserId";
+        return CurUserInfo.userName;
     }
 }

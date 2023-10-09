@@ -12,6 +12,16 @@ public class Post {
     private String content;
     private Timestamp timestamp;
 
+    public boolean isProfessional() {
+        return isProfessional;
+    }
+
+    public void setProfessional(boolean professional) {
+        isProfessional = professional;
+    }
+
+    private boolean isProfessional = false;
+
     public Post() {
     }
 

@@ -5,19 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.SearchView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
@@ -41,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private PostAdapter adapter;
     private FirebaseFirestore db;
     private CollectionReference postsCollection;
-    private EditText searchEditText;
+    private SearchView searchView;
     private FloatingActionButton floatingActionButton;
 
     @Override
@@ -54,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new PostAdapter(this);
         recyclerView.setAdapter(adapter);
-        searchEditText = findViewById(R.id.searchEditText);
+        searchView = findViewById(R.id.postSearchView);
         floatingActionButton = findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,21 +72,18 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
         postsCollection = db.collection("posts");
-//        createSamplePosts();
         loadPosts();
 
-        searchEditText.addTextChangedListener(new TextWatcher() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public boolean onQueryTextSubmit(String query) {
+                return true;
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public boolean onQueryTextChange(String s) {
                 filterPosts(s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
+                return true;
             }
         });
     }
@@ -164,17 +156,6 @@ public class MainActivity extends AppCompatActivity {
     private List<Post> generateSamplePosts() {
         List<Post> posts = new ArrayList<>();
         posts.add(new Post("user1", "title1", "content1"));
-//        posts.add(new Post("user2", "title2", "content2"));
-//        posts.add(new Post("user3", "title3", "content3"));
-//        posts.add(new Post("user1", "title1", "content1"));
-//        posts.add(new Post("user2", "title2", "content2"));
-//        posts.add(new Post("user3", "title3", "content3"));
-//        posts.add(new Post("user1", "title1", "content1"));
-//        posts.add(new Post("user2", "title2", "content2"));
-//        posts.add(new Post("user3", "title3", "content3"));
-//        posts.add(new Post("user1", "title1", "content1"));
-//        posts.add(new Post("user2", "title2", "content2"));
-//        posts.add(new Post("user3", "title3", "content3"));
         return posts;
     }
 
