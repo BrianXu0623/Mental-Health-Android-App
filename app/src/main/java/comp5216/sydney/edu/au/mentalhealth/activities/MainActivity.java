@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -43,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
     private CollectionReference postsCollection;
     private SearchView searchView;
     private FloatingActionButton floatingActionButton;
+    private MaterialButtonToggleGroup toggleButton;
+    private Button buttonAll;
+    private Button buttonProfessional;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         db = FirebaseFirestore.getInstance();
+        toggleButton = findViewById(R.id.toggleButton);
+        buttonAll = findViewById(R.id.button1);
+        buttonProfessional = findViewById(R.id.button2);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new PostAdapter(this);
@@ -68,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.nav_forum) {
-                loadPosts();
+                loadPosts(false);
                 return true;
             } else if (item.getItemId() == R.id.nav_event) {
                 Intent intent = new Intent(MainActivity.this, EventAty.class);
@@ -84,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         postsCollection = db.collection("posts");
 //        createSamplePosts();
 //        generateSampleUsers();
-        loadPosts();
+        loadPosts(false);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -98,12 +107,23 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        toggleButton.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
+            if (isChecked) {
+                if (checkedId == R.id.button1) {
+                    loadPosts(false);
+                } else if (checkedId == R.id.button2) {
+                    loadPosts(true);
+                }
+            } else {
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        loadPosts();
+        loadPosts(false);
     }
 
     @Override
@@ -111,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_POST_DETAIL && resultCode == Activity.RESULT_OK) {
             // 如果在PostDetailActivity中有更改（例如删除帖子），则重新加载帖子
-            loadPosts();
+            loadPosts(false);
         }
     }
 
@@ -171,14 +191,21 @@ public class MainActivity extends AppCompatActivity {
         return posts;
     }
 
-    private void loadPosts() {
+    private void loadPosts(boolean onlyProfessional) {
         db.collection("posts")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     List<Post> posts = new ArrayList<>();
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                         Post post = document.toObject(Post.class);
-                        posts.add(post);
+                        if(onlyProfessional) {
+                            if(post.isProfessional()) {
+                                posts.add(post);
+                            }
+                        }
+                        else {
+                            posts.add(post);
+                        }
                     }
 
                     adapter.setPosts(posts);
