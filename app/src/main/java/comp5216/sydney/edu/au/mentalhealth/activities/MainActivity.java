@@ -85,6 +85,9 @@ public class MainActivity extends AppCompatActivity {
                 // get current user id
                 intent.putExtra("userId", "user3");
                 startActivity(intent);
+            }else if(item.getItemId() == R.id.nav_appointment) {
+                Intent intent = new Intent(this, ProfessionalList.class);
+                startActivity(intent);
             }
             return false;
         });
