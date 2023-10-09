@@ -3,8 +3,6 @@ package comp5216.sydney.edu.au.mentalhealth.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -216,26 +214,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void generateSampleUsers(){
-        List<UserProfile> profiles = new ArrayList<>();
-        profiles.add(new UserProfile("sampleUserId","user1", false, false, "test1@mentalHealth.com", "test hobby1", "test major1", "1111"));
-        profiles.add(new UserProfile("user1","user1", false, false, "test1@mentalHealth.com", "test hobby1", "test major1", "1111"));
-        profiles.add(new UserProfile("user2","user2", true, false, "test2@mentalHealth.com", "test hobby2", "test major2", "2222"));
-        profiles.add(new UserProfile("user3","user3", true, true, "test3@mentalHealth.com", "test hobby3", "test major3", "3333"));
-        CollectionReference userProfiles = db.collection("UserProfiles");
-        WriteBatch batch = db.batch();
-        for(UserProfile profile: profiles){
-            batch.set(userProfiles.document(profile.getUserId()), profile);
-
-        }
-
-        batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                Log.d("UserProfiles", "generate success");
-            }
-        });
-
-    }
+//    private void generateSampleUsers(){
+//        List<UserProfile> profiles = new ArrayList<>();
+//        profiles.add(new UserProfile("sampleUserId","user1", false, false, "test1@mentalHealth.com", "test hobby1", "test major1", "1111"));
+//        profiles.add(new UserProfile("user1","user1", false, false, "test1@mentalHealth.com", "test hobby1", "test major1", "1111"));
+//        profiles.add(new UserProfile("user2","user2", true, false, "test2@mentalHealth.com", "test hobby2", "test major2", "2222"));
+//        profiles.add(new UserProfile("user3","user3", true, true, "test3@mentalHealth.com", "test hobby3", "test major3", "3333"));
+//        CollectionReference userProfiles = db.collection("UserProfiles");
+//        WriteBatch batch = db.batch();
+//        for(UserProfile profile: profiles){
+//            batch.set(userProfiles.document(profile.getUserId()), profile);
+//
+//        }
+//
+//        batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//                Log.d("UserProfiles", "generate success");
+//            }
+//        });
+//
+//    }
 
 }
