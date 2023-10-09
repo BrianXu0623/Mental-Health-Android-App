@@ -8,7 +8,7 @@
         android:id="@+id/user_profile_image"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_gravity="left"
+        android:layout_gravity="center"
         android:onClick="pickPic"
         android:src="@drawable/default_avatar" />
 
@@ -17,19 +17,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="16dp">
+        android:layout_gravity="center">
 
         <EditText
             android:id="@+id/user_profile_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="User Id"
-            android:textSize="24sp"
             android:layout_gravity="center"
             android:layout_marginStart="8dp"
-            />
+            android:text="User Name"
+            android:textSize="24sp" />
 
-        <!-- 用户姓名前的小医生图标 -->
         <ImageView
             android:id="@+id/doctor_icon"
             android:layout_width="24dp"
@@ -41,14 +39,6 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/user_profile_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="User Id"
-        android:textSize="16sp"
-        android:layout_marginStart="8dp"
-        android:layout_gravity="left"/>
 
     <EditText
         android:id="@+id/user_age"
