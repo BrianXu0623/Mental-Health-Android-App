@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
@@ -70,13 +71,49 @@
         android:textStyle="bold"
         android:textColor="#333"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/commentsRecyclerView"
+    <!-- 添加 ScrollView 包裹的部分 -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/commentLayout"
+        android:layout_below="@+id/commentsLabel">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/commentsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- 添加评论的布局 -->
+    <LinearLayout
+        android:id="@+id/commentLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/commentsLabel"
-        android:layout_marginTop="8dp"/>
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
 
+        <EditText
+            android:id="@+id/commentEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Add a comment..."/>
+
+        <Button
+            android:id="@+id/submitCommentButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Submit"/>
+    </LinearLayout>
+
+    <!-- delete button -->
     <Button
         android:id="@+id/deleteButton"
         android:layout_width="wrap_content"
@@ -87,25 +124,4 @@
         android:visibility="gone"
         android:background="@android:color/holo_red_dark"
         android:textColor="@android:color/white"/>
-    <LinearLayout
-        android:id="@+id/commentLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
-
-    <EditText
-        android:id="@+id/commentEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="Add a comment..."/>
-
-    <Button
-        android:id="@+id/submitCommentButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Submit"/>
-
-</LinearLayout>
 </RelativeLayout>
