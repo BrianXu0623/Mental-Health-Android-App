@@ -31,7 +31,7 @@ public class ProfessionalList extends AppCompatActivity implements ListAdapter.O
     private CollectionReference professionalsCollection;
     private List<ListItem> dataList = new ArrayList<>();
     private ListAdapter adapter;
-
+    private BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +63,7 @@ public class ProfessionalList extends AppCompatActivity implements ListAdapter.O
 //        dataList.add(new ListItem(R.drawable.ellipse_15__2_, "Dr. Jessica Turner", "Licensed Therapist"));
 //        dataList.add(new ListItem(R.drawable.ellipse_15__3_, "Dr. Christopher Bennett", "Licensed Therapist"));
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -128,5 +128,12 @@ public class ProfessionalList extends AppCompatActivity implements ListAdapter.O
         startActivity(intent);
     }
 
+    @Override
+    protected void onResume() {
+        bottomNavigationView.getMenu().findItem(R.id.nav_appointment).setChecked(true);
+
+        super.onResume();
+        // 在这里执行与用户交互相关的操作，例如刷新数据、更新界面等
+    }
 
 }

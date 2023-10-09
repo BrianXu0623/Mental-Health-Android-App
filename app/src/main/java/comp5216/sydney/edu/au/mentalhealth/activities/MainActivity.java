@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private MaterialButtonToggleGroup toggleButton;
     private Button buttonAll;
     private Button buttonProfessional;
-
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             if (item.getItemId() == R.id.nav_forum) {
                 loadPosts(false);
@@ -125,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        bottomNavigationView.getMenu().findItem(R.id.nav_forum).setChecked(true);
         loadPosts(false);
     }
 
