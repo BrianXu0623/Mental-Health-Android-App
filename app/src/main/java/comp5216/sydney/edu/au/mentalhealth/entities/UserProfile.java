@@ -88,4 +88,6 @@ public class UserProfile {
     public void setUserDes(String userDes) {
         this.userDes = userDes;
     }
+
+
 }

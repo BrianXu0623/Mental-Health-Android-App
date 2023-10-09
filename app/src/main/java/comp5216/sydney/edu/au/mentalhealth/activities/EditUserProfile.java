@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -53,6 +54,7 @@ public class EditUserProfile extends AppCompatActivity {
     TextInputEditText info;
 
     Switch hiddenSwitch;
+    BottomNavigationView bottomNavigationView;
     FirebaseFirestore db;
     FirebaseStorage storage;
     private static final String TAG = "EditUserProfile";
@@ -77,6 +79,45 @@ public class EditUserProfile extends AppCompatActivity {
         hiddenSwitch = findViewById(R.id.hidden_switch);
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
+
+
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+
+            if (itemId == R.id.nav_appointment) {
+                Intent intent = new Intent(this, ProfessionalList.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+                overridePendingTransition(0, 0);  // Disable transition animations
+                return true;
+            } else if (itemId == R.id.nav_event) {
+                Intent intent = new Intent(this, EventAty.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+                return true;
+            } else if(itemId == R.id.nav_profile) {
+                Intent intent = new Intent(this, EditUserProfile.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                // get current user id
+                intent.putExtra("userId", "user3");
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+                return true;
+            } else if(itemId == R.id.nav_forum) {
+                Intent intent = new Intent(this, MainActivity.class);  // Changed to EventAty
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+                overridePendingTransition(0, 0);  // Disable transition animations
+                return true;
+            }
+
+            return false;
+        });
+
+        bottomNavigationView.getMenu().findItem(R.id.nav_profile).setChecked(true);
 
         loaduser();
         loadImage();
@@ -103,6 +144,7 @@ public class EditUserProfile extends AppCompatActivity {
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
+        loadImage();
 
     }
 
@@ -116,8 +158,8 @@ public class EditUserProfile extends AppCompatActivity {
         if(requestCode == PHOTO_PICK_REQUEST_CODE){
             Uri file = data.getData();
             StorageReference storageRef = storage.getReference();
-            StorageReference riversRef = storageRef.child(CurUserInfo.userName+".png");
-            UploadTask uploadTask = riversRef.putFile(file);
+            StorageReference imageRef = storageRef.child(CurUserInfo.userName+".png");
+            UploadTask uploadTask = imageRef.putFile(file);
 
             // Register observers to listen for when the download is done or if it fails
             uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -214,6 +256,29 @@ public class EditUserProfile extends AppCompatActivity {
 
 
     }
+
+    public static void createUserprofile(String userName){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference userRef = db.collection("UserProfiles").document(userName);
+        UserProfile profile = new UserProfile(userName, false, false,"","",
+                "","","");
+        userRef.set(profile).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
+
+
+
 
 
 
