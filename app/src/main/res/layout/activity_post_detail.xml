@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="#333"
                 android:textSize="18sp"
-                android:textStyle="italic" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/timestampPostDetailTextView"
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/authorLayout"
         android:layout_marginTop="16dp"
-        android:textSize="28sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         android:textColor="#333"/>
 
@@ -58,13 +58,28 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/titleTextView"
         android:layout_marginTop="8dp"
+        android:textSize="16sp"
         android:textColor="#666"/>
 
+    <!-- 添加小的超链接 text -->
+    <TextView
+        android:id="@+id/deleteTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        android:layout_below="@id/contentTextView"
+        android:layout_marginTop="16dp"
+        android:textColor="#0000FF"
+        android:textSize="18sp"
+        android:visibility="gone"
+        android:textStyle="italic"/>
+
+    <!-- Comment 大标题 -->
     <TextView
         android:id="@+id/commentsLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/contentTextView"
+        android:layout_below="@id/deleteTextView"
         android:layout_marginTop="16dp"
         android:text="Comments"
         android:textSize="22sp"
@@ -112,16 +127,4 @@
             android:layout_height="wrap_content"
             android:text="Submit"/>
     </LinearLayout>
-
-    <!-- delete button -->
-    <Button
-        android:id="@+id/deleteButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:visibility="gone"
-        android:background="@android:color/holo_red_dark"
-        android:textColor="@android:color/white"/>
 </RelativeLayout>
