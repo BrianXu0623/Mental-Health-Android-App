@@ -1,10 +1,10 @@
 package comp5216.sydney.edu.au.mentalhealth.entities;
 
 public class UserProfile {
-    private String userId;
+
     private String userName;
-    private boolean Doc;
-    private boolean Hidden;
+    private boolean doc;
+    private boolean hidden;
     private String userbirth;
     private String userEmall;
     private String userHobbies;
@@ -12,25 +12,18 @@ public class UserProfile {
     private String userDes;
 
     public UserProfile(){}
-    public UserProfile(String UserId, String UserName, boolean IsDoc, boolean Hidden,String UserEmall, String UserHobbies, String UserMajor, String UserDes){
-        this.userId = UserId;
+    public UserProfile(String UserName, boolean IsDoc, boolean Hidden,String userbirth, String userEmall, String userHobbies, String userMajor, String userDes){
+
         this.userName = UserName;
-        this.Doc = IsDoc;
-        this.Hidden = Hidden;
-        this.userEmall = UserEmall;
-        this.userHobbies = UserHobbies;
-        this.userMajor = UserMajor;
-        this.userDes = UserDes;
+        this.doc = IsDoc;
+        this.hidden = Hidden;
+        this.userbirth = userbirth;
+        this.userEmall = userEmall;
+        this.userHobbies = userHobbies;
+        this.userMajor = userMajor;
+        this.userDes = userDes;
     }
 
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 
     public String getUserName() {
         return userName;
@@ -41,19 +34,19 @@ public class UserProfile {
     }
 
     public boolean isDoc() {
-        return Doc;
+        return doc;
     }
 
     public void setDoc(boolean doc) {
-        Doc = doc;
+        this.doc = doc;
     }
 
     public boolean isHidden() {
-        return Hidden;
+        return hidden;
     }
 
     public void setHidden(boolean hidden) {
-        Hidden = hidden;
+        this.hidden = hidden;
     }
 
     public String getUserbirth() {

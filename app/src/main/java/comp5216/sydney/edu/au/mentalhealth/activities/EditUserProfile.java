@@ -117,10 +117,7 @@ public class EditUserProfile extends AppCompatActivity {
 
     public void saveButton(View v){
         DocumentReference userRef = db.collection("UserProfiles").document(userName);
-        UserProfile profile = new UserProfile(userName, userProfileName.getText().toString(),doc, hiddenSwitch.isChecked(), userProfileEmail.getText().toString(),
-                userProfileHobbies.getText().toString(),
-                getUserProfileMajor.getText().toString(),
-                getUserProfileDes.getText().toString());
+        UserProfile profile = new UserProfile();
         userRef.set(profile).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
