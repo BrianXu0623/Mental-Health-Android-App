@@ -65,7 +65,7 @@ public class PostDetailActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         commentEditText = findViewById(R.id.commentEditText);
         submitCommentButton = findViewById(R.id.submitCommentButton);
-        String currentUserId = CurUserInfo.userId;
+        String currentUserId = CurUserInfo.userName;
         timestampTextView = findViewById(R.id.timestampPostDetailTextView);
 
         // 设置个空的适配器

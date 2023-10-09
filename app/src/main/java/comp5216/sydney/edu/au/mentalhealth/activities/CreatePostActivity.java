@@ -52,7 +52,7 @@ public class CreatePostActivity extends AppCompatActivity {
             Toast.makeText(this, "Title and content cannot be empty!", Toast.LENGTH_SHORT).show();
             return;
         }
-        String currentUserId = CurUserInfo.userId;
+        String currentUserId = CurUserInfo.userName;
         Post newPost = new Post(currentUserId, title, content);
         if(CurUserInfo.isProfessional) {
             newPost.setProfessional(true);

@@ -1,26 +1,53 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <EditText
-        android:id="@+id/titleEditText"
-        android:layout_width="match_parent"
+    <!-- 添加标题栏 -->
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Title"/>
+        android:text="Create a Post"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_gravity="start"
+        android:layout_marginBottom="16dp"/>
 
-    <EditText
-        android:id="@+id/contentEditText"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Content"/>
+        android:orientation="vertical">
+
+        <!-- 调整标题的位置 -->
+        <EditText
+            android:id="@+id/titleEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Title"
+            android:textSize="18sp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- 调整内容的位置和大小 -->
+        <EditText
+            android:id="@+id/contentEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Content"
+            android:textSize="16sp"
+            android:gravity="start"
+            android:inputType="textMultiLine"
+            android:lines="6"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"/>
+    </LinearLayout>
 
     <Button
         android:id="@+id/submitButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Submit"/>
-
 </LinearLayout>
