@@ -5,6 +5,19 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
+    <!-- ImageView 用于显示背景图片 -->
+    <ImageView
+        android:id="@+id/backgroundImageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="0dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/help"
+        app:layout_constraintDimensionRatio="H,1:2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <SearchView
         android:id="@+id/postSearchView"
         android:layout_width="0dp"
@@ -47,6 +60,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        app:singleSelection="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView">
 

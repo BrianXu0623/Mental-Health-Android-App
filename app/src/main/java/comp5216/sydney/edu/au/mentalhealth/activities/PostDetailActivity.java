@@ -49,6 +49,7 @@ public class PostDetailActivity extends AppCompatActivity {
     private EditText commentEditText;
     private Button submitCommentButton;
     private TextView timestampTextView;
+    private TextView deleteTextView;
 
     String userId;
 
@@ -95,18 +96,20 @@ public class PostDetailActivity extends AppCompatActivity {
             timestampTextView.setText(timestamp);
 
             loadComments(postId);
-            Button deleteButton = findViewById(R.id.deleteButton);
+//            Button deleteButton = findViewById(R.id.deleteButton);
+            deleteTextView = findViewById(R.id.deleteTextView);
+
 
             if (currentUserId != null && currentUserId.equals(userId)) {
-                deleteButton.setVisibility(View.VISIBLE);
-                deleteButton.setOnClickListener(new View.OnClickListener() {
+                deleteTextView.setVisibility(View.VISIBLE);
+                deleteTextView.setOnClickListener(new View.OnClickListener() {
                      @Override
                     public void onClick(View v) {
                          deletePostByField(postId);
                     }
                 });
             } else {
-                deleteButton.setVisibility(View.GONE);
+                deleteTextView.setVisibility(View.GONE);
             }
             submitCommentButton.setOnClickListener(new View.OnClickListener() {
                 @Override

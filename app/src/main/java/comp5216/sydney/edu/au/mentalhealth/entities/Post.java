@@ -11,6 +11,8 @@ public class Post {
     private String title;
     private String content;
     private Timestamp timestamp;
+    private boolean isProfessional = false;
+
 
     public boolean isProfessional() {
         return isProfessional;
@@ -19,8 +21,6 @@ public class Post {
     public void setProfessional(boolean professional) {
         isProfessional = professional;
     }
-
-    private boolean isProfessional = false;
 
     public Post() {
     }

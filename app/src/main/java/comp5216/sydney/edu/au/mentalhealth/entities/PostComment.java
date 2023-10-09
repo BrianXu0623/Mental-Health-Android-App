@@ -6,6 +6,7 @@ public class PostComment {
     private String commentId;
     private String postId;
     private String userId;
+    private boolean isProfessional = false;
 
     public boolean isProfessional() {
         return isProfessional;
@@ -15,7 +16,6 @@ public class PostComment {
         isProfessional = professional;
     }
 
-    private boolean isProfessional = false;
     public PostComment() {
     }
 
