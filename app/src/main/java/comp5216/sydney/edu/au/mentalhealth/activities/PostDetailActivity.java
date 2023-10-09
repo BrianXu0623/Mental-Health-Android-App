@@ -25,6 +25,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.Query;
@@ -50,6 +51,7 @@ public class PostDetailActivity extends AppCompatActivity {
     private Button submitCommentButton;
     private TextView timestampTextView;
     private TextView deleteTextView;
+    private ImageView authorDoctorIcon;
 
     String userId;
 
@@ -57,7 +59,7 @@ public class PostDetailActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_detail);
-
+        authorDoctorIcon = findViewById(R.id.authorDoctorIcon);
         titleTextView = findViewById(R.id.titleTextView);
         contentTextView = findViewById(R.id.contentTextView);
         authorNameTextView = findViewById(R.id.authorNameTextView);
@@ -82,11 +84,16 @@ public class PostDetailActivity extends AppCompatActivity {
             String postId = extras.getString("postId");
             userId = extras.getString("userId");
             String timestamp = extras.getString("timestamp");
-
+            boolean isProfessional = extras.getBoolean("isProfessional");
             // 设置帖子详细信息
             titleTextView.setText(title);
             contentTextView.setText(content);
-
+            // 判断是否显示专家图标
+            if (isProfessional) {
+                authorDoctorIcon.setVisibility(View.VISIBLE);
+            } else {
+                authorDoctorIcon.setVisibility(View.GONE);
+            }
             // 从数据库中获取作者名字和头像（示例，实际中需要替换为真实的数据库查询）
             String authorName = userId; // 替换为实际的查询用户名字的方法
             int authorAvatarResId = getAuthorAvatar(userId); // 替换为实际的查询用户头像的方法
@@ -129,30 +136,33 @@ public class PostDetailActivity extends AppCompatActivity {
         return R.drawable.default_avatar; // 示例数据
     }
     private void loadComments(String postId) {
-        CollectionReference commentsRef = db.collection("comments");
-
-        // 使用whereEqualTo来只查询与当前帖子关联的评论
-        Query query = commentsRef.whereEqualTo("postId", postId).orderBy("timestamp", Query.Direction.ASCENDING);
-
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
+        db.collection("comments")
+                .whereEqualTo("postId", postId)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
                     List<PostComment> commentsList = new ArrayList<>();
-                    for (QueryDocumentSnapshot document : task.getResult()) {
+                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                         PostComment comment = document.toObject(PostComment.class);
                         commentsList.add(comment);
                     }
 
+                    // 对评论列表进行排序：先按isProfessional降序排列，然后按timestamp降序排列
+                    Collections.sort(commentsList, (c1, c2) -> {
+                        if (c1.isProfessional() && !c2.isProfessional()) return -1;
+                        if (!c1.isProfessional() && c2.isProfessional()) return 1;
+                        return c2.getTimestamp().compareTo(c1.getTimestamp());
+                    });
+
                     // 更新RecyclerView的Adapter数据
                     commentAdapter.setComments(commentsList);
                     commentAdapter.notifyDataSetChanged();
-                } else {
-                    Log.w("PostDetailActivity", "Error getting comments.", task.getException());
-                }
-            }
-        });
+                })
+                .addOnFailureListener(e -> {
+                    Log.w("PostDetailActivity", "Error getting comments.", e);
+                });
     }
+
+
 
     private void deletePostByField(String postId) {
         // 先找到帖子
@@ -202,6 +212,11 @@ public class PostDetailActivity extends AppCompatActivity {
 
         PostComment newComment = new PostComment(null, postId, userId, commentText, Timestamp.now());
 
+        // 设置评论者是否是专家
+        if (CurUserInfo.isProfessional) {
+            newComment.setProfessional(true);
+        }
+
         commentsCollection.add(newComment)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
@@ -214,6 +229,7 @@ public class PostDetailActivity extends AppCompatActivity {
                         currentComments.add(newComment);
                         commentAdapter.setComments(currentComments);  // 更新评论列表
                         commentAdapter.notifyDataSetChanged();  // 通知数据已改变，从而更新UI
+                        loadComments(postId);
                         Toast.makeText(PostDetailActivity.this, "Comment added successfully", Toast.LENGTH_SHORT).show();
 
                     }
@@ -225,6 +241,7 @@ public class PostDetailActivity extends AppCompatActivity {
                     }
                 });
     }
+
 
 
     public void openUserProfile(View v){

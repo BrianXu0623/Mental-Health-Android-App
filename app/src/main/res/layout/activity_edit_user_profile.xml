@@ -10,6 +10,7 @@
         android:layout_height="100dp"
         android:layout_gravity="center"
         android:onClick="pickPic"
+        android:padding="8dp"
         android:src="@drawable/default_avatar" />
 
 
@@ -19,7 +20,7 @@
         android:orientation="horizontal"
         android:layout_gravity="center">
 
-        <EditText
+        <TextView
             android:id="@+id/user_profile_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,59 +35,148 @@
             android:layout_height="24dp"
             android:src="@drawable/ic_doc"
             android:layout_gravity="center"/>
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:orientation="horizontal"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="8dp">
 
+        <ImageView
+            android:id="@+id/icon_phone"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+
+            android:src="@drawable/outline_phone_24" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/phoneText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Phone Number"
+            android:paddingHorizontal="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 
 
-    <EditText
-        android:id="@+id/user_age"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:text="TextView" />
 
-    <EditText
-        android:id="@+id/user_email"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:text="TextView" />
+        android:layout_gravity="left"
+        android:orientation="horizontal"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="8dp">
 
-    <EditText
-        android:id="@+id/user_hobbies"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:text="TextView" />
+        <ImageView
+            android:id="@+id/icon_email"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
 
-    <EditText
-        android:id="@+id/user_major"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:text="TextView" />
+            android:src="@drawable/outline_email_24" />
 
-    <EditText
-        android:id="@+id/user_description"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/emailText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:paddingHorizontal="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:text="TextView" />
+        android:layout_gravity="left"
+        android:orientation="horizontal"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="8dp">
+
+        <ImageView
+            android:id="@+id/icon_hobbies"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+
+            android:src="@drawable/outline_hobbies_24" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/hobbiesText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Hobbies"
+            android:paddingHorizontal="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:orientation="horizontal"
+        android:paddingHorizontal="8dp"
+        android:paddingVertical="8dp">
+
+        <ImageView
+            android:id="@+id/icon_info"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/outline_info_24" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/infoText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Other Information"
+            android:paddingHorizontal="8dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+
+
+
 
     <Switch
         android:id="@+id/hidden_switch"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="hide your profile" />
 
     <Button
         android:id="@+id/save_button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="saveButton"
-        android:text="save" />
+        android:text="Update" />
 
 
 
