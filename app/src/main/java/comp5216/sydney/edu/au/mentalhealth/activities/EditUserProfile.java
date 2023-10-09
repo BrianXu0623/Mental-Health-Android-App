@@ -59,58 +59,56 @@ public class EditUserProfile extends AppCompatActivity {
         setContentView(R.layout.activity_edit_user_profile);
         userName = CurUserInfo.userName;
 
-        userProfileImage = findViewById(R.id.user_profile_image);
-        docIcon = findViewById(R.id.doctor_icon);
-        userProfileName = findViewById(R.id.user_profile_name);
-        userProfileAge = findViewById(R.id.user_age);
-        userProfileEmail = findViewById(R.id.user_email);
-        userProfileHobbies = findViewById(R.id.user_hobbies);
-        getUserProfileMajor = findViewById(R.id.user_major);
-        getUserProfileDes = findViewById(R.id.user_description);
-        hiddenSwitch = findViewById(R.id.hidden_switch);
-
-        db = FirebaseFirestore.getInstance();
-        storage = FirebaseStorage.getInstance();
-
-
-        DocumentReference userRef = db.collection("UserProfiles").document(userName);
-        userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        userProfileName.setText(userName);
-                        if(document.getBoolean("doc")){
-                            docIcon.setVisibility(View.VISIBLE);
-                            doc = true;
-                        }else {
-                            docIcon.setVisibility(View.GONE);
-                            doc = false;
-                        }
-                        userProfileAge.setText(document.getString("userBirth"));
-                        userProfileEmail.setText(document.getString("userEmail"));
-                        userProfileHobbies.setText(document.getString("userHobbies"));
-                        getUserProfileMajor.setText(document.getString("userMajor"));
-                        getUserProfileDes.setText(document.getString("userDes"));
-
-                        if(document.getBoolean("hidden")){
-                            hiddenSwitch.setChecked(true);
-
-                        }else {
-                            hiddenSwitch.setChecked(false);
-                        }
-
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                    } else {
-                        Log.d(TAG, "No such document");
-                        Log.d(TAG, userName);
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
+//        userProfileImage = findViewById(R.id.user_profile_image);
+//        docIcon = findViewById(R.id.doctor_icon);
+//        userProfileName = findViewById(R.id.user_profile_name);
+//        userProfileAge = findViewById(R.id.user_age);
+//        userProfileEmail = findViewById(R.id.user_email);
+//
+//        hiddenSwitch = findViewById(R.id.hidden_switch);
+//
+//        db = FirebaseFirestore.getInstance();
+//        storage = FirebaseStorage.getInstance();
+//
+//
+//        DocumentReference userRef = db.collection("UserProfiles").document(userName);
+//        userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
+//                        userProfileName.setText(userName);
+//                        if(document.getBoolean("doc")){
+//                            docIcon.setVisibility(View.VISIBLE);
+//                            doc = true;
+//                        }else {
+//                            docIcon.setVisibility(View.GONE);
+//                            doc = false;
+//                        }
+//                        userProfileAge.setText(document.getString("userBirth"));
+//                        userProfileEmail.setText(document.getString("userEmail"));
+//                        userProfileHobbies.setText(document.getString("userHobbies"));
+//                        getUserProfileMajor.setText(document.getString("userMajor"));
+//                        getUserProfileDes.setText(document.getString("userDes"));
+//
+//                        if(document.getBoolean("hidden")){
+//                            hiddenSwitch.setChecked(true);
+//
+//                        }else {
+//                            hiddenSwitch.setChecked(false);
+//                        }
+//
+//                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+//                    } else {
+//                        Log.d(TAG, "No such document");
+//                        Log.d(TAG, userName);
+//                    }
+//                } else {
+//                    Log.d(TAG, "get failed with ", task.getException());
+//                }
+//            }
+//        });
 
 
     }
