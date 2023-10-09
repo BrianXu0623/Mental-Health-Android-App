@@ -25,6 +25,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @NonNull
     @Override
     public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_comment, parent, false);
         return new CommentViewHolder(view);
     }
@@ -34,11 +35,15 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         PostComment postComment = postComments.get(position);
         holder.authorNameTextView.setText(postComment.getUserId());
         holder.commentContentTextView.setText(postComment.getText());
-
+        if (postComment.isProfessional()) {
+            holder.commentDoctorIcon.setVisibility(View.VISIBLE);
+        } else {
+            holder.commentDoctorIcon.setVisibility(View.GONE);
+        }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
         String formattedTimestamp = dateFormat.format(postComment.getTimestamp().toDate());
         holder.commentTimestampTextView.setText(formattedTimestamp);
-        int authorAvatarResId = getAuthorAvatar(postComment.getUserId()); // 替换为实际的查询用户头像的方法
+        int authorAvatarResId = getAuthorAvatar(postComment.getUserId());
         holder.authorAvatarImageView.setImageResource(authorAvatarResId);
     }
 
@@ -52,6 +57,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         TextView commentContentTextView;
         TextView commentTimestampTextView;
         ImageView authorAvatarImageView;
+        ImageView commentDoctorIcon;
 
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -59,6 +65,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             commentContentTextView = itemView.findViewById(R.id.commentContentTextView);
             commentTimestampTextView = itemView.findViewById(R.id.commentTimestampTextView);
             authorAvatarImageView = itemView.findViewById(R.id.commentAuthorAvatarImageView);
+            commentDoctorIcon = itemView.findViewById(R.id.commentDoctorIcon);
         }
     }
     public List<PostComment> getComments() {

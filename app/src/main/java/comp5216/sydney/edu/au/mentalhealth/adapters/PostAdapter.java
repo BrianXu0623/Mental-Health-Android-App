@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -52,6 +53,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post post = posts.get(position);
+        // 如果帖子是专业用户发布的，显示医生图标
+        if (post.isProfessional()) {
+            holder.doctorIcon.setVisibility(View.VISIBLE);
+        } else {
+            holder.doctorIcon.setVisibility(View.GONE);
+        }
         holder.titleTextView.setText(post.getTitle());
         holder.contentTextView.setText(post.getContent());
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
@@ -69,6 +76,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
                 String formattedTimestamp = dateFormat.format(post.getTimestamp().toDate());
                 intent.putExtra("timestamp", formattedTimestamp);
+                intent.putExtra("isProfessional",post.isProfessional());
 
                 if (context instanceof Activity) {
                     ((Activity) context).startActivityForResult(intent, REQUEST_CODE_POST_DETAIL);
@@ -89,13 +97,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         TextView titleTextView;
         TextView contentTextView;
         TextView timestampTextView;
+        ImageView doctorIcon;
 
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.titleTextView);
             contentTextView = itemView.findViewById(R.id.contentTextView);
             timestampTextView = itemView.findViewById(R.id.timestampTextView);
-
+            doctorIcon = itemView.findViewById(R.id.doctor_picture);
         }
     }
 }

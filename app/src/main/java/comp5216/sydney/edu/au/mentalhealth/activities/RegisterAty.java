@@ -24,6 +24,7 @@ public class RegisterAty extends AppCompatActivity {
 
     private EditText regUserName;
     private EditText regUserPwd;
+    private EditText regUserPwdAgain;
     private Button btnRegister;
 
     private FirebaseFirestore db;
@@ -35,6 +36,7 @@ public class RegisterAty extends AppCompatActivity {
         setContentView(R.layout.aty_register);
         regUserName = findViewById(R.id.et_register_username);
         regUserPwd = findViewById(R.id.et_register_pwd);
+        regUserPwdAgain = findViewById(R.id.et_register_pwd_again);
 
         db = FirebaseFirestore.getInstance();
         userCollection = db.collection("userinfo");
@@ -54,7 +56,12 @@ public class RegisterAty extends AppCompatActivity {
     private void register() {
         String username = regUserName.getText().toString().trim();
         String pwd = regUserPwd.getText().toString().trim();
-
+        String pwdAgain = regUserPwdAgain.getText().toString().trim();
+        if(! pwdAgain.equals(pwd)) {
+            Toast.makeText(RegisterAty.this,
+                    "Two passwords are not consistent!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Userinfo userinfo = new Userinfo();
         userinfo.setUserName(username);
         userinfo.setPwd(pwd);
@@ -66,14 +73,16 @@ public class RegisterAty extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(RegisterAty.this, "Register created successfully!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterAty.this,
+                                "Register created successfully!", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(RegisterAty.this, "Error creating Register!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterAty.this,
+                                "Error creating Register!", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
