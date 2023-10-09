@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
         postsCollection = db.collection("posts");
+        bottomNavigationView.getMenu().findItem(R.id.nav_forum).setChecked(true);
 //        createSamplePosts();
 //        generateSampleUsers();
         loadPosts(false);

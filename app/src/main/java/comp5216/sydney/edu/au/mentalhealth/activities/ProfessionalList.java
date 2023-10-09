@@ -69,21 +69,18 @@ public class ProfessionalList extends AppCompatActivity implements ListAdapter.O
             int itemId = item.getItemId();
 
             if (itemId == R.id.nav_appointment) {
-                bottomNavigationView.getMenu().findItem(R.id.nav_appointment).setChecked(true);
                 Intent intent = new Intent(this, ProfessionalList.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
                 overridePendingTransition(0, 0);  // Disable transition animations
                 return true;
             } else if (itemId == R.id.nav_event) {
-                bottomNavigationView.getMenu().findItem(R.id.nav_event).setChecked(true);
                 Intent intent = new Intent(this, EventAty.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
                 overridePendingTransition(0, 0);
                 return true;
             } else if(itemId == R.id.nav_profile) {
-                bottomNavigationView.getMenu().findItem(R.id.nav_profile).setChecked(true);
                 Intent intent = new Intent(this, EditUserProfile.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 // get current user id
@@ -92,7 +89,6 @@ public class ProfessionalList extends AppCompatActivity implements ListAdapter.O
                 overridePendingTransition(0, 0);
                 return true;
             } else if(itemId == R.id.nav_forum) {
-                bottomNavigationView.getMenu().findItem(R.id.nav_forum).setChecked(true);
                 Intent intent = new Intent(this, MainActivity.class);  // Changed to EventAty
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
@@ -103,7 +99,7 @@ public class ProfessionalList extends AppCompatActivity implements ListAdapter.O
             return false;
         });
 
-
+        bottomNavigationView.getMenu().findItem(R.id.nav_appointment).setChecked(true);
     }
 
     private void loadProfessionals() {
