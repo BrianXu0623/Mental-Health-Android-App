@@ -83,6 +83,7 @@ public class LoginAty extends AppCompatActivity {
                     if (!TextUtils.isEmpty(userinfo.getUserName())) {
                         CurUserInfo.userName = userinfo.getUserName();
 //                        CurUserInfo.userId = userinfo.getUserId();
+                        CurUserInfo.isProfessional = userinfo.getRole().equals("professional");
                         isLogin = true;
                     }
                 }
