@@ -52,7 +52,7 @@ public class CreatePostActivity extends AppCompatActivity {
             Toast.makeText(this, "Title and content cannot be empty!", Toast.LENGTH_SHORT).show();
             return;
         }
-        String currentUserId = getCurrentUserId();
+        String currentUserId = CurUserInfo.userId;
         Post newPost = new Post(currentUserId, title, content);
         if(CurUserInfo.isProfessional) {
             newPost.setProfessional(true);
@@ -72,8 +72,5 @@ public class CreatePostActivity extends AppCompatActivity {
                         Toast.makeText(CreatePostActivity.this, "Error creating post!", Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
-    private String getCurrentUserId() {
-        return CurUserInfo.userName;
     }
 }
