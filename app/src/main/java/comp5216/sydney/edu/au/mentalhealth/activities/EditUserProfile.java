@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -14,17 +15,24 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.io.File;
+import java.io.IOException;
 
 import comp5216.sydney.edu.au.mentalhealth.R;
 import comp5216.sydney.edu.au.mentalhealth.entities.CurUserInfo;
@@ -33,19 +41,19 @@ import comp5216.sydney.edu.au.mentalhealth.entities.UserProfile;
 public class EditUserProfile extends AppCompatActivity {
 
 
-    ImageView userProfileImage;
+    ImageView userImage;
     String userName;
-    TextView userProfileName;
+    TextView userNameText;
     ImageView docIcon;
     boolean doc;
     boolean hide;
-    EditText userProfileAge;
-    EditText userProfileEmail;
-    EditText userProfileHobbies;
-    EditText getUserProfileMajor;
-    EditText getUserProfileDes;
+    TextInputEditText phone;
+    TextInputEditText email;
+    TextInputEditText hobbies;
+    TextInputEditText info;
+
     Switch hiddenSwitch;
-    private FirebaseFirestore db;
+    FirebaseFirestore db;
     FirebaseStorage storage;
     private static final String TAG = "EditUserProfile";
     private static final int PHOTO_PICK_REQUEST_CODE = 101;
@@ -58,70 +66,35 @@ public class EditUserProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_user_profile);
         userName = CurUserInfo.userName;
+        userImage = findViewById(R.id.user_image);
+        userNameText = findViewById(R.id.user_name);
+        docIcon = findViewById(R.id.doctor_icon);
+        phone = findViewById(R.id.phoneText);
+        email = findViewById(R.id.emailText);
+        hobbies = findViewById(R.id.hobbiesText);
+        info = findViewById(R.id.infoText);
 
-//        userProfileImage = findViewById(R.id.user_profile_image);
-//        docIcon = findViewById(R.id.doctor_icon);
-//        userProfileName = findViewById(R.id.user_profile_name);
-//        userProfileAge = findViewById(R.id.user_age);
-//        userProfileEmail = findViewById(R.id.user_email);
-//
-//        hiddenSwitch = findViewById(R.id.hidden_switch);
-//
-//        db = FirebaseFirestore.getInstance();
-//        storage = FirebaseStorage.getInstance();
-//
-//
-//        DocumentReference userRef = db.collection("UserProfiles").document(userName);
-//        userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (document.exists()) {
-//                        userProfileName.setText(userName);
-//                        if(document.getBoolean("doc")){
-//                            docIcon.setVisibility(View.VISIBLE);
-//                            doc = true;
-//                        }else {
-//                            docIcon.setVisibility(View.GONE);
-//                            doc = false;
-//                        }
-//                        userProfileAge.setText(document.getString("userBirth"));
-//                        userProfileEmail.setText(document.getString("userEmail"));
-//                        userProfileHobbies.setText(document.getString("userHobbies"));
-//                        getUserProfileMajor.setText(document.getString("userMajor"));
-//                        getUserProfileDes.setText(document.getString("userDes"));
-//
-//                        if(document.getBoolean("hidden")){
-//                            hiddenSwitch.setChecked(true);
-//
-//                        }else {
-//                            hiddenSwitch.setChecked(false);
-//                        }
-//
-//                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-//                    } else {
-//                        Log.d(TAG, "No such document");
-//                        Log.d(TAG, userName);
-//                    }
-//                } else {
-//                    Log.d(TAG, "get failed with ", task.getException());
-//                }
-//            }
-//        });
+        hiddenSwitch = findViewById(R.id.hidden_switch);
+        db = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance();
+
+        loaduser();
+        loadImage();
+
 
 
     }
 
     public void saveButton(View v){
         DocumentReference userRef = db.collection("UserProfiles").document(userName);
-        UserProfile profile = new UserProfile();
+        UserProfile profile = new UserProfile(userName, doc, hiddenSwitch.isChecked(),"",phone.getText().toString(),
+                email.getText().toString(),hobbies.getText().toString(),info.getText().toString());
         userRef.set(profile).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
-                        Intent intent = new Intent(EditUserProfile.this, MainActivity.class);
-                        startActivity(intent);
+                        Toast toast = Toast.makeText(EditUserProfile.this, "Update success", Toast.LENGTH_SHORT);
+                        toast.show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -166,9 +139,6 @@ public class EditUserProfile extends AppCompatActivity {
         }
     }
 
-
-
-
     public void pickPic(View v){
         // Launches photo picker in single-select mode.
         // This means that the user can select one photo or video.
@@ -176,6 +146,75 @@ public class EditUserProfile extends AppCompatActivity {
         intent.setType("image/*");
         startActivityForResult(intent, PHOTO_PICK_REQUEST_CODE);
     }
+
+    public void loaduser(){
+        DocumentReference userRef = db.collection("UserProfiles").document(userName);
+        userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        userNameText.setText(userName);
+                        if(document.getBoolean("doc")){
+                            docIcon.setVisibility(View.VISIBLE);
+                            doc = true;
+                        }else {
+                            docIcon.setVisibility(View.GONE);
+                            doc = false;
+                        }
+                        phone.setText(document.getString("phone"));
+                        email.setText(document.getString("email"));
+                        hobbies.setText(document.getString("hobbies"));
+                        info.setText(document.getString("info"));
+
+                        if(document.getBoolean("hidden")){
+                            hiddenSwitch.setChecked(true);
+
+                        }else {
+                            hiddenSwitch.setChecked(false);
+                        }
+
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                    } else {
+                        Log.d(TAG, "No such document");
+                        Log.d(TAG, userName);
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
+
+    }
+
+    public void loadImage(){
+        StorageReference image = storage.getReference().child(userName+".png");
+        File localFile = null;
+        try {
+            localFile = File.createTempFile("images", "jpg");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        File finalLocalFile = localFile;
+        image.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                // Local temp file has been created
+                userImage.setImageBitmap(BitmapFactory.decodeFile(finalLocalFile.getAbsolutePath()));
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+
+
+    }
+
 
 
 }
