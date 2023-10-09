@@ -69,21 +69,42 @@ public class MainActivity extends AppCompatActivity {
         });
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.nav_forum) {
-                loadPosts();
-                return true;
-            } else if (item.getItemId() == R.id.nav_event) {
-                Intent intent = new Intent(MainActivity.this, EventAty.class);
+            int itemId = item.getItemId();
+
+            if (itemId == R.id.nav_appointment) {
+                bottomNavigationView.getMenu().findItem(R.id.nav_appointment).setChecked(true);
+                Intent intent = new Intent(this, ProfessionalList.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
-            }else if(item.getItemId() == R.id.nav_profile) {
+                overridePendingTransition(0, 0);  // Disable transition animations
+                return true;
+            } else if (itemId == R.id.nav_event) {
+                bottomNavigationView.getMenu().findItem(R.id.nav_event).setChecked(true);
+                Intent intent = new Intent(this, EventAty.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+                return true;
+            } else if(itemId == R.id.nav_profile) {
+                bottomNavigationView.getMenu().findItem(R.id.nav_profile).setChecked(true);
                 Intent intent = new Intent(this, EditUserProfile.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 // get current user id
                 intent.putExtra("userId", "user3");
                 startActivity(intent);
+                overridePendingTransition(0, 0);
+                return true;
+            } else if(itemId == R.id.nav_forum) {
+                bottomNavigationView.getMenu().findItem(R.id.nav_forum).setChecked(true);
+                loadPosts();
+
             }
+
             return false;
         });
+
         postsCollection = db.collection("posts");
 //        createSamplePosts();
 //        generateSampleUsers();

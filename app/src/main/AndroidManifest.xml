@@ -13,6 +13,12 @@
         android:theme="@style/Theme.MentalHealth"
         tools:targetApi="31">
         <activity
+            android:name=".activities.ProfessionalList"
+            android:exported="false" />
+        <activity
+            android:name=".activities.MakeAnAppointment"
+            android:exported="false" />
+        <activity
             android:name=".activities.EditUserProfile"
             android:exported="false" />
         <activity
