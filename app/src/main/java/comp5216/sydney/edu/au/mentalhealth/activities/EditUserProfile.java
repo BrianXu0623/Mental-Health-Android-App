@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.commons.io.output.ByteArrayOutputStream;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,8 +34,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+
 
 import comp5216.sydney.edu.au.mentalhealth.R;
 import comp5216.sydney.edu.au.mentalhealth.entities.CurUserInfo;
@@ -148,6 +152,15 @@ public class EditUserProfile extends AppCompatActivity {
 
     }
 
+    private Bitmap getBitmapFromImageUri(Uri uri) {
+        try {
+            return MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     // onActivityResult() handles callbacks from the photo picker.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, final Intent data) {
@@ -158,8 +171,22 @@ public class EditUserProfile extends AppCompatActivity {
         if(requestCode == PHOTO_PICK_REQUEST_CODE){
             Uri file = data.getData();
             StorageReference storageRef = storage.getReference();
-            StorageReference imageRef = storageRef.child(CurUserInfo.userName+".png");
-            UploadTask uploadTask = imageRef.putFile(file);
+            StorageReference imageRef = storageRef.child(CurUserInfo.userName+".JPEG");
+
+
+            Bitmap bitmap = getBitmapFromImageUri(file);
+
+
+
+
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 60, stream);
+            byte[] bytes = stream.toByteArray();
+
+
+
+
+            UploadTask uploadTask = imageRef.putBytes(bytes);
 
             // Register observers to listen for when the download is done or if it fails
             uploadTask.addOnFailureListener(new OnFailureListener() {
@@ -174,6 +201,8 @@ public class EditUserProfile extends AppCompatActivity {
                     // ...
                 }
             });
+
+            loadImage();
 
 
 
@@ -232,7 +261,7 @@ public class EditUserProfile extends AppCompatActivity {
     }
 
     public void loadImage(){
-        StorageReference image = storage.getReference().child(userName+".png");
+        StorageReference image = storage.getReference().child(userName+".JPEG");
         File localFile = null;
         try {
             localFile = File.createTempFile("images", "jpg");
