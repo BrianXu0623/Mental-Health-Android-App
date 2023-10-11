@@ -1,26 +1,16 @@
 package comp5216.sydney.edu.au.mentalhealth.activities;
 
-import androidx.annotation.NonNull;
+import android.content.Intent;
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.SearchView;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +25,7 @@ public class ProfessionalList extends AppCompatActivity implements ListAdapter.O
     private CollectionReference professionalsCollection;
     private List<ListItem> dataList = new ArrayList<>();
     private ListAdapter adapter;
-
+    private BottomNavigationView bottomNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +57,7 @@ public class ProfessionalList extends AppCompatActivity implements ListAdapter.O
 //        dataList.add(new ListItem(R.drawable.ellipse_15__2_, "Dr. Jessica Turner", "Licensed Therapist"));
 //        dataList.add(new ListItem(R.drawable.ellipse_15__3_, "Dr. Christopher Bennett", "Licensed Therapist"));
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -87,8 +77,6 @@ public class ProfessionalList extends AppCompatActivity implements ListAdapter.O
             } else if(itemId == R.id.nav_profile) {
                 Intent intent = new Intent(this, EditUserProfile.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                // get current user id
-                intent.putExtra("userId", "user3");
                 startActivity(intent);
                 overridePendingTransition(0, 0);
                 return true;
@@ -104,22 +92,6 @@ public class ProfessionalList extends AppCompatActivity implements ListAdapter.O
         });
 
         bottomNavigationView.getMenu().findItem(R.id.nav_appointment).setChecked(true);
-
-        SearchView searchView = findViewById(R.id.searchView);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener(){
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                filterProfessionals(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                filterProfessionals(newText);
-                return false;
-            }
-        });
     }
 
     private void loadProfessionals() {
@@ -148,40 +120,12 @@ public class ProfessionalList extends AppCompatActivity implements ListAdapter.O
         startActivity(intent);
     }
 
-    private void filterProfessionals(String query) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference professionalsRef = db.collection("professionals");
+    @Override
+    protected void onResume() {
+        bottomNavigationView.getMenu().findItem(R.id.nav_appointment).setChecked(true);
 
-        String queryLowerCase = query.toLowerCase();
-
-        Query searchQuery = professionalsRef
-                .orderBy("title")
-                .startAt(query)
-                .endAt(query + "\uf8ff");
-
-        searchQuery.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                List<ListItem> filteredList = new ArrayList<>();
-                QuerySnapshot querySnapshot = task.getResult();
-
-                if (querySnapshot != null) {
-                    for (DocumentSnapshot document : querySnapshot.getDocuments()) {
-                        ListItem professional = document.toObject(ListItem.class);
-                        filteredList.add(professional);
-                    }
-                }
-
-                adapter.setDataList(filteredList);
-                adapter.notifyDataSetChanged();
-            } else {
-                Exception e = task.getException();
-                if (e != null) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        super.onResume();
+        // 在这里执行与用户交互相关的操作，例如刷新数据、更新界面等
     }
-
-
 
 }

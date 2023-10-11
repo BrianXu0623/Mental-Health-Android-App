@@ -5,23 +5,23 @@ public class UserProfile {
     private String userName;
     private boolean doc;
     private boolean hidden;
-    private String userbirth;
-    private String userEmall;
-    private String userHobbies;
-    private String userMajor;
-    private String userDes;
+    private String phone;
+    private String email;
+    private String hobbies;
+
+    private String info;
+
 
     public UserProfile(){}
-    public UserProfile(String UserName, boolean IsDoc, boolean Hidden,String userbirth, String userEmall, String userHobbies, String userMajor, String userDes){
+    public UserProfile(String UserName, boolean IsDoc, boolean Hidden,String phone, String email, String hobbies, String info){
 
         this.userName = UserName;
         this.doc = IsDoc;
         this.hidden = Hidden;
-        this.userbirth = userbirth;
-        this.userEmall = userEmall;
-        this.userHobbies = userHobbies;
-        this.userMajor = userMajor;
-        this.userDes = userDes;
+        this.phone = phone;
+        this.email =email;
+        this.hobbies = hobbies;
+        this.info = info;
     }
 
 
@@ -49,43 +49,38 @@ public class UserProfile {
         this.hidden = hidden;
     }
 
-    public String getUserbirth() {
-        return userbirth;
+    public String getphone() {
+        return phone;
     }
 
-    public void setUserbirth(String userbirth) {
-        this.userbirth = userbirth;
+    public void setphone(String phone) {
+        this.phone = phone;
     }
 
-    public String getUserEmall() {
-        return userEmall;
+    public String getemail() {
+        return email;
     }
 
-    public void setUserEmall(String userEmall) {
-        this.userEmall = userEmall;
+    public void setemail(String email) {
+        this.email = email;
     }
 
-    public String getUserHobbies() {
-        return userHobbies;
+    public String gethobbies() {
+        return hobbies;
     }
 
-    public void setUserHobbies(String userHobbies) {
-        this.userHobbies = userHobbies;
+    public void sethobbies(String hobbies) {
+        this.hobbies = hobbies;
     }
 
-    public String getUserMajor() {
-        return userMajor;
+
+    public String getinfo() {
+        return info;
     }
 
-    public void setUserMajor(String userMajor) {
-        this.userMajor = userMajor;
+    public void setinfo(String info) {
+        this.info = info;
     }
 
-    public String getUserDes() {
-        return userDes;
-    }
 
-    public void setUserDes(String userDes) {
-        this.userDes = userDes;
-    }
 }
