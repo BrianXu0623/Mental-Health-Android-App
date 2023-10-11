@@ -85,5 +85,9 @@ public class RegisterAty extends AppCompatActivity {
                                 "Error creating Register!", Toast.LENGTH_SHORT).show();
                     }
                 });
+
+
+        // create new user profile
+        EditUserProfile.createUserprofile(username);
     }
 }
