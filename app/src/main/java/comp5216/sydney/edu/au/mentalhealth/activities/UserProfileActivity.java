@@ -41,6 +41,7 @@ public class UserProfileActivity extends AppCompatActivity {
     TextView email;
     TextView hobbies;
     TextView info;
+    TextView hideInfo;
 
     String username;
 
@@ -64,6 +65,7 @@ public class UserProfileActivity extends AppCompatActivity {
         email = findViewById(R.id.email);
         hobbies = findViewById(R.id.hobbies);
         info = findViewById(R.id.info);
+        hideInfo = findViewById(R.id.hide_info);
 
 
         db = FirebaseFirestore.getInstance();
@@ -90,7 +92,10 @@ public class UserProfileActivity extends AppCompatActivity {
                             email.setVisibility(View.GONE);
                             hobbies.setVisibility(View.GONE);
                             info.setVisibility(View.GONE);
+                            hideInfo.setVisibility(View.VISIBLE);
+
                         }else{
+                            hideInfo.setVisibility(View.GONE);
                             phone.setVisibility(View.VISIBLE);
                             email.setVisibility(View.VISIBLE);
                             hobbies.setVisibility(View.VISIBLE);
