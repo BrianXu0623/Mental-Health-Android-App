@@ -50,6 +50,11 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
         return dataList.size();
     }
 
+    public void setDataList(List<ListItem> dataList) {
+        this.dataList = dataList;
+        notifyDataSetChanged();
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView icon;
         TextView title;
