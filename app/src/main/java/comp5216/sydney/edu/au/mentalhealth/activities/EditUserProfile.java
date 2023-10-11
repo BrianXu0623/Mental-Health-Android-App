@@ -196,9 +196,6 @@ public class EditUserProfile extends AppCompatActivity {
 
             loadImage();
 
-
-
-
         }
     }
 
