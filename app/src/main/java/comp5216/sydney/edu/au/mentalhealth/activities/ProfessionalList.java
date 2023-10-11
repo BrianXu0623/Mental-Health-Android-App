@@ -182,5 +182,12 @@ public class ProfessionalList extends AppCompatActivity implements ListAdapter.O
         });
     }
 
+    @Override
+    public void onDelButtonClick(int position) {
+        ListItem item = dataList.get(position);
+        dataList.remove(item);
+        adapter.notifyDataSetChanged();
+    }
+
 
 }

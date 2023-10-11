@@ -54,36 +54,48 @@ public class RegisterAty extends AppCompatActivity {
     }
 
     private void register() {
-        String username = regUserName.getText().toString().trim();
-        String pwd = regUserPwd.getText().toString().trim();
-        String pwdAgain = regUserPwdAgain.getText().toString().trim();
-        if(! pwdAgain.equals(pwd)) {
-            Toast.makeText(RegisterAty.this,
-                    "Two passwords are not consistent!", Toast.LENGTH_SHORT).show();
-            return;
+        try {
+            String username = regUserName.getText().toString().trim();
+            String pwd = regUserPwd.getText().toString().trim();
+            String pwdAgain = regUserPwdAgain.getText().toString().trim();
+            if (!pwdAgain.equals(pwd)) {
+                Toast.makeText(RegisterAty.this,
+                        "Two passwords are not consistent!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!pwdAgain.equals(pwd)) {
+                Toast.makeText(RegisterAty.this,
+                        "Two passwords are not consistent!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Userinfo userinfo = new Userinfo();
+            userinfo.setUserName(username);
+
+            String password = MyUtils.encrypt(pwd);//加密密码
+
+            userinfo.setPwd(pwd);
+
+            DocumentReference newPostRef = userCollection.document();
+            userinfo.setUserId(newPostRef.getId());
+
+            userCollection.add(userinfo)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Toast.makeText(RegisterAty.this,
+                                    "Register created successfully!", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(RegisterAty.this,
+                                    "Error creating Register!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        } catch (Exception e) {
+
         }
-        Userinfo userinfo = new Userinfo();
-        userinfo.setUserName(username);
-        userinfo.setPwd(pwd);
-
-        DocumentReference newPostRef = userCollection.document();
-        userinfo.setUserId(newPostRef.getId());
-
-        userCollection.add(userinfo)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(RegisterAty.this,
-                                "Register created successfully!", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(RegisterAty.this,
-                                "Error creating Register!", Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 }
