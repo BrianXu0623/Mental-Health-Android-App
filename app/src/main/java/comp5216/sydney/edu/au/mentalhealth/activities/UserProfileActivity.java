@@ -113,12 +113,15 @@ public class UserProfileActivity extends AppCompatActivity {
                     } else {
                         Log.d(TAG, "No such document");
                         Log.d(TAG, username);
+                        EditUserProfile.createUserprofile(username);
+
                     }
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
                 }
             }
         });
+        loadUser();
 
         loadImage();
 
@@ -161,6 +164,61 @@ public class UserProfileActivity extends AppCompatActivity {
         userProfileIntent.putExtra("userId", userId);
         activity.startActivity(userProfileIntent);
 
+    }
+
+    public void loadUser(){
+        DocumentReference userRef = db.collection("UserProfiles").document(username);
+        userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        userName.setText(document.getString("userName"));
+                        if(document.getBoolean("doc")){
+                            docIcon.setVisibility(View.VISIBLE);
+                        }else {
+                            docIcon.setVisibility(View.GONE);
+                        }
+
+
+                        if(document.getBoolean("hidden")){
+                            phone.setVisibility(View.GONE);
+                            email.setVisibility(View.GONE);
+                            hobbies.setVisibility(View.GONE);
+                            info.setVisibility(View.GONE);
+                            hideInfo.setVisibility(View.VISIBLE);
+
+                        }else{
+                            hideInfo.setVisibility(View.GONE);
+                            phone.setVisibility(View.VISIBLE);
+                            email.setVisibility(View.VISIBLE);
+                            hobbies.setVisibility(View.VISIBLE);
+                            info.setVisibility(View.VISIBLE);
+                            phone.setText(document.getString("phone"));
+                            email.setText(document.getString("email"));
+                            hobbies.setText(document.getString("hobbies"));
+                            info.setText(document.getString("info"));
+
+                        }
+
+
+
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                    } else {
+                        Log.d(TAG, "No such document");
+                        Log.d(TAG, username);
+                        EditUserProfile.createUserprofile(username);
+                        loadUser();
+
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
+        loadImage();
     }
 
 
