@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,30 +14,39 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.firestore.v1.Document;
+
+import java.io.File;
+import java.io.IOException;
 
 import comp5216.sydney.edu.au.mentalhealth.R;
 
 public class UserProfileActivity extends AppCompatActivity {
 
-    ImageView userProfileImage;
-    TextView userProfileName;
+    ImageView userImage;
+    TextView userName;
     ImageView docIcon;
 
-    TextView userProfileId;
+    TextView phone;
 
-    TextView userProfileAge;
-    TextView userProfileEmail;
-    TextView userProfileHobbies;
-    TextView getUserProfileMajor;
+    TextView email;
+    TextView hobbies;
+    TextView info;
 
-    TextView getUserProfileDes;
+    String username;
+
 
     private FirebaseFirestore db;
+    private FirebaseStorage storage;
     private static final String TAG = "UserProfile";
 
 
@@ -45,55 +55,51 @@ public class UserProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
-        // 获取传入的用户ID
-        String userId = getIntent().getStringExtra("userId");
+        username = getIntent().getStringExtra("userId");
 
-        // 初始化UI组件
-        userProfileImage = findViewById(R.id.user_profile_image);
+        userImage = findViewById(R.id.user_image);
         docIcon = findViewById(R.id.doctor_icon);
-        userProfileId = findViewById(R.id.user_profile_id);
-        userProfileName = findViewById(R.id.user_profile_name);
-        userProfileAge = findViewById(R.id.user_age);
-        userProfileEmail = findViewById(R.id.user_email);
-        userProfileHobbies = findViewById(R.id.user_hobbies);
-        getUserProfileMajor = findViewById(R.id.user_major);
-        getUserProfileDes = findViewById(R.id.user_description);
+        userName = findViewById(R.id.user_name);
+        phone = findViewById(R.id.phone);
+        email = findViewById(R.id.email);
+        hobbies = findViewById(R.id.hobbies);
+        info = findViewById(R.id.info);
+
 
         db = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance();
 
-        DocumentReference userRef = db.collection("UserProfiles").document(userId);
+
+        DocumentReference userRef = db.collection("UserProfiles").document(username);
         userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        userProfileName.setText(document.getString("userName"));
+                        userName.setText(document.getString("userName"));
                         if(document.getBoolean("doc")){
                             docIcon.setVisibility(View.VISIBLE);
                         }else {
                             docIcon.setVisibility(View.GONE);
                         }
-                        userProfileId.setText(userId);
 
 
                         if(document.getBoolean("hidden")){
-                            userProfileAge.setVisibility(View.GONE);
-                            userProfileEmail.setVisibility(View.GONE);
-                            userProfileHobbies.setVisibility(View.GONE);
-                            getUserProfileMajor.setVisibility(View.GONE);
-                            getUserProfileDes.setVisibility(View.GONE);
+                            phone.setVisibility(View.GONE);
+                            email.setVisibility(View.GONE);
+                            hobbies.setVisibility(View.GONE);
+                            info.setVisibility(View.GONE);
                         }else{
-                            userProfileAge.setVisibility(View.VISIBLE);
-                            userProfileEmail.setVisibility(View.VISIBLE);
-                            userProfileHobbies.setVisibility(View.VISIBLE);
-                            getUserProfileMajor.setVisibility(View.VISIBLE);
-                            getUserProfileDes.setVisibility(View.VISIBLE);
-                            userProfileAge.setText(document.getString("userBirth"));
-                            userProfileEmail.setText(document.getString("userEmail"));
-                            userProfileHobbies.setText(document.getString("userHobbies"));
-                            getUserProfileMajor.setText(document.getString("userMajor"));
-                            getUserProfileDes.setText(document.getString("userDes"));
+                            phone.setVisibility(View.VISIBLE);
+                            email.setVisibility(View.VISIBLE);
+                            hobbies.setVisibility(View.VISIBLE);
+                            info.setVisibility(View.VISIBLE);
+                            phone.setText(document.getString("phone"));
+                            email.setText(document.getString("email"));
+                            hobbies.setText(document.getString("hobbies"));
+                            info.setText(document.getString("info"));
+
                         }
 
 
@@ -101,7 +107,7 @@ public class UserProfileActivity extends AppCompatActivity {
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                     } else {
                         Log.d(TAG, "No such document");
-                        Log.d(TAG, userId);
+                        Log.d(TAG, username);
                     }
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
@@ -109,11 +115,41 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
+        loadImage();
+
 
 
 
 
     }
+
+    public void loadImage(){
+        StorageReference image = storage.getReference().child(username+".JPEG");
+        File localFile = null;
+        try {
+            localFile = File.createTempFile("images", "jpg");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        File finalLocalFile = localFile;
+        image.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                // Local temp file has been created
+                userImage.setImageBitmap(BitmapFactory.decodeFile(finalLocalFile.getAbsolutePath()));
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle any errors
+            }
+        });
+
+
+    }
+
+
 
     public static void UserProfileActivity(AppCompatActivity activity, String userId){
         Intent userProfileIntent = new Intent(activity, UserProfileActivity.class);

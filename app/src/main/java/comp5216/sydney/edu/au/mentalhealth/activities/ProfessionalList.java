@@ -77,8 +77,6 @@ public class ProfessionalList extends AppCompatActivity implements ListAdapter.O
             } else if(itemId == R.id.nav_profile) {
                 Intent intent = new Intent(this, EditUserProfile.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                // get current user id
-                intent.putExtra("userId", "user3");
                 startActivity(intent);
                 overridePendingTransition(0, 0);
                 return true;

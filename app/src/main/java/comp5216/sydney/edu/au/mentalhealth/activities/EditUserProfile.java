@@ -105,8 +105,6 @@ public class EditUserProfile extends AppCompatActivity {
             } else if(itemId == R.id.nav_profile) {
                 Intent intent = new Intent(this, EditUserProfile.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                // get current user id
-                intent.putExtra("userId", "user3");
                 startActivity(intent);
                 overridePendingTransition(0, 0);
                 return true;
@@ -132,7 +130,7 @@ public class EditUserProfile extends AppCompatActivity {
 
     public void saveButton(View v){
         DocumentReference userRef = db.collection("UserProfiles").document(userName);
-        UserProfile profile = new UserProfile(userName, doc, hiddenSwitch.isChecked(),"",phone.getText().toString(),
+        UserProfile profile = new UserProfile(userName, doc, hiddenSwitch.isChecked(),phone.getText().toString(),
                 email.getText().toString(),hobbies.getText().toString(),info.getText().toString());
         userRef.set(profile).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -172,20 +170,10 @@ public class EditUserProfile extends AppCompatActivity {
             Uri file = data.getData();
             StorageReference storageRef = storage.getReference();
             StorageReference imageRef = storageRef.child(CurUserInfo.userName+".JPEG");
-
-
             Bitmap bitmap = getBitmapFromImageUri(file);
-
-
-
-
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.JPEG, 60, stream);
             byte[] bytes = stream.toByteArray();
-
-
-
-
             UploadTask uploadTask = imageRef.putBytes(bytes);
 
             // Register observers to listen for when the download is done or if it fails
@@ -290,7 +278,7 @@ public class EditUserProfile extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference userRef = db.collection("UserProfiles").document(userName);
         UserProfile profile = new UserProfile(userName, false, false,"","",
-                "","","");
+                "","");
         userRef.set(profile).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
