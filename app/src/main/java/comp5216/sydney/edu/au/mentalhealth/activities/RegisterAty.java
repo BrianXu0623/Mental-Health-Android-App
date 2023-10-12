@@ -16,9 +16,16 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import comp5216.sydney.edu.au.mentalhealth.R;
+import comp5216.sydney.edu.au.mentalhealth.entities.CurUserInfo;
 import comp5216.sydney.edu.au.mentalhealth.entities.Post;
+import comp5216.sydney.edu.au.mentalhealth.entities.PostComment;
 import comp5216.sydney.edu.au.mentalhealth.entities.Userinfo;
 
 public class RegisterAty extends AppCompatActivity {
@@ -46,7 +53,7 @@ public class RegisterAty extends AppCompatActivity {
         btnRegister.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(regUserName.getText())
                     && !TextUtils.isEmpty(regUserName.getText())) {
-                register();
+                checkName();
             } else {
                 Toast.makeText(this, "请输入用户名", Toast.LENGTH_SHORT).show();
             }
@@ -58,6 +65,7 @@ public class RegisterAty extends AppCompatActivity {
         String username = regUserName.getText().toString().trim();
         String pwd = regUserPwd.getText().toString().trim();
         String pwdAgain = regUserPwdAgain.getText().toString().trim();
+
         if(! pwdAgain.equals(pwd)) {
             Toast.makeText(RegisterAty.this,
                     "Two passwords are not consistent!", Toast.LENGTH_SHORT).show();
@@ -90,5 +98,17 @@ public class RegisterAty extends AppCompatActivity {
 
         // create new user profile
         EditUserProfile.createUserprofile(username);
+    }
+
+
+    public void checkName(){
+        String name = regUserName.getText().toString().trim();
+        userCollection.whereEqualTo("userName", name).get().addOnSuccessListener(queryDocumentSnapshots -> {
+            if(queryDocumentSnapshots.isEmpty()){
+                register();
+            }else {
+                Toast.makeText(this, "User already exists", Toast.LENGTH_SHORT).show();
+            }
+            });
     }
 }
