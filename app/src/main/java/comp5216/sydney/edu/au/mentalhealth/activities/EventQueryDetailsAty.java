@@ -63,7 +63,7 @@ public class EventQueryDetailsAty extends AppCompatActivity {
         etLoginUserName.setText(getIntent().getStringExtra("eventName"));
         regUserPwd.setText("Date: "+getIntent().getStringExtra("eventDate"));
         et_address.setText("Address: " + getIntent().getStringExtra("eventAddress"));
-        et_des.setText("Description:\n"+getIntent().getStringExtra("eventDes"));
+        et_des.setText(getIntent().getStringExtra("eventDes"));
 
 
 

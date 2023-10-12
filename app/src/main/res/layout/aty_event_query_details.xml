@@ -16,40 +16,58 @@
 
             <!-- Event Title -->
             <TextView
-                android:id="@+id/title"
+                android:id="@+id/page_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="22sp"
                 android:textStyle="bold"
                 android:textColor="#333"
+                android:text="Event"
                 android:gravity="center"
                 android:layout_marginBottom="16dp" />
 
             <!-- Author Layout -->
-            <LinearLayout
-                android:id="@+id/authorLayout"
+<!--            <LinearLayout-->
+<!--                android:id="@+id/authorLayout"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:layout_marginBottom="16dp">-->
+<!--                <TextView-->
+<!--                    android:id="@+id/holder_info"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:textSize="18sp"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:textColor="#333"-->
+<!--                    android:text="Event Holder:"-->
+<!--                    android:layout_marginBottom="16dp" />-->
+
+<!--                <ImageView-->
+<!--                    android:id="@+id/authorAvatarImageView"-->
+<!--                    android:layout_width="48dp"-->
+<!--                    android:layout_height="48dp"-->
+<!--                    android:scaleType="centerCrop"-->
+<!--                    android:src="@drawable/default_avatar" />-->
+
+<!--                <TextView-->
+<!--                    android:id="@+id/authorNameTextView"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="8dp"-->
+<!--                    android:textColor="#333"-->
+<!--                    android:textSize="18sp"-->
+<!--                    android:textStyle="bold" />-->
+<!--            </LinearLayout>-->
+
+            <TextView
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="16dp">
-
-                <ImageView
-                    android:id="@+id/authorAvatarImageView"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/default_avatar" />
-
-                <TextView
-                    android:id="@+id/authorNameTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:textColor="#333"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#333" />
 
             <!-- Event Date and Address Layout -->
             <LinearLayout
@@ -64,7 +82,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:textSize="12sp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
                     android:textColor="#666" />
 
                 <TextView
@@ -72,29 +91,38 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:textSize="12sp"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
                     android:textColor="#666" />
             </LinearLayout>
 
             <!-- Event Content -->
+            <TextView
+                android:id="@+id/content_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#666"
+                android:text="Description:"
+                />
             <TextView
                 android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:textColor="#666"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="60dp" />
 
             <!-- Participant Label -->
             <TextView
                 android:id="@+id/commentsLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Participant"
+                android:text="Participants"
                 android:textSize="22sp"
                 android:textStyle="bold"
-                android:textColor="#333"
-                android:layout_marginBottom="16dp" />
+                android:textColor="#333" />
 
             <!-- Participants RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
