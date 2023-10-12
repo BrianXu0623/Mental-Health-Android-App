@@ -1,6 +1,12 @@
 package comp5216.sydney.edu.au.mentalhealth.activities;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +30,9 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -31,6 +40,8 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import comp5216.sydney.edu.au.mentalhealth.R;
 import comp5216.sydney.edu.au.mentalhealth.adapters.CommentAdapter;
@@ -52,8 +63,9 @@ public class PostDetailActivity extends AppCompatActivity {
     private TextView timestampTextView;
     private TextView deleteTextView;
     private ImageView authorDoctorIcon;
-
+    private FirebaseStorage storage;
     String userId;
+    public static ConnectivityManager connectivityManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,6 +82,8 @@ public class PostDetailActivity extends AppCompatActivity {
         submitCommentButton = findViewById(R.id.submitCommentButton);
         String currentUserId = CurUserInfo.userName;
         timestampTextView = findViewById(R.id.timestampPostDetailTextView);
+        storage = FirebaseStorage.getInstance();
+        connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
         // 设置个空的适配器
         commentAdapter = new CommentAdapter(new ArrayList<>());
@@ -96,14 +110,32 @@ public class PostDetailActivity extends AppCompatActivity {
             }
             // 从数据库中获取作者名字和头像（示例，实际中需要替换为真实的数据库查询）
             String authorName = userId; // 替换为实际的查询用户名字的方法
-            int authorAvatarResId = getAuthorAvatar(userId); // 替换为实际的查询用户头像的方法
-
             authorNameTextView.setText(authorName);
-            authorAvatarImageView.setImageResource(authorAvatarResId);
-            timestampTextView.setText(timestamp);
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            if (networkInfo != null && networkInfo.isConnected() &&
+                    networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                StorageReference image = storage.getReference().child(userId+".JPEG");
+                File localFile = null;
+                try {
+                    localFile = File.createTempFile("images", "jpg");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
 
+                File finalLocalFile = localFile;
+                image.getFile(localFile).addOnSuccessListener(taskSnapshot -> {
+                    authorAvatarImageView.setImageBitmap(EditUserProfile.cropCircle(BitmapFactory.
+                            decodeFile(finalLocalFile.getAbsolutePath())));
+                }).addOnFailureListener(exception -> {
+                });
+            }
+            else {
+                int authorAvatarResId = getAuthorAvatar(userId);
+                authorAvatarImageView.setImageResource(authorAvatarResId);
+            }
+
+            timestampTextView.setText(timestamp);
             loadComments(postId);
-//            Button deleteButton = findViewById(R.id.deleteButton);
             deleteTextView = findViewById(R.id.deleteTextView);
 
 
@@ -130,10 +162,8 @@ public class PostDetailActivity extends AppCompatActivity {
         }
     }
 
-    // 从数据库中获取作者头像（示例，实际中需要替换为真实的数据库查询）
-    private int getAuthorAvatar(String userId) {
-        // 查询数据库获取作者头像的逻辑
-        return R.drawable.default_avatar; // 示例数据
+    public static int getAuthorAvatar(String userId) {
+        return R.drawable.default_avatar;
     }
     private void loadComments(String postId) {
         db.collection("comments")
@@ -241,8 +271,6 @@ public class PostDetailActivity extends AppCompatActivity {
                     }
                 });
     }
-
-
 
     public void openUserProfile(View v){
         UserProfileActivity.UserProfileActivity(this,userId);
