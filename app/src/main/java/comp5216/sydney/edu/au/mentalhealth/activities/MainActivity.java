@@ -75,12 +75,15 @@ public class MainActivity extends AppCompatActivity {
             } else if (item.getItemId() == R.id.nav_event) {
                 Intent intent = new Intent(MainActivity.this, EventAty.class);
                 startActivity(intent);
+                overridePendingTransition(0, 0);  // Disable transition animations
             } else if (item.getItemId() == R.id.nav_profile) {
                 Intent intent = new Intent(this, EditUserProfile.class);
                 startActivity(intent);
+                overridePendingTransition(0, 0);  // Disable transition animations
             } else if (item.getItemId() == R.id.nav_appointment) {
                 Intent intent = new Intent(this, ProfessionalList.class);
                 startActivity(intent);
+                overridePendingTransition(0, 0);  // Disable transition animations
             }
             return false;
         });

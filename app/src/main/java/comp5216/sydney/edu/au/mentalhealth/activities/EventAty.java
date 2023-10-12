@@ -102,6 +102,7 @@ public class EventAty extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        bottomNavigationView.getMenu().findItem(R.id.nav_event).setChecked(true);
         loadEvents();
     }
 
