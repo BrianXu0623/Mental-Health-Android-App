@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -178,14 +179,45 @@ public class EventQueryDetailsAty extends AppCompatActivity {
 
 
     public void joinButton(View v){
-        if(isjoin){
-            deleteCommentsByPostId(getIntent().getStringExtra("eventId"));
-        }else {
-            saveCommentToDatabase(getIntent().getStringExtra("eventId"), CurUserInfo.userName, "");
-        }
+        CollectionReference eventsCollection = db.collection("event");
+        String eventId = getIntent().getStringExtra("eventId");
 
+        eventsCollection.whereEqualTo("eventId", eventId).limit(1).get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+                        Event event = documentSnapshot.toObject(Event.class);
+                        if (event != null) {
+                            int currentCount = event.getParticipantsCount();
+                            if (isjoin) {
+                                currentCount--;
+                                deleteCommentsByPostId(eventId);
+                            } else {
+                                currentCount++;
+                                saveCommentToDatabase(eventId, CurUserInfo.userName, "");
+                            }
 
-
+                            documentSnapshot.getReference().update("participantsCount", currentCount)
+                                    .addOnSuccessListener(aVoid -> {
+                                        if (isjoin) {
+                                            Toast.makeText(EventQueryDetailsAty.this, "Canceled participation successfully!", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(EventQueryDetailsAty.this, "Joined the event successfully!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(EventQueryDetailsAty.this, "Error updating participants count!", Toast.LENGTH_SHORT).show();
+                                    });
+                        }
+                    } else {
+                        Toast.makeText(EventQueryDetailsAty.this, "Event not found!", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(EventQueryDetailsAty.this, "Error accessing the event: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
+
+
 
 }

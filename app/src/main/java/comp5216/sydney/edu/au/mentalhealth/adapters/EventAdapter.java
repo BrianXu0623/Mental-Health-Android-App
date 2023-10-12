@@ -16,7 +16,6 @@ import java.util.List;
 import comp5216.sydney.edu.au.mentalhealth.R;
 import comp5216.sydney.edu.au.mentalhealth.activities.EditEventDetailsAty;
 import comp5216.sydney.edu.au.mentalhealth.activities.EventQueryDetailsAty;
-import comp5216.sydney.edu.au.mentalhealth.activities.PostDetailActivity;
 import comp5216.sydney.edu.au.mentalhealth.entities.CurUserInfo;
 import comp5216.sydney.edu.au.mentalhealth.entities.Event;
 
@@ -46,7 +45,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.PostViewHold
         Event post = posts.get(position);
         holder.titleTextView.setText(post.getEventName());
         holder.contentTextView.setText(post.getEventDate());
-
+        holder.participantCountTextView.setText(post.getParticipantsCount() + " participants");
         holder.itemView.setOnClickListener(view -> {
             if (CurUserInfo.isProfessional) {
                 Intent intent = new Intent(context, EditEventDetailsAty.class);
@@ -77,11 +76,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.PostViewHold
     static class PostViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView;
         TextView contentTextView;
-
+        TextView participantCountTextView;
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.titleTextView);
             contentTextView = itemView.findViewById(R.id.contentTextView);
+            participantCountTextView = itemView.findViewById(R.id.participantCountTextView);
         }
     }
 }
