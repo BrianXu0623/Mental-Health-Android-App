@@ -7,6 +7,8 @@ public class Event {
     private String eventDes;
     private String eventDate;
     private String eventAddress;
+
+    private String creator;
     private int participantsCount;
 
     public int getParticipantsCount() {
@@ -55,5 +57,13 @@ public class Event {
 
     public void setEventAddress(String eventAddress) {
         this.eventAddress = eventAddress;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
     }
 }
