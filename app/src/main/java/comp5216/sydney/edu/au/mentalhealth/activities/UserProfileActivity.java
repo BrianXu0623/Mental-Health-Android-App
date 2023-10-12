@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
@@ -141,23 +142,12 @@ public class UserProfileActivity extends AppCompatActivity {
         }
 
         File finalLocalFile = localFile;
-        image.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                // Local temp file has been created
-                userImage.setImageBitmap(BitmapFactory.decodeFile(finalLocalFile.getAbsolutePath()));
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-            }
+        image.getFile(localFile).addOnSuccessListener(taskSnapshot -> {
+            userImage.setImageBitmap(EditUserProfile.cropCircle(BitmapFactory.
+                    decodeFile(finalLocalFile.getAbsolutePath())));
+        }).addOnFailureListener(exception -> {
         });
-
-
     }
-
-
 
     public static void UserProfileActivity(AppCompatActivity activity, String userId){
         Intent userProfileIntent = new Intent(activity, UserProfileActivity.class);

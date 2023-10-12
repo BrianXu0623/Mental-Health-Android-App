@@ -61,28 +61,27 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         }
         holder.titleTextView.setText(post.getTitle());
         holder.contentTextView.setText(post.getContent());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm",
+                Locale.getDefault());
         String formattedTimestamp = dateFormat.format(post.getTimestamp().toDate());
         holder.timestampTextView.setText(formattedTimestamp);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, PostDetailActivity.class);
-                intent.putExtra("postTitle", post.getTitle());
-                intent.putExtra("postContent", post.getContent());
-                intent.putExtra("postId", post.getPostId());
-                intent.putExtra("userId", post.getUserId());
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
-                String formattedTimestamp = dateFormat.format(post.getTimestamp().toDate());
-                intent.putExtra("timestamp", formattedTimestamp);
-                intent.putExtra("isProfessional",post.isProfessional());
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(context, PostDetailActivity.class);
+            intent.putExtra("postTitle", post.getTitle());
+            intent.putExtra("postContent", post.getContent());
+            intent.putExtra("postId", post.getPostId());
+            intent.putExtra("userId", post.getUserId());
+            SimpleDateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd HH:mm",
+                    Locale.getDefault());
+            String formattedTimestamp1 = dateFormat1.format(post.getTimestamp().toDate());
+            intent.putExtra("timestamp", formattedTimestamp1);
+            intent.putExtra("isProfessional",post.isProfessional());
 
-                if (context instanceof Activity) {
-                    ((Activity) context).startActivityForResult(intent, REQUEST_CODE_POST_DETAIL);
-                } else {
-                    context.startActivity(intent);
-                }
+            if (context instanceof Activity) {
+                ((Activity) context).startActivityForResult(intent, REQUEST_CODE_POST_DETAIL);
+            } else {
+                context.startActivity(intent);
             }
         });
 
