@@ -85,7 +85,6 @@ public class EditUserProfile extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
 
-
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
@@ -116,7 +115,7 @@ public class EditUserProfile extends AppCompatActivity {
                 overridePendingTransition(0, 0);
                 return true;
             }
-
+            bottomNavigationView.getMenu().findItem(R.id.nav_profile).setChecked(true);
             return false;
         });
 
@@ -159,6 +158,12 @@ public class EditUserProfile extends AppCompatActivity {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        bottomNavigationView.getMenu().findItem(R.id.nav_profile).setChecked(true);
     }
 
     // onActivityResult() handles callbacks from the photo picker.
