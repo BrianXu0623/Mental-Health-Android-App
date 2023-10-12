@@ -27,13 +27,13 @@
 
             <TextView
                 android:id="@+id/commentAuthorNameTextView"
-                android:onClick="openCommentUserProfile"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textStyle="bold"
+                android:onClick="openCommentUserProfile"
+                android:textColor="#333"
                 android:textSize="14sp"
-                android:textColor="#333" />
+                android:textStyle="bold" />
             <ImageView
                 android:id="@+id/commentDoctorIcon"
                 android:layout_width="24dp"
