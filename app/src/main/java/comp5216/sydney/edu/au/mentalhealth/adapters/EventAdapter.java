@@ -49,6 +49,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.PostViewHold
         holder.itemView.setOnClickListener(view -> {
             if (CurUserInfo.isProfessional) {
                 Intent intent = new Intent(context, EditEventDetailsAty.class);
+                intent.putExtra("creator", post.getCreator());
                 intent.putExtra("eventId", post.getEventId());
                 intent.putExtra("eventName", post.getEventName());
                 intent.putExtra("eventAddress", post.getEventAddress());
@@ -57,6 +58,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.PostViewHold
                 context.startActivity(intent);
             }else {
                 Intent intent = new Intent(context, EventQueryDetailsAty.class);
+                intent.putExtra("creator", post.getCreator());
                 intent.putExtra("eventId", post.getEventId());
                 intent.putExtra("eventName", post.getEventName());
                 intent.putExtra("eventAddress", post.getEventAddress());

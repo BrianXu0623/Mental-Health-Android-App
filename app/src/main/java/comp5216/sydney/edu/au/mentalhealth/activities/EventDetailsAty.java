@@ -14,6 +14,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import comp5216.sydney.edu.au.mentalhealth.R;
+import comp5216.sydney.edu.au.mentalhealth.entities.CurUserInfo;
 import comp5216.sydney.edu.au.mentalhealth.entities.Event;
 
 public class EventDetailsAty extends AppCompatActivity {
@@ -58,7 +59,10 @@ public class EventDetailsAty extends AppCompatActivity {
         String et_desRef = et_des.getText().toString().trim();
         String et_addressR = et_address.getText().toString().trim();
 
+        String userName = CurUserInfo.userName;
+
         Event userinfo = new Event();
+        userinfo.setCreator(userName);
         userinfo.setEventAddress(et_addressR);
         userinfo.setEventDate(pwd);
         userinfo.setEventName(username);
