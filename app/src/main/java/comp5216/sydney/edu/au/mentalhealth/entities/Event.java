@@ -7,6 +7,15 @@ public class Event {
     private String eventDes;
     private String eventDate;
     private String eventAddress;
+    private int participantsCount;
+
+    public int getParticipantsCount() {
+        return participantsCount;
+    }
+
+    public void setParticipantsCount(int participantsCount) {
+        this.participantsCount = participantsCount;
+    }
 
     public String getEventId() {
         return eventId;
