@@ -1,5 +1,7 @@
 package comp5216.sydney.edu.au.mentalhealth.activities;
 
+import com.google.logging.type.HttpRequest;
+
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -31,7 +33,7 @@ public class MyUtils {
     public static String encrypt(String password) throws IOException, InterruptedException {
         String apiUrl = "https://encryptor.p.rapidapi.com/static_encryption?data=" + password;
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(apiUrl))
+                .wait(URI.create(apiUrl))
                 .header("X-RapidAPI-Key", "d318270e6amsh1c8c0be8a527338p1b62c6jsn78c102a691b8")
                 .header("X-RapidAPI-Host", "encryptor.p.rapidapi.com")
                 .method("GET", HttpRequest.BodyPublishers.noBody())
