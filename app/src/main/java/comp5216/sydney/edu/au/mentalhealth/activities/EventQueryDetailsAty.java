@@ -144,12 +144,10 @@ public class EventQueryDetailsAty extends AppCompatActivity {
                     }
 
                     Collections.sort(commentsList, (c1, c2) -> {
-                        if (c1.isProfessional() && !c2.isProfessional()) return -1;
-                        if (!c1.isProfessional() && c2.isProfessional()) return 1;
                         return c2.getTimestamp().compareTo(c1.getTimestamp());
                     });
 
-                    commentAdapter.setComments(commentsList);
+                    commentAdapter.setComments(commentsList.subList(0,3));
                     commentAdapter.notifyDataSetChanged();
                 })
                 .addOnFailureListener(e -> {
