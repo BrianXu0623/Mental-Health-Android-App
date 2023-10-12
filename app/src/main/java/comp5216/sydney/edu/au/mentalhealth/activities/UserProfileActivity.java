@@ -210,9 +210,4 @@ public class UserProfileActivity extends AppCompatActivity {
 
         loadImage();
     }
-
-
-
-
-
 }
