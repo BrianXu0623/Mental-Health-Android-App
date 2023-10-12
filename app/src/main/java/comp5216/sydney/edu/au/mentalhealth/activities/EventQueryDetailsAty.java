@@ -256,6 +256,17 @@ public class EventQueryDetailsAty extends AppCompatActivity {
         }).addOnFailureListener(exception -> {
         });
     }
+    public void openUserProfile(View v){
+        UserProfileActivity.UserProfileActivity(this,getIntent().getStringExtra("creator"));
+    }
+
+
+    public void openCommentUserProfile(View view) {
+        String userIdFromTag = (String) view.getTag();
+        if (userIdFromTag != null) {
+            UserProfileActivity.UserProfileActivity(this, userIdFromTag);
+        }
+    }
 
 
 
