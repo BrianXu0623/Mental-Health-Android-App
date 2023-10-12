@@ -45,6 +45,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         holder.commentTimestampTextView.setText(formattedTimestamp);
         int authorAvatarResId = getAuthorAvatar(postComment.getUserId());
         holder.authorAvatarImageView.setImageResource(authorAvatarResId);
+        holder.authorAvatarImageView.setTag(postComment.getUserId());
     }
 
     @Override

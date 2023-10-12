@@ -248,5 +248,11 @@ public class PostDetailActivity extends AppCompatActivity {
         UserProfileActivity.UserProfileActivity(this,userId);
     }
 
+    public void openCommentUserProfile(View view) {
+        String userIdFromTag = (String) view.getTag();
+        if (userIdFromTag != null) {
+            UserProfileActivity.UserProfileActivity(this, userIdFromTag);
+        }
+    }
 
 }
