@@ -57,7 +57,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
         String formattedTimestamp = dateFormat.format(postComment.getTimestamp().toDate());
         holder.commentTimestampTextView.setText(formattedTimestamp);
-
+        holder.authorAvatarImageView.setTag(postComment.getUserId());
 
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected() &&
