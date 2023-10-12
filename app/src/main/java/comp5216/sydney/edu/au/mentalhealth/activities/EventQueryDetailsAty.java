@@ -122,6 +122,8 @@ public class EventQueryDetailsAty extends AppCompatActivity {
 
 
     private void loadComments(String postId) {
+        commentAdapter = new CommentAdapter(new ArrayList<>());
+        commentsRecyclerView.setAdapter(commentAdapter);
         isjoin = false;
         db.collection("joinEvent")
                 .whereEqualTo("postId", postId)
