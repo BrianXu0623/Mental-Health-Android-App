@@ -124,6 +124,7 @@
         app:layout_constraintTop_toTopOf="@+id/imageView3">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/dateEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Date" />
@@ -150,6 +151,7 @@
         app:layout_constraintTop_toTopOf="@+id/imageView">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/timeEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Time" />
