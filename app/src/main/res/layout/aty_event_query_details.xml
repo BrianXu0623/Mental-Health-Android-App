@@ -106,22 +106,6 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
 
-                <Button
-                    android:id="@+id/btn_login"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/et_des"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginTop="54dp"
-                    android:layout_marginRight="40dp"
-                    android:gravity="center"
-                    android:stateListAnimator="@null"
-                    android:text="Update Event"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
             </RelativeLayout>
         </ScrollView>
     </RelativeLayout>

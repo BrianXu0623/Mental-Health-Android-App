@@ -39,10 +39,10 @@ public class EventDetailsAty extends AppCompatActivity {
         userCollection = db.collection("event");
 
 
-        etLoginUserName = findViewById(R.id.et_login_username);
-        regUserPwd = findViewById(R.id.et_login_pwd);
-        et_address = findViewById(R.id.et_address);
-        et_des = findViewById(R.id.et_des);
+        etLoginUserName = findViewById(R.id.username);
+        regUserPwd = findViewById(R.id.date);
+        et_address = findViewById(R.id.address);
+        et_des = findViewById(R.id.des);
 
         loginBtn = findViewById(R.id.btn_login);
         loginBtn.setOnClickListener(v -> {

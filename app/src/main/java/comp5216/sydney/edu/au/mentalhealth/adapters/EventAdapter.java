@@ -15,7 +15,9 @@ import java.util.List;
 
 import comp5216.sydney.edu.au.mentalhealth.R;
 import comp5216.sydney.edu.au.mentalhealth.activities.EditEventDetailsAty;
+import comp5216.sydney.edu.au.mentalhealth.activities.EventQueryDetailsAty;
 import comp5216.sydney.edu.au.mentalhealth.activities.PostDetailActivity;
+import comp5216.sydney.edu.au.mentalhealth.entities.CurUserInfo;
 import comp5216.sydney.edu.au.mentalhealth.entities.Event;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.PostViewHolder> {
@@ -42,17 +44,28 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.PostViewHold
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Event post = posts.get(position);
-        holder.titleTextView.setText("活动名称: " + post.getEventName());
-        holder.contentTextView.setText("活动时间: " + post.getEventDate());
+        holder.titleTextView.setText(post.getEventName());
+        holder.contentTextView.setText(post.getEventDate());
 
         holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(context, EditEventDetailsAty.class);
-            intent.putExtra("eventId", post.getEventId());
-            intent.putExtra("eventName", post.getEventName());
-            intent.putExtra("eventAddress", post.getEventAddress());
-            intent.putExtra("eventDate", post.getEventDate());
-            intent.putExtra("eventDes", post.getEventDes());
-            context.startActivity(intent);
+            if (CurUserInfo.isProfessional) {
+                Intent intent = new Intent(context, EditEventDetailsAty.class);
+                intent.putExtra("eventId", post.getEventId());
+                intent.putExtra("eventName", post.getEventName());
+                intent.putExtra("eventAddress", post.getEventAddress());
+                intent.putExtra("eventDate", post.getEventDate());
+                intent.putExtra("eventDes", post.getEventDes());
+                context.startActivity(intent);
+            }else {
+                Intent intent = new Intent(context, EventQueryDetailsAty.class);
+                intent.putExtra("eventId", post.getEventId());
+                intent.putExtra("eventName", post.getEventName());
+                intent.putExtra("eventAddress", post.getEventAddress());
+                intent.putExtra("eventDate", post.getEventDate());
+                intent.putExtra("eventDes", post.getEventDes());
+                context.startActivity(intent);
+            }
+
         });
     }
 

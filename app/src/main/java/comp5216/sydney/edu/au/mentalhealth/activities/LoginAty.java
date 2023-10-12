@@ -48,8 +48,8 @@ public class LoginAty extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         userCollection = db.collection("userinfo");
 
-        etLoginUserName = findViewById(R.id.et_login_username);
-        regUserPwd = findViewById(R.id.et_login_pwd);
+        etLoginUserName = findViewById(R.id.username);
+        regUserPwd = findViewById(R.id.pwd);
 
         loginBtn = findViewById(R.id.btn_login);
         loginBtn.setOnClickListener(v -> {
@@ -83,7 +83,7 @@ public class LoginAty extends AppCompatActivity {
                     if (!TextUtils.isEmpty(userinfo.getUserName())) {
                         CurUserInfo.userName = userinfo.getUserName();
 //                        CurUserInfo.userId = userinfo.getUserId();
-                        CurUserInfo.isProfessional = userinfo.getRole().equals("professional");
+                        //CurUserInfo.isProfessional = userinfo.getRole().equals("professional");
                         isLogin = true;
                     }
                 }

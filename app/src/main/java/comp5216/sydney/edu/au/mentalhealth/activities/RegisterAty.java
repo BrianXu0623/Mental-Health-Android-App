@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -22,9 +23,9 @@ import comp5216.sydney.edu.au.mentalhealth.entities.Userinfo;
 
 public class RegisterAty extends AppCompatActivity {
 
-    private EditText regUserName;
-    private EditText regUserPwd;
-    private EditText regUserPwdAgain;
+    private TextInputEditText regUserName;
+    private TextInputEditText regUserPwd;
+    private TextInputEditText regUserPwdAgain;
     private Button btnRegister;
 
     private FirebaseFirestore db;
@@ -34,9 +35,9 @@ public class RegisterAty extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.aty_register);
-        regUserName = findViewById(R.id.et_register_username);
-        regUserPwd = findViewById(R.id.et_register_pwd);
-        regUserPwdAgain = findViewById(R.id.et_register_pwd_again);
+        regUserName = findViewById(R.id.username);
+        regUserPwd = findViewById(R.id.pwd);
+        regUserPwdAgain = findViewById(R.id.pwd_again);
 
         db = FirebaseFirestore.getInstance();
         userCollection = db.collection("userinfo");

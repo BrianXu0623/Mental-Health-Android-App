@@ -26,78 +26,88 @@
                     android:layout_height="76dp"
                     android:layout_centerHorizontal="true"
                     android:scaleType="fitXY"
-                    android:src="@mipmap/ic_launcher" />
+                    android:src="@drawable/default_avatar" />
 
 
-                <androidx.appcompat.widget.AppCompatEditText
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/et_login_username"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/img_login_icon"
                     android:layout_marginLeft="30dp"
-                    android:layout_marginTop="63dp"
+                    android:layout_marginTop="60dp"
                     android:layout_marginRight="30dp"
-                    android:gravity="center|left"
-                    android:hint="请输入活动名称"
-                    android:imeOptions="actionNext"
-                    android:singleLine="true"
-                    android:textColor="#FF3F3F50"
-                    android:textColorHint="#4d3F3F50"
-                    android:textSize="15sp" />
+                    android:hint="name"
+                    android:paddingHorizontal="8dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext" />
+                </com.google.android.material.textfield.TextInputLayout>
 
 
-                <androidx.appcompat.widget.AppCompatEditText
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/et_login_pwd"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/et_login_username"
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="30dp"
-                    android:gravity="center|left"
-                    android:hint="请输入活动时间"
-                    android:inputType="text"
-                    android:singleLine="true"
-                    android:textColor="#FF3F3F50"
-                    android:textColorHint="#4d3F3F50"
-                    android:textSize="15sp" />
+                    android:hint="date"
+                    android:paddingHorizontal="8dp">
 
-                <androidx.appcompat.widget.AppCompatEditText
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/et_address"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/et_login_pwd"
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="30dp"
-                    android:gravity="center|left"
-                    android:hint="请输入活动地点"
-                    android:inputType="text"
-                    android:singleLine="true"
-                    android:textColor="#FF3F3F50"
-                    android:textColorHint="#4d3F3F50"
-                    android:textSize="15sp" />
+                    android:hint="address"
+                    android:paddingHorizontal="8dp">
 
-                <androidx.appcompat.widget.AppCompatEditText
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/address"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/et_des"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/et_address"
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="30dp"
-                    android:gravity="center|left"
-                    android:hint="请输入活动简介"
-                    android:inputType="text"
-                    android:singleLine="true"
-                    android:textColor="#FF3F3F50"
-                    android:textColorHint="#4d3F3F50"
-                    android:textSize="15sp" />
+                    android:hint="des"
+                    android:paddingHorizontal="8dp">
 
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/des"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <androidx.appcompat.widget.AppCompatButton
+                <Button
                     android:id="@+id/btn_login"
-                    android:layout_width="match_parent"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/et_des"
                     android:layout_centerInParent="true"
@@ -106,7 +116,7 @@
                     android:layout_marginRight="40dp"
                     android:gravity="center"
                     android:stateListAnimator="@null"
-                    android:text="发布活动"
+                    android:text="Post Event"
                     android:textColor="#FFFFFF"
                     android:textSize="16sp"
                     android:textStyle="bold" />
