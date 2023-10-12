@@ -74,7 +74,7 @@ public class LoginAty extends AppCompatActivity {
             String password = MyUtils.encrypt(regMyUserPwd);//加密登录密码
 
             Query query = userCollection
-                    .whereEqualTo("pwd", regUserPwd.getText().toString().trim())
+                    .whereEqualTo("pwd", password)
                     .whereEqualTo("userName", etLoginUserName.getText().toString().trim());
 
             query.get().addOnCompleteListener(task -> {

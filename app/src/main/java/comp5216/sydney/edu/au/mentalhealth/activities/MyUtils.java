@@ -1,18 +1,22 @@
 package comp5216.sydney.edu.au.mentalhealth.activities;
 
-import com.google.logging.type.HttpRequest;
 
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.HttpResponse;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.client.HttpClient;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.client.methods.HttpGet;
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.impl.client.HttpClients;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.URI;
-import java.util.Map;
-
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 
 public class MyUtils {
     public static boolean validatePassword(String password) {
-        if (password.length() < 10) {
+        if (password.length() < 8) {
             return false;
         }
         if (!password.matches(".*[A-Z].*")) {
@@ -24,24 +28,31 @@ public class MyUtils {
         if (!password.matches(".*[a-z].*")) {
             return false;
         }
-        if (!password.matches(".*[!@#\\$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*")) {
-            return false;
-        }
         return true;
     }
 
-    public static String encrypt(String password) throws IOException, InterruptedException {
-        String apiUrl = "https://encryptor.p.rapidapi.com/static_encryption?data=" + password;
-        HttpRequest request = HttpRequest.newBuilder()
-                .wait(URI.create(apiUrl))
-                .header("X-RapidAPI-Key", "d318270e6amsh1c8c0be8a527338p1b62c6jsn78c102a691b8")
-                .header("X-RapidAPI-Host", "encryptor.p.rapidapi.com")
-                .method("GET", HttpRequest.BodyPublishers.noBody())
-                .build();
-        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        JSONObject jsonObject = new JSONObject(response.body());
-        Map<String, Object> map = jsonObject.toMap();
-        String encrypted = (String) map.get("encrypted_string");
-        return encrypted;
+    public static String encrypt(String password) throws IOException {
+        try {
+            // Create MessageDigest instance for MD5
+            MessageDigest md = MessageDigest.getInstance("MD5");
+
+            // Add password bytes to digest
+            md.update(password.getBytes());
+
+            // Get the hash's bytes
+            byte[] bytes = md.digest();
+
+            // Convert bytes to hexadecimal format
+            StringBuilder sb = new StringBuilder();
+            for (byte aByte : bytes) {
+                sb.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
+            }
+
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            // Handle the exception or throw it further
+            e.printStackTrace();
+            return null;
+        }
     }
 }

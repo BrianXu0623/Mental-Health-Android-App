@@ -71,7 +71,21 @@ public class RegisterAty extends AppCompatActivity {
             Userinfo userinfo = new Userinfo();
             userinfo.setUserName(username);
 
-            String password = MyUtils.encrypt(pwd);//加密密码
+            if(! MyUtils.validatePassword(pwd)) {
+//                Toast.makeText(RegisterAty.this,
+//                        "Password must be at least eight characters, " +
+//                                "containing at least a number, a uppercase letter, " +
+//                                "and a lowercase letter",
+//                        Toast.LENGTH_SHORT).show();
+                Toast toast = Toast.makeText(RegisterAty.this,
+                        "Password must be at least eight characters, " +
+                        "containing at least a number, a uppercase letter, " +
+                        "and a lowercase letter", Toast.LENGTH_LONG);
+                toast.setDuration(Toast.LENGTH_LONG);
+                toast.show();
+                return;
+            }
+            pwd = MyUtils.encrypt(pwd);//加密密码
 
             userinfo.setPwd(pwd);
 
