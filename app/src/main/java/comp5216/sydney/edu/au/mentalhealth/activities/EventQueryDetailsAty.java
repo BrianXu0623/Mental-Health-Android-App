@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -38,36 +39,30 @@ import comp5216.sydney.edu.au.mentalhealth.entities.PostComment;
 
 public class EventQueryDetailsAty extends AppCompatActivity {
 
-    private EditText etLoginUserName;// 活动名称
-    private EditText regUserPwd;// 活动时间
-    private EditText et_address;// 活动地点
-    private EditText et_des;// 活动简介
-
+    private TextView etLoginUserName;
+    private TextView regUserPwd;
+    private TextView et_address;
+    private TextView et_des;
     private RecyclerView commentsRecyclerView;
-
     private CommentAdapter commentAdapter;
-
     private Button joinEvent;
-
     private boolean isjoin = false;
-
     private FirebaseFirestore db;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.aty_event_query_details);
         db = FirebaseFirestore.getInstance();
 
-        etLoginUserName = findViewById(R.id.username);
+        etLoginUserName = findViewById(R.id.title);
         regUserPwd = findViewById(R.id.date);
         et_address = findViewById(R.id.address);
-        et_des = findViewById(R.id.des);
+        et_des = findViewById(R.id.content);
 
         etLoginUserName.setText(getIntent().getStringExtra("eventName"));
-        regUserPwd.setText(getIntent().getStringExtra("eventDate"));
-        et_address.setText(getIntent().getStringExtra("eventAddress"));
-        et_des.setText(getIntent().getStringExtra("eventDes"));
+        regUserPwd.setText("Date: "+getIntent().getStringExtra("eventDate"));
+        et_address.setText("Address: " + getIntent().getStringExtra("eventAddress"));
+        et_des.setText("Description:\n"+getIntent().getStringExtra("eventDes"));
 
 
 
@@ -146,8 +141,8 @@ public class EventQueryDetailsAty extends AppCompatActivity {
                     Collections.sort(commentsList, (c1, c2) -> {
                         return c2.getTimestamp().compareTo(c1.getTimestamp());
                     });
-                    if(commentsList.size() > 3){
-                        commentsList = commentsList.subList(0,3);
+                    if(commentsList.size() > 5){
+                        commentsList = commentsList.subList(0,5);
                     }
 
                     commentAdapter.setComments(commentsList);

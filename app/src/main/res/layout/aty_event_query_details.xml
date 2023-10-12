@@ -14,118 +14,69 @@
             android:layout_height="wrap_content"
             android:fillViewport="true">
 
-            <RelativeLayout
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="100dp"
-                android:fitsSystemWindows="true">
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/img_login_icon"
-                    android:layout_width="76dp"
-                    android:layout_height="76dp"
-                    android:layout_centerHorizontal="true"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/default_avatar" />
-
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/et_login_username"
+                <TextView
+                    android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/img_login_icon"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginTop="60dp"
-                    android:layout_marginRight="30dp"
-                    android:hint="name"
-                    android:paddingHorizontal="8dp">
+                    android:layout_marginTop="16dp"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="#333"/>
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/username"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:imeOptions="actionNext" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/et_login_pwd"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/et_login_username"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="30dp"
-                    android:hint="date"
-                    android:paddingHorizontal="8dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="1"
+                    >
+                    <TextView
                         android:id="@+id/date"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:imeOptions="actionNext" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_weight="0.5"
+                        android:layout_marginTop="8dp"
+                        android:textSize="12sp"
+                        android:textColor="#666"/>
 
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/et_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/et_login_pwd"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="30dp"
-                    android:hint="address"
-                    android:paddingHorizontal="8dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
+                    <TextView
                         android:id="@+id/address"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:imeOptions="actionNext" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_weight="0.5"
+                        android:layout_marginTop="8dp"
+                        android:textSize="12sp"
+                        android:textColor="#666"/>
 
 
+                </LinearLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/et_des"
+                <TextView
+                    android:id="@+id/content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/et_address"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="30dp"
-                    android:hint="des"
-                    android:paddingHorizontal="8dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/des"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:imeOptions="actionNext" />
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_below="@id/titleTextView"
+                    android:layout_marginTop="8dp"
+                    android:textSize="16sp"
+                    android:textColor="#666"/>
 
 
-                <Button
-                    android:id="@+id/joinButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/et_des"
-                    android:layout_centerInParent="true"
-                    android:text="Join"
-                    android:onClick="joinButton"></Button>
 
                 <TextView
                     android:id="@+id/commentsLabel"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/joinButton"
-                    android:layout_marginTop="16dp"
+                    android:layout_height="match_parent"
                     android:text="Participant"
                     android:textSize="22sp"
                     android:textStyle="bold"
-                    android:textColor="#333"
-                    android:paddingHorizontal="16dp"/>
+                    android:textColor="#333" />
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/commentsRecyclerView"
                     android:layout_width="match_parent"
@@ -133,8 +84,17 @@
                     android:layout_below="@id/commentsLabel"
                     android:layout_marginTop="8dp"/>
 
+                <Button
+                    android:id="@+id/joinButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
 
-            </RelativeLayout>
+                    android:text="Join"
+                    android:onClick="joinButton"></Button>
+
+
+            </LinearLayout>
         </ScrollView>
     </RelativeLayout>
 
