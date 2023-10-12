@@ -1,102 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#00FFFFFF">
+        android:layout_above="@+id/commentLayout">
 
-
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fillViewport="true">
+            android:orientation="vertical">
 
+            <!-- Event Title -->
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#333"
+                android:gravity="center"
+                android:layout_marginBottom="16dp" />
 
+            <!-- Author Layout -->
+            <LinearLayout
+                android:id="@+id/authorLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp">
+
+                <ImageView
+                    android:id="@+id/authorAvatarImageView"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/default_avatar" />
+
+                <TextView
+                    android:id="@+id/authorNameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:textColor="#333"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Event Date and Address Layout -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                android:layout_marginBottom="16dp">
 
                 <TextView
-                    android:id="@+id/title"
-                    android:layout_width="match_parent"
+                    android:id="@+id/date"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:textSize="22sp"
-                    android:textStyle="bold"
-                    android:textColor="#333"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:weightSum="1"
-                    >
-                    <TextView
-                        android:id="@+id/date"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
-                        android:layout_marginTop="8dp"
-                        android:textSize="12sp"
-                        android:textColor="#666"/>
-
-                    <TextView
-                        android:id="@+id/address"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.5"
-                        android:layout_marginTop="8dp"
-                        android:textSize="12sp"
-                        android:textColor="#666"/>
-
-
-                </LinearLayout>
+                    android:layout_weight="0.5"
+                    android:textSize="12sp"
+                    android:textColor="#666" />
 
                 <TextView
-                    android:id="@+id/content"
-                    android:layout_width="match_parent"
+                    android:id="@+id/address"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/titleTextView"
-                    android:layout_marginTop="8dp"
-                    android:textSize="16sp"
-                    android:textColor="#666"/>
-
-
-
-                <TextView
-                    android:id="@+id/commentsLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="Participant"
-                    android:textSize="22sp"
-                    android:textStyle="bold"
-                    android:textColor="#333" />
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/commentsRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/commentsLabel"
-                    android:layout_marginTop="8dp"/>
-
-                <Button
-                    android:id="@+id/joinButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-
-                    android:text="Join"
-                    android:onClick="joinButton"></Button>
-
-
+                    android:layout_weight="0.5"
+                    android:textSize="12sp"
+                    android:textColor="#666" />
             </LinearLayout>
-        </ScrollView>
-    </RelativeLayout>
 
+            <!-- Event Content -->
+            <TextView
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="#666"
+                android:layout_marginBottom="16dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <!-- Participant Label -->
+            <TextView
+                android:id="@+id/commentsLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Participant"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#333"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Participants RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/commentsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Join/Cancel Button -->
+            <Button
+                android:id="@+id/joinButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Join"
+                android:onClick="joinButton" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- I've left this commentLayout here in case you'd want to add any views to it in the future -->
+    <LinearLayout
+        android:id="@+id/commentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+    </LinearLayout>
+</RelativeLayout>
+
