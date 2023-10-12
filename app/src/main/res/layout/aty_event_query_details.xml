@@ -106,6 +106,34 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
 
+                <Button
+                    android:id="@+id/joinButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/et_des"
+                    android:layout_centerInParent="true"
+                    android:text="Join"
+                    android:onClick="joinButton"></Button>
+
+                <TextView
+                    android:id="@+id/commentsLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/joinButton"
+                    android:layout_marginTop="16dp"
+                    android:text="Participant"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="#333"
+                    android:paddingHorizontal="16dp"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/commentsRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/commentsLabel"
+                    android:layout_marginTop="8dp"/>
+
+
             </RelativeLayout>
         </ScrollView>
     </RelativeLayout>
