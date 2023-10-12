@@ -146,8 +146,11 @@ public class EventQueryDetailsAty extends AppCompatActivity {
                     Collections.sort(commentsList, (c1, c2) -> {
                         return c2.getTimestamp().compareTo(c1.getTimestamp());
                     });
+                    if(commentsList.size() > 3){
+                        commentsList = commentsList.subList(0,3);
+                    }
 
-                    commentAdapter.setComments(commentsList.subList(0,3));
+                    commentAdapter.setComments(commentsList);
                     commentAdapter.notifyDataSetChanged();
                 })
                 .addOnFailureListener(e -> {
