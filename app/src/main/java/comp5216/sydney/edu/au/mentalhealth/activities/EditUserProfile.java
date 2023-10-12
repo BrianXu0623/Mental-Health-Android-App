@@ -119,7 +119,6 @@ public class EditUserProfile extends AppCompatActivity {
             return false;
         });
 
-        bottomNavigationView.getMenu().findItem(R.id.nav_profile).setChecked(true);
 
         loaduser();
         loadImage();
@@ -221,7 +220,7 @@ public class EditUserProfile extends AppCompatActivity {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         userNameText.setText(userName);
-                        if(document.getBoolean("doc")){
+                        if(CurUserInfo.isProfessional){
                             docIcon.setVisibility(View.VISIBLE);
                             doc = true;
                         }else {

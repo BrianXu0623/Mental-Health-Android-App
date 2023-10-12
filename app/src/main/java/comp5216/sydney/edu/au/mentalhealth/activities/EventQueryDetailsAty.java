@@ -1,12 +1,14 @@
 package comp5216.sydney.edu.au.mentalhealth.activities;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +29,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -44,11 +50,14 @@ public class EventQueryDetailsAty extends AppCompatActivity {
     private TextView regUserPwd;
     private TextView et_address;
     private TextView et_des;
+    private TextView creatorName;
+    private ImageView creatorImage;
     private RecyclerView commentsRecyclerView;
     private CommentAdapter commentAdapter;
     private Button joinEvent;
     private boolean isjoin = false;
     private FirebaseFirestore db;
+    private FirebaseStorage storage;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,16 +68,24 @@ public class EventQueryDetailsAty extends AppCompatActivity {
         regUserPwd = findViewById(R.id.date);
         et_address = findViewById(R.id.address);
         et_des = findViewById(R.id.content);
+        creatorName = findViewById(R.id.authorNameTextView);
+        creatorImage = findViewById(R.id.authorAvatarImageView);
+
+
 
         etLoginUserName.setText(getIntent().getStringExtra("eventName"));
         regUserPwd.setText("Date: "+getIntent().getStringExtra("eventDate"));
         et_address.setText("Address: " + getIntent().getStringExtra("eventAddress"));
         et_des.setText("Description:\n"+getIntent().getStringExtra("eventDes"));
+        creatorName.setText(getIntent().getStringExtra("creator"));
+
 
 
 
 
         // load join records
+        storage = FirebaseStorage.getInstance();
+
         PostDetailActivity.connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         commentsRecyclerView = findViewById(R.id.commentsRecyclerView);
         commentAdapter = new CommentAdapter(new ArrayList<>());
@@ -76,6 +93,10 @@ public class EventQueryDetailsAty extends AppCompatActivity {
         commentsRecyclerView.setAdapter(commentAdapter);
         joinEvent = findViewById(R.id.joinButton);
         loadComments(getIntent().getStringExtra("eventId"));
+
+
+        loadImage();
+
 
 
     }
@@ -216,6 +237,35 @@ public class EventQueryDetailsAty extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                     Toast.makeText(EventQueryDetailsAty.this, "Error accessing the event: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
+    }
+
+
+    public void loadImage(){
+        StorageReference image = storage.getReference().child(getIntent().getStringExtra("creator")+".JPEG");
+        File localFile = null;
+        try {
+            localFile = File.createTempFile("images", "jpg");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        File finalLocalFile = localFile;
+        image.getFile(localFile).addOnSuccessListener(taskSnapshot -> {
+            creatorImage.setImageBitmap(EditUserProfile.cropCircle(BitmapFactory.
+                    decodeFile(finalLocalFile.getAbsolutePath())));
+        }).addOnFailureListener(exception -> {
+        });
+    }
+    public void openUserProfile(View v){
+        UserProfileActivity.UserProfileActivity(this,getIntent().getStringExtra("creator"));
+    }
+
+
+    public void openCommentUserProfile(View view) {
+        String userIdFromTag = (String) view.getTag();
+        if (userIdFromTag != null) {
+            UserProfileActivity.UserProfileActivity(this, userIdFromTag);
+        }
     }
 
 

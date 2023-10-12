@@ -39,7 +39,8 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/default_avatar" />
+                    android:src="@drawable/default_avatar"
+                    android:onClick="openUserProfile"/>
 
                 <TextView
                     android:id="@+id/authorNameTextView"
@@ -48,16 +49,8 @@
                     android:layout_marginStart="8dp"
                     android:textColor="#333"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/commentDoctorIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/ic_doc"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="4dp" />
-
+                    android:textStyle="bold"
+                    android:onClick="openUserProfile"/>
             </LinearLayout>
 
             <!-- Event Date and Address Layout -->
