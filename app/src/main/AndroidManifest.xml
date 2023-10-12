@@ -13,29 +13,32 @@
         android:theme="@style/Theme.COMP5216_Final_Assignment"
         tools:targetApi="31">
         <activity
-            android:name=".activities.ProfessionalList"
-            android:launchMode="singleTask"
+            android:name=".activities.MyAppointment"
             android:exported="false" />
+        <activity
+            android:name=".activities.ProfessionalList"
+            android:exported="false"
+            android:launchMode="singleTask" />
         <activity
             android:name=".activities.MakeAnAppointment"
-            android:launchMode="singleTask"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTask" />
         <activity
             android:name=".activities.EditUserProfile"
-            android:launchMode="singleTask"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTask" />
         <activity
             android:name=".activities.UserProfileActivity"
-            android:launchMode="singleTask"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTask" />
         <activity
             android:name=".activities.CreatePostActivity"
-            android:launchMode="singleTask"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTask" />
         <activity
             android:name=".activities.LoginAty"
-            android:launchMode="singleTask"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,18 +47,23 @@
         </activity>
         <activity
             android:name=".activities.PostDetailActivity"
-            android:launchMode="singleTask"
-            android:label="Post Detail" />
-        <activity android:name=".activities.MainActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name=".activities.RegisterAty"
-            android:launchMode="singleTask"/>
-        <activity android:name=".activities.EventAty"
-            android:launchMode="singleTask"/>
-        <activity android:name=".activities.EventDetailsAty"
-            android:launchMode="singleTask"/>
-        <activity android:name=".activities.EditEventDetailsAty"
-            android:launchMode="singleTask"/>
+            android:label="Post Detail"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".activities.MainActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".activities.RegisterAty"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".activities.EventAty"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".activities.EventDetailsAty"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".activities.EditEventDetailsAty"
+            android:launchMode="singleTask" />
     </application>
 
 </manifest>

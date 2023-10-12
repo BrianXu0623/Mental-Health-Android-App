@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import comp5216.sydney.edu.au.mentalhealth.R;
 
+
+
 public class MakeAnAppointment extends AppCompatActivity {
 
     private TextView professionalNameTextView;

@@ -2,6 +2,7 @@ package comp5216.sydney.edu.au.mentalhealth.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,6 +47,13 @@ public class ProfessionalList extends AppCompatActivity implements ListAdapter.O
         recyclerView.setAdapter(adapter);
 
         loadProfessionals();
+        //点击 My Appointment 按钮跳转到MyAppointment界面
+        findViewById(R.id.button5).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ProfessionalList.this, MyAppointment.class));
+            }
+        });
 
         // Add some test contents
 //        dataList.add(new ListItem(R.drawable._6e63e353c3f2e238ed59039c5a2db31, "Dr. Michael Anderson", "Licensed Therapist"));
@@ -181,13 +189,5 @@ public class ProfessionalList extends AppCompatActivity implements ListAdapter.O
             }
         });
     }
-
-    @Override
-    public void onDelButtonClick(int position) {
-        ListItem item = dataList.get(position);
-        dataList.remove(item);
-        adapter.notifyDataSetChanged();
-    }
-
 
 }
