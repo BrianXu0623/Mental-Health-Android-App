@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -112,6 +113,22 @@ public class ProfessionalList extends AppCompatActivity implements ListAdapter.O
                 return false;
             }
         });
+
+        MaterialButtonToggleGroup toggleGroup = findViewById(R.id.toggleButton);
+        toggleGroup.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
+            @Override
+            public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
+                if (isChecked) {
+                    if (checkedId == R.id.button1) {
+                        loadProfessionalsByName();
+                    } else if (checkedId == R.id.button2) {
+                        loadProfessionalsBySkill();
+                    }
+                }
+            }
+        });
+
+
     }
 
     private void loadProfessionals() {
@@ -180,6 +197,43 @@ public class ProfessionalList extends AppCompatActivity implements ListAdapter.O
                 }
             }
         });
+    }
+
+    private void loadProfessionalsByName() {
+        professionalsCollection
+                .orderBy("title")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        dataList.clear();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            ListItem professional = document.toObject(ListItem.class);
+                            dataList.add(professional);
+                        }
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        // Handle the error
+                    }
+                });
+    }
+
+
+    private void loadProfessionalsBySkill() {
+        professionalsCollection
+                .orderBy("subtitle")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        dataList.clear();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            ListItem professional = document.toObject(ListItem.class);
+                            dataList.add(professional);
+                        }
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        // Handle the error
+                    }
+                });
     }
 
 
