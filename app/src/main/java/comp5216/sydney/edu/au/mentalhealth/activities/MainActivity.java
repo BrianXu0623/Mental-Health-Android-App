@@ -3,19 +3,15 @@ package comp5216.sydney.edu.au.mentalhealth.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -33,7 +29,6 @@ import java.util.List;
 import comp5216.sydney.edu.au.mentalhealth.R;
 import comp5216.sydney.edu.au.mentalhealth.adapters.PostAdapter;
 import comp5216.sydney.edu.au.mentalhealth.entities.Post;
-import comp5216.sydney.edu.au.mentalhealth.entities.UserProfile;
 
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_POST_DETAIL = 1234;
@@ -80,10 +75,10 @@ public class MainActivity extends AppCompatActivity {
             } else if (item.getItemId() == R.id.nav_event) {
                 Intent intent = new Intent(MainActivity.this, EventAty.class);
                 startActivity(intent);
-            }else if(item.getItemId() == R.id.nav_profile) {
+            } else if (item.getItemId() == R.id.nav_profile) {
                 Intent intent = new Intent(this, EditUserProfile.class);
                 startActivity(intent);
-            }else if(item.getItemId() == R.id.nav_appointment) {
+            } else if (item.getItemId() == R.id.nav_appointment) {
                 Intent intent = new Intent(this, ProfessionalList.class);
                 startActivity(intent);
             }
@@ -91,8 +86,6 @@ public class MainActivity extends AppCompatActivity {
         });
         postsCollection = db.collection("posts");
         bottomNavigationView.getMenu().findItem(R.id.nav_forum).setChecked(true);
-//        createSamplePosts();
-//        generateSampleUsers();
         loadPosts(false);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -131,33 +124,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_POST_DETAIL && resultCode == Activity.RESULT_OK) {
-            // 如果在PostDetailActivity中有更改（例如删除帖子），则重新加载帖子
             loadPosts(false);
         }
-    }
-
-    private void createSamplePosts() {
-        List<Post> postsToCreate = generateSamplePosts();
-
-        WriteBatch batch = db.batch();
-
-        for (Post post : postsToCreate) {
-            batch.set(postsCollection.document(), post);
-        }
-        batch.commit()
-                .addOnSuccessListener(aVoid -> {
-                })
-                .addOnFailureListener(e -> {
-                });
     }
 
     private void filterPosts(String query) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         CollectionReference postsRef = db.collection("posts");
-
-        String queryLowerCase = query.toLowerCase();
-
         Query searchQuery = postsRef
                 .orderBy("title")
                 .startAt(query)
@@ -186,12 +160,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private List<Post> generateSamplePosts() {
-        List<Post> posts = new ArrayList<>();
-        posts.add(new Post("user1", "title1", "content1"));
-        return posts;
-    }
-
     private void loadPosts(boolean onlyProfessional) {
         db.collection("posts")
                 .get()
@@ -199,12 +167,11 @@ public class MainActivity extends AppCompatActivity {
                     List<Post> posts = new ArrayList<>();
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                         Post post = document.toObject(Post.class);
-                        if(onlyProfessional) {
-                            if(post.isProfessional()) {
+                        if (onlyProfessional) {
+                            if (post.isProfessional()) {
                                 posts.add(post);
                             }
-                        }
-                        else {
+                        } else {
                             posts.add(post);
                         }
                     }
@@ -215,28 +182,4 @@ public class MainActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                 });
     }
-
-
-//    private void generateSampleUsers(){
-//        List<UserProfile> profiles = new ArrayList<>();
-//        profiles.add(new UserProfile("sampleUserId","user1", false, false, "test1@mentalHealth.com", "test hobby1", "test major1", "1111"));
-//        profiles.add(new UserProfile("user1","user1", false, false, "test1@mentalHealth.com", "test hobby1", "test major1", "1111"));
-//        profiles.add(new UserProfile("user2","user2", true, false, "test2@mentalHealth.com", "test hobby2", "test major2", "2222"));
-//        profiles.add(new UserProfile("user3","user3", true, true, "test3@mentalHealth.com", "test hobby3", "test major3", "3333"));
-//        CollectionReference userProfiles = db.collection("UserProfiles");
-//        WriteBatch batch = db.batch();
-//        for(UserProfile profile: profiles){
-//            batch.set(userProfiles.document(profile.getUserId()), profile);
-//
-//        }
-//
-//        batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
-//            @Override
-//            public void onComplete(@NonNull Task<Void> task) {
-//                Log.d("UserProfiles", "generate success");
-//            }
-//        });
-//
-//    }
-
 }
