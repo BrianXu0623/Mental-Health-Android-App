@@ -19,9 +19,7 @@ import java.util.List;
 
 import comp5216.sydney.edu.au.mentalhealth.R;
 import comp5216.sydney.edu.au.mentalhealth.adapters.EventAdapter;
-import comp5216.sydney.edu.au.mentalhealth.adapters.PostAdapter;
 import comp5216.sydney.edu.au.mentalhealth.entities.Event;
-import comp5216.sydney.edu.au.mentalhealth.entities.Post;
 
 public class EventAty extends AppCompatActivity {
 
@@ -41,7 +39,8 @@ public class EventAty extends AppCompatActivity {
 
         rv_event = findViewById(R.id.rv_event);
         rv_event.setLayoutManager(new LinearLayoutManager(this));
-        rv_event.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        rv_event.addItemDecoration(new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL));
         adapter = new EventAdapter(this);
         rv_event.setAdapter(adapter);
 

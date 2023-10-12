@@ -4,15 +4,11 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -22,11 +18,11 @@ import comp5216.sydney.edu.au.mentalhealth.entities.Event;
 
 public class EventDetailsAty extends AppCompatActivity {
 
-    private EditText etLoginUserName;// 活动名称
-    private EditText regUserPwd;// 活动时间
-    private EditText et_address;// 活动地点
-    private EditText et_des;// 活动简介
-    private Button loginBtn;// 发布活动
+    private EditText etLoginUserName;
+    private EditText regUserPwd;
+    private EditText et_address;
+    private EditText et_des;
+    private Button loginBtn;
 
     private FirebaseFirestore db;
     private CollectionReference userCollection;
@@ -50,7 +46,8 @@ public class EventDetailsAty extends AppCompatActivity {
                     && !TextUtils.isEmpty(regUserPwd.getText())) {
                 post();
             } else {
-                Toast.makeText(this, "请输入活动相关数据", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Enter Event's Relative Data",
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -71,18 +68,12 @@ public class EventDetailsAty extends AppCompatActivity {
 
 
         userCollection.add(userinfo)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(EventDetailsAty.this, "Post created successfully!", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
+                .addOnSuccessListener(documentReference -> {
+                    Toast.makeText(EventDetailsAty.this, "Post created successfully!",
+                            Toast.LENGTH_SHORT).show();
+                    finish();
                 })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(EventDetailsAty.this, "Error creating Post!", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                .addOnFailureListener(e -> Toast.makeText(EventDetailsAty.this,
+                        "Error creating Post!", Toast.LENGTH_SHORT).show());
     }
 }

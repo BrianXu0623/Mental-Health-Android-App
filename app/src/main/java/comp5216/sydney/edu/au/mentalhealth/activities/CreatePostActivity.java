@@ -26,6 +26,7 @@ public class CreatePostActivity extends AppCompatActivity {
     private Button submitButton;
     private FirebaseFirestore db;
     private CollectionReference postsCollection;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +44,7 @@ public class CreatePostActivity extends AppCompatActivity {
         });
 
     }
+
     private void createNewPost() {
         String title = titleEditText.getText().toString().trim();
         String content = contentEditText.getText().toString().trim();
@@ -54,7 +56,7 @@ public class CreatePostActivity extends AppCompatActivity {
         }
         String currentUserId = CurUserInfo.userName;
         Post newPost = new Post(currentUserId, title, content);
-        if(CurUserInfo.isProfessional) {
+        if (CurUserInfo.isProfessional) {
             newPost.setProfessional(true);
         }
 
