@@ -150,6 +150,12 @@ public class EditUserProfile extends AppCompatActivity {
 
     }
 
+    public void logoutButton(View v){
+        Intent intent = new Intent(this, LoginAty.class);
+        startActivity(intent);
+        overridePendingTransition(0, 0);  // Disable transition animations
+    }
+
     private Bitmap getBitmapFromImageUri(Uri uri) {
         try {
             return MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);

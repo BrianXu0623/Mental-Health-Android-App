@@ -173,13 +173,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:paddingHorizontal="16dp">
         <Button
             android:id="@+id/save_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="saveButton"
+            android:layout_marginBottom="80dp"
             android:text="Update" />
+        <Button
+            android:id="@+id/logout_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="logoutButton"
+            android:text="Logout" />
     </LinearLayout>
 
 
