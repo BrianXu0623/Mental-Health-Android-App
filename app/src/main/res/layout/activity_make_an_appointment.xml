@@ -123,12 +123,13 @@
         app:layout_constraintTop_toBottomOf="@+id/professionalNameTextView" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/professionalDetailsTextView"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="128dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:gravity="center_vertical"
+        android:scrollbars="vertical"
         android:text="I am a Licensed Therapist committed to providing high-quality mental health therapy and support. My professional license ensures that I possess the necessary skills and background to assist individuals in overcoming a range of mental health challenges."
         android:textColor="#001E2F"
         android:textSize="16sp"
@@ -169,7 +170,7 @@
         android:scaleType="center"
         android:src="@drawable/ic_appointment_appointment"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/professionalDetailsTextView" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout"

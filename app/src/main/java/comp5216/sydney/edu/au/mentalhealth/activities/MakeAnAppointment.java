@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -24,6 +25,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -111,6 +113,25 @@ public class MakeAnAppointment extends AppCompatActivity {
             }).addOnFailureListener(exception -> {
             });
         }
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("professionals")
+                .whereEqualTo("title", professionalName)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        DocumentSnapshot document = queryDocumentSnapshots.getDocuments().get(0);
+                        String details = document.getString("details");
+
+                        TextView professionalDetailsTextView = findViewById(R.id.professionalDetailsTextView);
+                        professionalDetailsTextView.setText(details);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                });
+
+        TextView professionalDetailsTextView = findViewById(R.id.professionalDetailsTextView);
+        professionalDetailsTextView.setMovementMethod(new ScrollingMovementMethod());
     }
 
     private void showDatePicker() {
