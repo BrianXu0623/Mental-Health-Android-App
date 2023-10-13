@@ -54,17 +54,25 @@ public class MakeAnAppointment extends AppCompatActivity {
         dateEditText = findViewById(R.id.dateEditText);
         timeEditText = findViewById(R.id.timeEditText);
 
-        dateEditText.setOnClickListener(new View.OnClickListener() {
+        dateEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View v) {
-                showDatePicker();
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    showDatePicker();
+                    dateEditText.clearFocus();
+                }
+
             }
         });
 
-        timeEditText.setOnClickListener(new View.OnClickListener() {
+        timeEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View v) {
-                showTimePicker();
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    showTimePicker();
+                    timeEditText.clearFocus();
+                }
+
             }
         });
 
