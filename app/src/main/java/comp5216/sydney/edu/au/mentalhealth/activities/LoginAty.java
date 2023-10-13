@@ -22,6 +22,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.auth.User;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,34 +71,40 @@ public class LoginAty extends AppCompatActivity {
 
     private void login() {
 
-        Query query = userCollection
-                .whereEqualTo("pwd", regUserPwd.getText().toString().trim())
-                .whereEqualTo("userName", etLoginUserName.getText().toString().trim());
+        try {
+            String password = MyUtils.encrypt(regUserPwd.getText().toString().trim());//加密登录密码
+            Query query = userCollection
+                    .whereEqualTo("pwd", password)
+                    .whereEqualTo("userName", etLoginUserName.getText().toString().trim());
 
-        query.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
 
-                boolean isLogin = false;
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    Userinfo userinfo = document.toObject(Userinfo.class);
-                    if (!TextUtils.isEmpty(userinfo.getUserName())) {
-                        CurUserInfo.userName = userinfo.getUserName();
-//                        CurUserInfo.userId = userinfo.getUserId();
-                        CurUserInfo.isProfessional = userinfo.getRole().equals("professional");
-                        isLogin = true;
+            query.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+
+                    boolean isLogin = false;
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Userinfo userinfo = document.toObject(Userinfo.class);
+                        if (!TextUtils.isEmpty(userinfo.getUserName())) {
+                            CurUserInfo.userName = userinfo.getUserName();
+    //                        CurUserInfo.userId = userinfo.getUserId();
+                            CurUserInfo.isProfessional = userinfo.getRole().equals("professional");
+                            isLogin = true;
+                        }
                     }
-                }
 
-                if (isLogin) {
-                    Intent intent = new Intent(LoginAty.this, MainActivity.class);
-                    startActivity(intent);
+                    if (isLogin) {
+                        Intent intent = new Intent(LoginAty.this, MainActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(LoginAty.this, "登录失败", Toast.LENGTH_SHORT).show();
+                    }
+
                 } else {
-                    Toast.makeText(LoginAty.this, "登录失败", Toast.LENGTH_SHORT).show();
+                    Log.e("fk", "Error login.", task.getException());
                 }
-
-            } else {
-                Log.e("fk", "Error login.", task.getException());
-            }
-        });
+            });
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

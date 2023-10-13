@@ -23,7 +23,7 @@
             android:textStyle="bold" />
     </RelativeLayout>
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/titleRLyt"
@@ -64,6 +64,17 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
+            <TextView
+                android:id="@+id/passwordFormat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Password must be at least eight characters, containing at least a number, a uppercase and a lower case letter"
+                android:textColor="#666666"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:textSize="14sp"
+                />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/et_register_pwd"
@@ -113,8 +124,9 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
+
         </RelativeLayout>
-    </ScrollView>
+    </LinearLayout>
 
 </RelativeLayout>
 

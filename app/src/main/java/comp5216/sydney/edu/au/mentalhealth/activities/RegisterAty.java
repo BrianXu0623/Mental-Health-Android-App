@@ -18,6 +18,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -73,7 +74,20 @@ public class RegisterAty extends AppCompatActivity {
         }
         Userinfo userinfo = new Userinfo();
         userinfo.setUserName(username);
-        userinfo.setPwd(pwd);
+
+        if(! MyUtils.validatePassword(pwd)) {
+            Toast toast = Toast.makeText(RegisterAty.this,
+                    "Incorrect Password Format", Toast.LENGTH_LONG);
+            toast.setDuration(Toast.LENGTH_LONG);
+            toast.show();
+            return;
+        }
+
+        try {
+            userinfo.setPwd(MyUtils.encrypt(pwd));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         DocumentReference newPostRef = userCollection.document();
         userinfo.setUserId(newPostRef.getId());
