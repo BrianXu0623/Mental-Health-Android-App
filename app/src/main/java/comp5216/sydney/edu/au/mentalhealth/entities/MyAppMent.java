@@ -9,8 +9,8 @@ public class MyAppMent {
     private String professionalName;
     private String time;
 
-
-
+    public MyAppMent() {
+    }
 
     public MyAppMent(String date, String professionalJob, String professionalName, String time) {
         this.date = date;

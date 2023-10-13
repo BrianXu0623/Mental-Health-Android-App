@@ -2,6 +2,7 @@ package comp5216.sydney.edu.au.mentalhealth.activities;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -215,6 +216,11 @@ public class MakeAnAppointment extends AppCompatActivity {
                         Toast.makeText(MakeAnAppointment.this,
                                 "Appointment booked successfully!",
                                 Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(MakeAnAppointment.this,
+                                MyAppointment.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        startActivity(intent);
+                        overridePendingTransition(0, 0);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
