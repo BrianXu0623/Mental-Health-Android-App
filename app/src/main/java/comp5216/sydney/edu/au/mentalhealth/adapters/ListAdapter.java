@@ -1,5 +1,6 @@
 package comp5216.sydney.edu.au.mentalhealth.adapters;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -34,11 +39,21 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ListItem item = dataList.get(position);
-        //holder.icon.setImageResource(item.getIconResId());
+
+        // Reference to Firebase Storage
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReference().child(item.getAvatarUrl()); // 使用新的 avatarUrl 属性
+
+        // Load the avatar into the ImageView
+        storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+            Uri downloadUrl = uri;
+            Glide.with(holder.icon.getContext()).load(downloadUrl).into(holder.icon);
+        }).addOnFailureListener(exception -> {
+        });
+
         holder.title.setText(item.getTitle());
         holder.subtitle.setText(item.getSubtitle());
         holder.button.setOnClickListener(v -> {
-            // Handle button click event
             if (listener != null) {
                 listener.onBookButtonClick(position);
             }

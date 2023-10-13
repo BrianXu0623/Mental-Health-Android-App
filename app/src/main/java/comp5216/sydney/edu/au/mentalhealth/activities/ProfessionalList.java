@@ -134,18 +134,21 @@ public class ProfessionalList extends AppCompatActivity implements ListAdapter.O
     private void loadProfessionals() {
         professionalsCollection
                 .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    dataList.clear();
-                    for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
-                        ListItem professional = document.toObject(ListItem.class);
-                        dataList.add(professional);
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        dataList.clear();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            ListItem professional = document.toObject(ListItem.class);
+                            String avatarUrl = document.getString("avatarUrl");
+                            professional.setAvatarUrl(avatarUrl);
+                            dataList.add(professional);
+                        }
+                        adapter.notifyDataSetChanged();
+                    } else {
                     }
-                    adapter.notifyDataSetChanged();
-                })
-                .addOnFailureListener(e -> {
-                    // Handle the error
                 });
     }
+
 
     @Override
     public void onBookButtonClick(int position) {
@@ -211,7 +214,6 @@ public class ProfessionalList extends AppCompatActivity implements ListAdapter.O
                         }
                         adapter.notifyDataSetChanged();
                     } else {
-                        // Handle the error
                     }
                 });
     }
@@ -230,7 +232,6 @@ public class ProfessionalList extends AppCompatActivity implements ListAdapter.O
                         }
                         adapter.notifyDataSetChanged();
                     } else {
-                        // Handle the error
                     }
                 });
     }

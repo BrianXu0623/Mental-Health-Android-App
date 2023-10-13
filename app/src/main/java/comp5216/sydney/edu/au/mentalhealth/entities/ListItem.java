@@ -7,13 +7,15 @@ public class ListItem {
     private String title;
     private String subtitle;
 
+    private String avatarUrl;
+
     public ListItem() {
     }
 
-    public ListItem(int iconResId, String title, String subtitle) {
-        this.iconResId = iconResId;
+    public ListItem(String title, String subtitle, String avatarUrl) {
         this.title = title;
         this.subtitle = subtitle;
+        this.avatarUrl = avatarUrl;
     }
 
     // Getter methods
@@ -29,6 +31,10 @@ public class ListItem {
         return subtitle;
     }
 
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
     // Setter methods
     public void setIconResId(int iconResId) {
         this.iconResId = iconResId;
@@ -40,5 +46,9 @@ public class ListItem {
 
     public void setSubtitle(String subtitle) {
         this.subtitle = subtitle;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }
