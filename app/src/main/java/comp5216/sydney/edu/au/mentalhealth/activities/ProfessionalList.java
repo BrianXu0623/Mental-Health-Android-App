@@ -2,6 +2,7 @@ package comp5216.sydney.edu.au.mentalhealth.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,6 +49,12 @@ public class ProfessionalList extends AppCompatActivity
         recyclerView.setAdapter(adapter);
 
         loadProfessionals();
+        findViewById(R.id.button5).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ProfessionalList.this, MakeAnAppointment.class));
+            }
+        });
 
         // Add some test contents
 //        dataList.add(new ListItem(R.drawable._6e63e353c3f2e238ed59039c5a2db31, "Dr. Michael Anderson", "Licensed Therapist"));
