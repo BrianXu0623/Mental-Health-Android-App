@@ -81,7 +81,7 @@
                 android:layout_below="@+id/et_register_username"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:hint="pwd"
+                android:hint="password"
                 android:paddingHorizontal="8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -99,7 +99,7 @@
                 android:layout_below="@+id/et_register_pwd"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:hint="pwd-again"
+                android:hint="confirm password"
                 android:paddingHorizontal="8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
