@@ -157,6 +157,8 @@ public class ProfessionalList extends AppCompatActivity implements ListAdapter.O
         intent.putExtra("PROFESSIONAL_NAME", item.getTitle());
         intent.putExtra("PROFESSIONAL_JOB", item.getSubtitle());
 
+        intent.putExtra("avatarUrl", item.getAvatarUrl());
+
         startActivity(intent);
     }
 
