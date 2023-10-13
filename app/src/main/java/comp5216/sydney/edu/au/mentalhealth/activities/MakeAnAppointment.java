@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -75,6 +76,13 @@ public class MakeAnAppointment extends AppCompatActivity {
             }
         });
 
+        ImageButton backButton = findViewById(R.id.AppointmentBackBtn);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
     }
 
@@ -98,6 +106,44 @@ public class MakeAnAppointment extends AppCompatActivity {
         timePicker.show();
     }
 
+    public boolean isValidDate(String dateInput) {
+        if (dateInput.length() != 10) return false;
+        if (dateInput.charAt(2) != '/' || dateInput.charAt(5) != '/') return false;
+
+        try {
+            int day = Integer.parseInt(dateInput.substring(0, 2));
+            int month = Integer.parseInt(dateInput.substring(3, 5));
+            int year = Integer.parseInt(dateInput.substring(6, 10));
+
+            if (day < 1 || day > 31) return false;
+            if (month < 1 || month > 12) return false;
+
+        } catch (NumberFormatException e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean isValidTime(String timeInput) {
+        if (timeInput.length() != 5) return false;
+        if (timeInput.charAt(2) != ':') return false;
+
+        try {
+            int hour = Integer.parseInt(timeInput.substring(0, 2));
+            int minute = Integer.parseInt(timeInput.substring(3, 5));
+
+            if (hour < 0 || hour > 23) return false;
+            if (minute < 0 || minute > 59) return false;
+
+        } catch (NumberFormatException e) {
+            return false;
+        }
+
+        return true;
+    }
+
+
     private void saveAppointmentToFirebase() {
         // 获取日期和时间的值
         String date = dateEditText.getText().toString();
@@ -105,13 +151,15 @@ public class MakeAnAppointment extends AppCompatActivity {
         String professionalName = professionalNameTextView.getText().toString();
         String professionalJob = professionalJobTextView.getText().toString();
 
-        // 创建一个新的预约对象
+        if (!isValidDate(date) || !isValidTime(time)) {
+            Toast.makeText(this, "Please enter a valid date and time.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         Appointment appointment = new Appointment(professionalName, professionalJob, date, time);
 
-        // 获取 Firestore 实例
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        // 保存到 Firestore
         db.collection("appointments").add(appointment)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override

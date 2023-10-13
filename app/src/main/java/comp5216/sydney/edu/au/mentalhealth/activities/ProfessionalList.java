@@ -162,7 +162,6 @@ public class ProfessionalList extends AppCompatActivity implements ListAdapter.O
         bottomNavigationView.getMenu().findItem(R.id.nav_appointment).setChecked(true);
 
         super.onResume();
-        // 在这里执行与用户交互相关的操作，例如刷新数据、更新界面等
     }
 
     private void filterProfessionals(String query) {
