@@ -52,23 +52,9 @@ public class ProfessionalList extends AppCompatActivity
         findViewById(R.id.button5).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ProfessionalList.this, MakeAnAppointment.class));
+                startActivity(new Intent(ProfessionalList.this, MyAppointment.class));
             }
         });
-
-        // Add some test contents
-//        dataList.add(new ListItem(R.drawable._6e63e353c3f2e238ed59039c5a2db31, "Dr. Michael Anderson", "Licensed Therapist"));
-//        dataList.add(new ListItem(R.drawable._df6796f1d2361ccbed5eb7d9b697095, "Dr. Sarah Mitchell", "Clinical Psychologist"));
-//        dataList.add(new ListItem(R.drawable.ellipse_15, "Dr. Emily Collins", "Mental Health Counselor"));
-//        dataList.add(new ListItem(R.drawable.ellipse_15__1_, "Dr. David Morgan", "Sleep Specialist"));
-//        dataList.add(new ListItem(R.drawable.ellipse_15__2_, "Dr. Jessica Turner", "Licensed Therapist"));
-//        dataList.add(new ListItem(R.drawable.ellipse_15__3_, "Dr. Christopher Bennett", "Licensed Therapist"));
-//        dataList.add(new ListItem(R.drawable._6e63e353c3f2e238ed59039c5a2db31, "Dr. Michael Anderson", "Licensed Therapist"));
-//        dataList.add(new ListItem(R.drawable._df6796f1d2361ccbed5eb7d9b697095, "Dr. Sarah Mitchell", "Clinical Psychologist"));
-//        dataList.add(new ListItem(R.drawable.ellipse_15, "Dr. Emily Collins", "Mental Health Counselor"));
-//        dataList.add(new ListItem(R.drawable.ellipse_15__1_, "Dr. David Morgan", "Sleep Specialist"));
-//        dataList.add(new ListItem(R.drawable.ellipse_15__2_, "Dr. Jessica Turner", "Licensed Therapist"));
-//        dataList.add(new ListItem(R.drawable.ellipse_15__3_, "Dr. Christopher Bennett", "Licensed Therapist"));
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 

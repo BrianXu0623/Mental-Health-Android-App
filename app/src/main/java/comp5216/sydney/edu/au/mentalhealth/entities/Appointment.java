@@ -5,15 +5,18 @@ public class Appointment {
     public String professionalJob;
     public String date;
     public String time;
+    public String avatarUrl;
 
     public Appointment() {
     }
 
-    public Appointment(String professionalName, String professionalJob, String date, String time) {
+    public Appointment(String professionalName, String professionalJob, String date, String time
+            , String avatarUrl) {
         this.professionalName = professionalName;
         this.professionalJob = professionalJob;
         this.date = date;
         this.time = time;
+        this.avatarUrl = avatarUrl;
     }
 
 }

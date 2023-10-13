@@ -1,57 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MyAppointment"
-    android:orientation="vertical"
-    >
+    tools:context=".activities.ProfessionalList">
+
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/BackBtn"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:background="#00FFFFFF"
-        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/imageButton"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="#00FFFFFF"
+        android:tint="#1C1B1F"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_appointment_back" />
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/AppointmentHistory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/md_theme_light_primaryContainer"
-            android:text="AppointmentHistory"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="8dp"
-            android:textColor="@color/md_theme_light_onPrimaryContainer"
-            app:iconTint="@color/md_theme_dark_inversePrimary" />
+        app:srcCompat="@drawable/ic_appointment_settings" />
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="64dp"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center"
-            android:text="My Appointment"
-            android:textColor="#001E2F"
-            android:textSize="22sp" />
-    </RelativeLayout>
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center_vertical"
+        android:text="My Appointments"
+        android:textColor="#1B72C0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchView" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/myrecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:itemCount="3"
-        tools:listitem="@layout/list_appointment"
-        />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.0" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

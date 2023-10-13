@@ -39,6 +39,7 @@ public class MakeAnAppointment extends AppCompatActivity {
     private TextView timeEditText;
 
     private Button bookButton;
+    String curAvatarUrl;
 
 
     @Override
@@ -98,6 +99,7 @@ public class MakeAnAppointment extends AppCompatActivity {
 
 
         String avatarUrl = getIntent().getStringExtra("avatarUrl");
+        curAvatarUrl = avatarUrl;
 
         if (avatarUrl != null && !avatarUrl.isEmpty()) {
             ImageView professionalAvatar = findViewById(R.id.professionalAvatarImageView);
@@ -205,7 +207,8 @@ public class MakeAnAppointment extends AppCompatActivity {
             return;
         }
 
-        Appointment appointment = new Appointment(professionalName, professionalJob, date, time);
+        Appointment appointment = new Appointment(professionalName, professionalJob, date, time,
+                curAvatarUrl);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
