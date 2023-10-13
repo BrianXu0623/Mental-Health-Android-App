@@ -3,7 +3,6 @@ package comp5216.sydney.edu.au.mentalhealth.activities;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,17 +15,10 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import comp5216.sydney.edu.au.mentalhealth.R;
-import comp5216.sydney.edu.au.mentalhealth.entities.CurUserInfo;
-import comp5216.sydney.edu.au.mentalhealth.entities.Post;
-import comp5216.sydney.edu.au.mentalhealth.entities.PostComment;
 import comp5216.sydney.edu.au.mentalhealth.entities.Userinfo;
 
 public class RegisterAty extends AppCompatActivity {
@@ -56,7 +48,7 @@ public class RegisterAty extends AppCompatActivity {
                     && !TextUtils.isEmpty(regUserName.getText())) {
                 checkName();
             } else {
-                Toast.makeText(this, "请输入用户名", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please enter Username", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -117,12 +109,12 @@ public class RegisterAty extends AppCompatActivity {
 
     public void checkName(){
         String name = regUserName.getText().toString().trim();
-        userCollection.whereEqualTo("userName", name).get().addOnSuccessListener(queryDocumentSnapshots -> {
+        userCollection.whereEqualTo("userName", name).get().addOnSuccessListener(
+                queryDocumentSnapshots -> {
             if(queryDocumentSnapshots.isEmpty()){
                 register();
             }else {
                 Toast.makeText(this, "User already exists", Toast.LENGTH_SHORT).show();
-            }
-            });
+            }});
     }
 }

@@ -75,7 +75,7 @@ public class EventAty extends AppCompatActivity {
                 Intent intent = new Intent(this, ProfessionalList.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
-                overridePendingTransition(0, 0);  // Disable transition animations
+                overridePendingTransition(0, 0);
                 return true;
             } else if (itemId == R.id.nav_event) {
                 Intent intent = new Intent(this, EventAty.class);
@@ -90,10 +90,10 @@ public class EventAty extends AppCompatActivity {
                 overridePendingTransition(0, 0);
                 return true;
             } else if (itemId == R.id.nav_forum) {
-                Intent intent = new Intent(this, MainActivity.class);  // Changed to EventAty
+                Intent intent = new Intent(this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
-                overridePendingTransition(0, 0);  // Disable transition animations
+                overridePendingTransition(0, 0);
                 return true;
             }
 

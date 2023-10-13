@@ -38,48 +38,7 @@
                     android:textStyle="bold"
                     android:textColor="#333"
                     android:layout_marginBottom="16dp"/>
-<!--                <ImageView-->
-<!--                    android:id="@+id/commentDoctorIcon"-->
-<!--                    android:layout_width="24dp"-->
-<!--                    android:layout_height="24dp"-->
-<!--                    android:src="@drawable/ic_doc"-->
-<!--                    android:layout_gravity="center_vertical"-->
-<!--                    android:layout_marginStart="4dp" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/title"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:textSize="22sp"-->
-<!--                android:textStyle="bold"-->
-<!--                android:textColor="#333" />-->
-
-<!--                <ImageView-->
-<!--                    android:id="@+id/authorAvatarImageView"-->
-<!--                    android:layout_width="48dp"-->
-<!--                    android:layout_height="48dp"-->
-<!--                    android:scaleType="centerCrop"-->
-<!--                    android:src="@drawable/default_avatar" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/authorNameTextView"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_marginStart="8dp"-->
-<!--                    android:textColor="#333"-->
-<!--                    android:textSize="18sp"-->
-<!--                    android:textStyle="bold" />-->
-
-<!--                <ImageView-->
-<!--                    android:id="@+id/commentDoctorIcon"-->
-<!--                    android:layout_width="24dp"-->
-<!--                    android:layout_height="24dp"-->
-<!--                    android:src="@drawable/ic_doc"-->
-<!--                    android:layout_gravity="center_vertical"-->
-<!--                    android:layout_marginStart="4dp" />-->
-
             </LinearLayout>
-
 
             <!-- Event Date and Address Layout -->
             <LinearLayout
@@ -197,7 +156,6 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- I've left this commentLayout here in case you'd want to add any views to it in the future -->
     <LinearLayout
         android:id="@+id/commentLayout"
         android:layout_width="match_parent"

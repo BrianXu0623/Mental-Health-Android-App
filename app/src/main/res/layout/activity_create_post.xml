@@ -5,7 +5,6 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- 添加标题栏 -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,7 +19,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- 调整标题的位置 -->
         <EditText
             android:id="@+id/titleEditText"
             android:layout_width="match_parent"
@@ -30,7 +28,6 @@
             android:layout_gravity="center"
             android:layout_marginBottom="8dp"/>
 
-        <!-- 调整内容的位置和大小 -->
         <EditText
             android:id="@+id/contentEditText"
             android:layout_width="match_parent"

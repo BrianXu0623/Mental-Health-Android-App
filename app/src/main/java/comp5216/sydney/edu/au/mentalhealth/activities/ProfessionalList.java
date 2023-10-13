@@ -24,7 +24,8 @@ import comp5216.sydney.edu.au.mentalhealth.R;
 import comp5216.sydney.edu.au.mentalhealth.adapters.ListAdapter;
 import comp5216.sydney.edu.au.mentalhealth.entities.ListItem;
 
-public class ProfessionalList extends AppCompatActivity implements ListAdapter.OnBookButtonClickListener {
+public class ProfessionalList extends AppCompatActivity
+        implements ListAdapter.OnBookButtonClickListener {
 
     private FirebaseFirestore db;
     private CollectionReference professionalsCollection;
@@ -71,7 +72,7 @@ public class ProfessionalList extends AppCompatActivity implements ListAdapter.O
                 Intent intent = new Intent(this, ProfessionalList.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
-                overridePendingTransition(0, 0);  // Disable transition animations
+                overridePendingTransition(0, 0);
                 return true;
             } else if (itemId == R.id.nav_event) {
                 Intent intent = new Intent(this, EventAty.class);
@@ -86,10 +87,10 @@ public class ProfessionalList extends AppCompatActivity implements ListAdapter.O
                 overridePendingTransition(0, 0);
                 return true;
             } else if(itemId == R.id.nav_forum) {
-                Intent intent = new Intent(this, MainActivity.class);  // Changed to EventAty
+                Intent intent = new Intent(this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intent);
-                overridePendingTransition(0, 0);  // Disable transition animations
+                overridePendingTransition(0, 0);
                 return true;
             }
 
@@ -115,15 +116,12 @@ public class ProfessionalList extends AppCompatActivity implements ListAdapter.O
         });
 
         MaterialButtonToggleGroup toggleGroup = findViewById(R.id.toggleButton);
-        toggleGroup.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
-            @Override
-            public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
-                if (isChecked) {
-                    if (checkedId == R.id.button1) {
-                        loadProfessionalsByName();
-                    } else if (checkedId == R.id.button2) {
-                        loadProfessionalsBySkill();
-                    }
+        toggleGroup.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
+            if (isChecked) {
+                if (checkedId == R.id.button1) {
+                    loadProfessionalsByName();
+                } else if (checkedId == R.id.button2) {
+                    loadProfessionalsBySkill();
                 }
             }
         });

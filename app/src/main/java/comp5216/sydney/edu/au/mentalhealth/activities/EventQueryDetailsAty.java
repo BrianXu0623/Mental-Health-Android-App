@@ -4,10 +4,8 @@ import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,6 +56,7 @@ public class EventQueryDetailsAty extends AppCompatActivity {
     private boolean isjoin = false;
     private FirebaseFirestore db;
     private FirebaseStorage storage;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,36 +70,25 @@ public class EventQueryDetailsAty extends AppCompatActivity {
         creatorName = findViewById(R.id.authorNameTextView);
         creatorImage = findViewById(R.id.authorAvatarImageView);
 
-
-
         etLoginUserName.setText(getIntent().getStringExtra("eventName"));
-        regUserPwd.setText("Date: "+getIntent().getStringExtra("eventDate"));
+        regUserPwd.setText("Date: " + getIntent().getStringExtra("eventDate"));
         et_address.setText("Address: " + getIntent().getStringExtra("eventAddress"));
         et_des.setText(getIntent().getStringExtra("eventDes"));
         creatorName.setText(getIntent().getStringExtra("creator"));
 
-
-
-
-
         // load join records
         storage = FirebaseStorage.getInstance();
 
-        PostDetailActivity.connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        PostDetailActivity.connectivityManager = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
         commentsRecyclerView = findViewById(R.id.commentsRecyclerView);
         commentAdapter = new CommentAdapter(new ArrayList<>());
         commentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         commentsRecyclerView.setAdapter(commentAdapter);
         joinEvent = findViewById(R.id.joinButton);
         loadComments(getIntent().getStringExtra("eventId"));
-
-
         loadImage();
-
-
-
     }
-
 
 
     // Event joined records
@@ -108,7 +96,8 @@ public class EventQueryDetailsAty extends AppCompatActivity {
     private void saveCommentToDatabase(String postId, String userId, String commentText) {
         CollectionReference commentsCollection = db.collection("joinEvent");
 
-        PostComment newComment = new PostComment(null, postId, userId, commentText, Timestamp.now());
+        PostComment newComment = new PostComment(null, postId, userId, commentText,
+                Timestamp.now());
 
         if (CurUserInfo.isProfessional) {
             newComment.setProfessional(true);
@@ -125,14 +114,16 @@ public class EventQueryDetailsAty extends AppCompatActivity {
                         commentAdapter.setComments(currentComments);
                         commentAdapter.notifyDataSetChanged();
                         loadComments(postId);
-                        Toast.makeText(EventQueryDetailsAty.this, "Joined the event successfully!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EventQueryDetailsAty.this,
+                                "Joined the event successfully!", Toast.LENGTH_SHORT).show();
 
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(EventQueryDetailsAty.this, "Error, failed to join the event!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EventQueryDetailsAty.this,
+                                "Error, failed to join the event!", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -149,22 +140,22 @@ public class EventQueryDetailsAty extends AppCompatActivity {
                     List<PostComment> commentsList = new ArrayList<>();
                     for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                         PostComment comment = document.toObject(PostComment.class);
-                        if(comment.getUserId().equals(CurUserInfo.userName)){
+                        if (comment.getUserId().equals(CurUserInfo.userName)) {
                             isjoin = true;
                         }
                         commentsList.add(comment);
                     }
-                    if(isjoin){
+                    if (isjoin) {
                         joinEvent.setText("Cancel");
-                    }else {
+                    } else {
                         joinEvent.setText("Join");
                     }
 
                     Collections.sort(commentsList, (c1, c2) -> {
                         return c2.getTimestamp().compareTo(c1.getTimestamp());
                     });
-                    if(commentsList.size() > 5){
-                        commentsList = commentsList.subList(0,5);
+                    if (commentsList.size() > 5) {
+                        commentsList = commentsList.subList(0, 5);
                     }
 
                     commentAdapter.setComments(commentsList);
@@ -177,20 +168,23 @@ public class EventQueryDetailsAty extends AppCompatActivity {
     }
 
 
-
     private void deleteCommentsByPostId(String postId) {
         db.collection("joinEvent")
-                .whereEqualTo("postId", postId).whereEqualTo("userId", CurUserInfo.userName)
+                .whereEqualTo("postId", postId).whereEqualTo("userId",
+                        CurUserInfo.userName)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                db.collection("joinEvent").document(document.getId()).delete();
+                                db.collection("joinEvent")
+                                        .document(document.getId()).delete();
 
                             }
-                            Toast.makeText(EventQueryDetailsAty.this, "Canceled participation successfully!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EventQueryDetailsAty.this,
+                                    "Canceled participation successfully!",
+                                    Toast.LENGTH_SHORT).show();
                             loadComments(getIntent().getStringExtra("eventId"));
                         } else {
                         }
@@ -199,14 +193,15 @@ public class EventQueryDetailsAty extends AppCompatActivity {
     }
 
 
-    public void joinButton(View v){
+    public void joinButton(View v) {
         CollectionReference eventsCollection = db.collection("event");
         String eventId = getIntent().getStringExtra("eventId");
 
         eventsCollection.whereEqualTo("eventId", eventId).limit(1).get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if (!queryDocumentSnapshots.isEmpty()) {
-                        DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+                        DocumentSnapshot documentSnapshot =
+                                queryDocumentSnapshots.getDocuments().get(0);
                         Event event = documentSnapshot.toObject(Event.class);
                         if (event != null) {
                             int currentCount = event.getParticipantsCount();
@@ -215,33 +210,45 @@ public class EventQueryDetailsAty extends AppCompatActivity {
                                 deleteCommentsByPostId(eventId);
                             } else {
                                 currentCount++;
-                                saveCommentToDatabase(eventId, CurUserInfo.userName, "");
+                                saveCommentToDatabase(eventId, CurUserInfo.userName,
+                                        "");
                             }
 
-                            documentSnapshot.getReference().update("participantsCount", currentCount)
+                            documentSnapshot.getReference().update("participantsCount",
+                                            currentCount)
                                     .addOnSuccessListener(aVoid -> {
                                         if (isjoin) {
-                                            Toast.makeText(EventQueryDetailsAty.this, "Canceled participation successfully!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(EventQueryDetailsAty.this,
+                                                    "Canceled participation successfully!",
+                                                    Toast.LENGTH_SHORT).show();
                                         } else {
-                                            Toast.makeText(EventQueryDetailsAty.this, "Joined the event successfully!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(EventQueryDetailsAty.this,
+                                                    "Joined the event successfully!",
+                                                    Toast.LENGTH_SHORT).show();
                                         }
                                     })
                                     .addOnFailureListener(e -> {
-                                        Toast.makeText(EventQueryDetailsAty.this, "Error updating participants count!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(EventQueryDetailsAty.this,
+                                                "Error updating participants count!",
+                                                Toast.LENGTH_SHORT).show();
                                     });
                         }
                     } else {
-                        Toast.makeText(EventQueryDetailsAty.this, "Event not found!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EventQueryDetailsAty.this, "Event not found!",
+                                Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(EventQueryDetailsAty.this, "Error accessing the event: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EventQueryDetailsAty.this,
+                            "Error accessing the event: " + e.getMessage(),
+                            Toast.LENGTH_SHORT).show();
                 });
     }
 
 
-    public void loadImage(){
-        StorageReference image = storage.getReference().child(getIntent().getStringExtra("creator")+".JPEG");
+    public void loadImage() {
+        StorageReference image = storage.getReference().child(getIntent().
+                getStringExtra("creator") + ".JPEG");
         File localFile = null;
         try {
             localFile = File.createTempFile("images", "jpg");
@@ -256,8 +263,10 @@ public class EventQueryDetailsAty extends AppCompatActivity {
         }).addOnFailureListener(exception -> {
         });
     }
-    public void openUserProfile(View v){
-        UserProfileActivity.UserProfileActivity(this,getIntent().getStringExtra("creator"));
+
+    public void openUserProfile(View v) {
+        UserProfileActivity.UserProfileActivity(this, getIntent().
+                getStringExtra("creator"));
     }
 
 
@@ -267,7 +276,6 @@ public class EventQueryDetailsAty extends AppCompatActivity {
             UserProfileActivity.UserProfileActivity(this, userIdFromTag);
         }
     }
-
 
 
 }

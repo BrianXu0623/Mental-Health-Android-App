@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
-    <!-- ImageView 用于显示背景图片 -->
     <ImageView
         android:id="@+id/backgroundImageView"
         android:layout_width="0dp"

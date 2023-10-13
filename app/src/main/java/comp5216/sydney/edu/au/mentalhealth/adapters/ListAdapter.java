@@ -32,7 +32,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent,
+                false);
         return new ViewHolder(view);
     }
 
@@ -42,7 +43,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
 
         // Reference to Firebase Storage
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageReference = storage.getReference().child(item.getAvatarUrl()); // 使用新的 avatarUrl 属性
+        StorageReference storageReference = storage.getReference().child(item.getAvatarUrl());
 
         // Load the avatar into the ImageView
         storageReference.getDownloadUrl().addOnSuccessListener(uri -> {

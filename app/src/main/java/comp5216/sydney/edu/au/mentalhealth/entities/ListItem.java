@@ -1,7 +1,5 @@
 package comp5216.sydney.edu.au.mentalhealth.entities;
 
-import com.google.firebase.firestore.PropertyName;
-
 public class ListItem {
     private int iconResId;
     private String title;
@@ -35,7 +33,6 @@ public class ListItem {
         return avatarUrl;
     }
 
-    // Setter methods
     public void setIconResId(int iconResId) {
         this.iconResId = iconResId;
     }

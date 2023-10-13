@@ -7,7 +7,6 @@ public class Appointment {
     public String time;
 
     public Appointment() {
-        // Default constructor required for calls to DataSnapshot.getValue(Appointment.class)
     }
 
     public Appointment(String professionalName, String professionalJob, String date, String time) {
@@ -17,6 +16,5 @@ public class Appointment {
         this.time = time;
     }
 
-    // Getter and setter methods
 }
 

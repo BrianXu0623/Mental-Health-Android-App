@@ -9,26 +9,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.auth.User;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import comp5216.sydney.edu.au.mentalhealth.R;
 import comp5216.sydney.edu.au.mentalhealth.entities.CurUserInfo;
-import comp5216.sydney.edu.au.mentalhealth.entities.PostComment;
 import comp5216.sydney.edu.au.mentalhealth.entities.Userinfo;
 
 public class LoginAty extends AppCompatActivity {
@@ -58,7 +50,8 @@ public class LoginAty extends AppCompatActivity {
                     && !TextUtils.isEmpty(regUserPwd.getText())) {
                 login();
             } else {
-                Toast.makeText(this, "请输入用户名", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please Enter Username", Toast.LENGTH_SHORT)
+                        .show();
             }
         });
 
@@ -72,7 +65,7 @@ public class LoginAty extends AppCompatActivity {
     private void login() {
 
         try {
-            String password = MyUtils.encrypt(regUserPwd.getText().toString().trim());//加密登录密码
+            String password = MyUtils.encrypt(regUserPwd.getText().toString().trim());
             Query query = userCollection
                     .whereEqualTo("pwd", password)
                     .whereEqualTo("userName", etLoginUserName.getText().toString().trim());
@@ -86,7 +79,6 @@ public class LoginAty extends AppCompatActivity {
                         Userinfo userinfo = document.toObject(Userinfo.class);
                         if (!TextUtils.isEmpty(userinfo.getUserName())) {
                             CurUserInfo.userName = userinfo.getUserName();
-    //                        CurUserInfo.userId = userinfo.getUserId();
                             CurUserInfo.isProfessional = userinfo.getRole().equals("professional");
                             isLogin = true;
                         }
@@ -96,7 +88,8 @@ public class LoginAty extends AppCompatActivity {
                         Intent intent = new Intent(LoginAty.this, MainActivity.class);
                         startActivity(intent);
                     } else {
-                        Toast.makeText(LoginAty.this, "登录失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginAty.this, "Login Failed",
+                                Toast.LENGTH_SHORT).show();
                     }
 
                 } else {

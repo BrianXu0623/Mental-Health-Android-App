@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,14 +47,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
     @NonNull
     @Override
     public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post, parent,
+                false);
         return new PostViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post post = posts.get(position);
-        // 如果帖子是专业用户发布的，显示医生图标
         if (post.isProfessional()) {
             holder.doctorIcon.setVisibility(View.VISIBLE);
         } else {

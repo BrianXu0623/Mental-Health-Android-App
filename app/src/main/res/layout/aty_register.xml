@@ -43,8 +43,6 @@
                 android:scaleType="fitXY"
                 android:src="@drawable/default_avatar" />
 
-
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/et_register_username"
                 android:layout_width="match_parent"

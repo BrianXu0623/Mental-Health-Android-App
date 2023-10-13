@@ -1,8 +1,5 @@
 package comp5216.sydney.edu.au.mentalhealth.activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -22,6 +19,9 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -38,7 +38,6 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
-
 
 import comp5216.sydney.edu.au.mentalhealth.R;
 import comp5216.sydney.edu.au.mentalhealth.entities.CurUserInfo;
@@ -136,7 +135,8 @@ public class EditUserProfile extends AppCompatActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Log.d(TAG, "DocumentSnapshot successfully written!");
-                        Toast toast = Toast.makeText(EditUserProfile.this, "Update success", Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(EditUserProfile.this,
+                                "Update success", Toast.LENGTH_SHORT);
                         toast.show();
                     }
                 })
@@ -210,8 +210,6 @@ public class EditUserProfile extends AppCompatActivity {
     }
 
     public void pickPic(View v){
-        // Launches photo picker in single-select mode.
-        // This means that the user can select one photo or video.
         Intent intent = new Intent(MediaStore.ACTION_PICK_IMAGES);
         intent.setType("image/*");
         startActivityForResult(intent, PHOTO_PICK_REQUEST_CODE);

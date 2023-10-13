@@ -21,7 +21,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,15 +74,15 @@ public class MainActivity extends AppCompatActivity {
             } else if (item.getItemId() == R.id.nav_event) {
                 Intent intent = new Intent(MainActivity.this, EventAty.class);
                 startActivity(intent);
-                overridePendingTransition(0, 0);  // Disable transition animations
+                overridePendingTransition(0, 0);
             } else if (item.getItemId() == R.id.nav_profile) {
                 Intent intent = new Intent(this, EditUserProfile.class);
                 startActivity(intent);
-                overridePendingTransition(0, 0);  // Disable transition animations
+                overridePendingTransition(0, 0);
             } else if (item.getItemId() == R.id.nav_appointment) {
                 Intent intent = new Intent(this, ProfessionalList.class);
                 startActivity(intent);
-                overridePendingTransition(0, 0);  // Disable transition animations
+                overridePendingTransition(0, 0);
             }
             return false;
         });

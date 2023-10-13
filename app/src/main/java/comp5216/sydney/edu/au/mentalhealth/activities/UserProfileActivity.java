@@ -1,12 +1,6 @@
 package comp5216.sydney.edu.au.mentalhealth.activities;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,17 +8,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firestore.v1.Document;
 
 import java.io.File;
 import java.io.IOException;
@@ -123,13 +116,7 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
         loadUser();
-
         loadImage();
-
-
-
-
-
     }
 
     public void loadImage(){
@@ -192,15 +179,12 @@ public class UserProfileActivity extends AppCompatActivity {
 
                         }
 
-
-
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                     } else {
                         Log.d(TAG, "No such document");
                         Log.d(TAG, username);
                         EditUserProfile.createUserprofile(username);
                         loadUser();
-
                     }
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());

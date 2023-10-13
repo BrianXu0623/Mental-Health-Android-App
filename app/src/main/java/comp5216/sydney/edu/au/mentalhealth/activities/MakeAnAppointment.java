@@ -18,12 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -109,7 +105,8 @@ public class MakeAnAppointment extends AppCompatActivity {
 
             storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
                 Uri downloadUrl = uri;
-                Glide.with(MakeAnAppointment.this).load(downloadUrl).into(professionalAvatar);
+                Glide.with(MakeAnAppointment.this).load(downloadUrl)
+                        .into(professionalAvatar);
             }).addOnFailureListener(exception -> {
             });
         }
@@ -123,7 +120,8 @@ public class MakeAnAppointment extends AppCompatActivity {
                         DocumentSnapshot document = queryDocumentSnapshots.getDocuments().get(0);
                         String details = document.getString("details");
 
-                        TextView professionalDetailsTextView = findViewById(R.id.professionalDetailsTextView);
+                        TextView professionalDetailsTextView = findViewById(
+                                R.id.professionalDetailsTextView);
                         professionalDetailsTextView.setText(details);
                     }
                 })
@@ -135,7 +133,8 @@ public class MakeAnAppointment extends AppCompatActivity {
     }
 
     private void showDatePicker() {
-        DatePickerDialog datePicker = new DatePickerDialog(MakeAnAppointment.this, new DatePickerDialog.OnDateSetListener() {
+        DatePickerDialog datePicker = new DatePickerDialog(MakeAnAppointment.this,
+                new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 dateEditText.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
@@ -145,12 +144,13 @@ public class MakeAnAppointment extends AppCompatActivity {
     }
 
     private void showTimePicker() {
-        TimePickerDialog timePicker = new TimePickerDialog(MakeAnAppointment.this, new TimePickerDialog.OnTimeSetListener() {
+        TimePickerDialog timePicker = new TimePickerDialog(MakeAnAppointment.this,
+                new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 timeEditText.setText(String.format("%02d:%02d", hourOfDay, minute));
             }
-        }, 12, 0, true); // Default time set to 12:00 in 24-hour format
+        }, 12, 0, true);
         timePicker.show();
     }
 
@@ -193,14 +193,14 @@ public class MakeAnAppointment extends AppCompatActivity {
 
 
     private void saveAppointmentToFirebase() {
-        // 获取日期和时间的值
         String date = dateEditText.getText().toString();
         String time = timeEditText.getText().toString();
         String professionalName = professionalNameTextView.getText().toString();
         String professionalJob = professionalJobTextView.getText().toString();
 
         if (!isValidDate(date) || !isValidTime(time)) {
-            Toast.makeText(this, "Please enter a valid date and time.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter a valid date and time.",
+                    Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -212,17 +212,18 @@ public class MakeAnAppointment extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(MakeAnAppointment.this, "Appointment booked successfully!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MakeAnAppointment.this,
+                                "Appointment booked successfully!",
+                                Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(MakeAnAppointment.this, "Failed to book appointment. Please try again.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MakeAnAppointment.this,
+                                "Failed to book appointment. Please try again.",
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
     }
-
-
-
 }

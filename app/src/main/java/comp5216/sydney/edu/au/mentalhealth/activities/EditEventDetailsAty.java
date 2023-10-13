@@ -2,38 +2,30 @@ package comp5216.sydney.edu.au.mentalhealth.activities;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import comp5216.sydney.edu.au.mentalhealth.R;
-import comp5216.sydney.edu.au.mentalhealth.entities.Event;
 
 public class EditEventDetailsAty extends AppCompatActivity {
 
-    private TextInputEditText etLoginUserName;// 活动名称
-    private TextInputEditText regUserPwd;// 活动时间
-    private TextInputEditText et_address;// 活动地点
-    private EditText et_des;// 活动简介
-    private Button loginBtn;// 发布活动
+    private TextInputEditText etLoginUserName;
+    private TextInputEditText regUserPwd;
+    private TextInputEditText et_address;
+    private EditText et_des;
+    private Button loginBtn;
 
     private FirebaseFirestore db;
     private CollectionReference userCollection;
@@ -44,13 +36,10 @@ public class EditEventDetailsAty extends AppCompatActivity {
         setContentView(R.layout.aty_edit_event_details);
         db = FirebaseFirestore.getInstance();
         userCollection = db.collection("event");
-
-
         etLoginUserName = findViewById(R.id.username);
         regUserPwd = findViewById(R.id.date);
         et_address = findViewById(R.id.address);
         et_des = findViewById(R.id.des);
-
 
         etLoginUserName.setText(getIntent().getStringExtra("eventName"));
         regUserPwd.setText(getIntent().getStringExtra("eventDate"));
@@ -63,7 +52,8 @@ public class EditEventDetailsAty extends AppCompatActivity {
                     && !TextUtils.isEmpty(regUserPwd.getText())) {
                 post();
             } else {
-                Toast.makeText(this, "请输入活动相关数据", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please Enter Event Relative Information",
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }

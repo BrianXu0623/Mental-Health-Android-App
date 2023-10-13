@@ -102,7 +102,7 @@
                     android:layout_marginLeft="110dp"
                     android:layout_weight="1"
                     android:gravity="center_horizontal|left"
-                    android:text="忘记密码"
+                    android:text="Forget Password"
                     android:textColor="#328AFE"
                     android:textSize="14sp"
                     android:visibility="gone" />
