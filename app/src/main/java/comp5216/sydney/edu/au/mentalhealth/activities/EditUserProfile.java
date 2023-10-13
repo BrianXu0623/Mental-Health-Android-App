@@ -51,7 +51,6 @@ public class EditUserProfile extends AppCompatActivity {
     TextView userNameText;
     ImageView docIcon;
     boolean doc;
-    boolean hide;
     TextInputEditText phone;
     TextInputEditText email;
     TextInputEditText hobbies;
