@@ -88,8 +88,6 @@ public class MyAppointmentAdapter extends RecyclerView.Adapter<MyAppointmentAdap
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
                                                     Toast.makeText(holder.itemView.getContext(), "Appointment deleted successfully!", Toast.LENGTH_SHORT).show();
-
-                                                    // 从列表中删除该预约并刷新适配器
                                                     dataList.remove(position);
                                                     notifyItemRemoved(position);
                                                 }
