@@ -156,6 +156,8 @@ public class PostDetailActivity extends AppCompatActivity {
         return R.drawable.default_avatar;
     }
     private void loadComments(String postId) {
+        commentAdapter = new CommentAdapter(new ArrayList<>());
+        commentsRecyclerView.setAdapter(commentAdapter);
         db.collection("comments")
                 .whereEqualTo("postId", postId)
                 .get()
