@@ -15,6 +15,7 @@ import java.util.List;
 
 import comp5216.sydney.edu.au.mentalhealth.R;
 import comp5216.sydney.edu.au.mentalhealth.adapters.MyAppointmentAdapter;
+import comp5216.sydney.edu.au.mentalhealth.entities.CurUserInfo;
 import comp5216.sydney.edu.au.mentalhealth.entities.MyAppointmentListItem;
 
 public class MyAppointment extends AppCompatActivity {
@@ -48,6 +49,10 @@ public class MyAppointment extends AppCompatActivity {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             MyAppointmentListItem professional = document.toObject(
                                     MyAppointmentListItem.class);
+                            if(professional.getUserName() == null ||
+                                    ! professional.getUserName().equals(CurUserInfo.userName)) {
+                                continue;
+                            }
                             String avatarUrl = document.getString("avatarUrl");
                             professional.setAvatarUrl(avatarUrl);
                             dataList.add(professional);

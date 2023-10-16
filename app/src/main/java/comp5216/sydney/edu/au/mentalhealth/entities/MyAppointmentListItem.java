@@ -8,6 +8,7 @@ public class MyAppointmentListItem {
     private String avatarUrl;
     private String date;
     private String time;
+    private String userName;
 
     public int getIconResId() {
         return iconResId;
@@ -68,5 +69,13 @@ public class MyAppointmentListItem {
         this.avatarUrl = avatarUrl;
         this.date = date;
         this.time = time;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

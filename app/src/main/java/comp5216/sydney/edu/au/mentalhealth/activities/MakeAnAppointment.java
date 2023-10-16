@@ -29,6 +29,7 @@ import com.google.firebase.storage.StorageReference;
 
 import comp5216.sydney.edu.au.mentalhealth.R;
 import comp5216.sydney.edu.au.mentalhealth.entities.Appointment;
+import comp5216.sydney.edu.au.mentalhealth.entities.CurUserInfo;
 
 public class MakeAnAppointment extends AppCompatActivity {
 
@@ -208,7 +209,7 @@ public class MakeAnAppointment extends AppCompatActivity {
         }
 
         Appointment appointment = new Appointment(professionalName, professionalJob, date, time,
-                curAvatarUrl);
+                curAvatarUrl, CurUserInfo.userName);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
