@@ -9,15 +9,20 @@ public class MyAppointmentListItem {
     private String date;
     private String time;
     private String userName;
+    private String appointmentId;
 
     public int getIconResId() {
         return iconResId;
     }
-
     public void setIconResId(int iconResId) {
         this.iconResId = iconResId;
     }
-
+    public String getAppointmentId() {
+        return appointmentId;
+    }
+    public void setAppointmentId(String appointmentId) {
+        this.appointmentId = appointmentId;
+    }
     public String getProfessionalName() {
         return professionalName;
     }
