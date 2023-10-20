@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -54,7 +55,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         } else {
             holder.commentDoctorIcon.setVisibility(View.GONE);
         }
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm",
+                Locale.getDefault());
         String formattedTimestamp = dateFormat.format(postComment.getTimestamp().toDate());
         holder.commentTimestampTextView.setText(formattedTimestamp);
         holder.authorAvatarImageView.setTag(postComment.getUserId());
@@ -63,7 +65,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected() &&
                 networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-            StorageReference image = storage.getReference().child(postComment.getUserId() + ".JPEG");
+            StorageReference image = storage.getReference().child(
+                    postComment.getUserId() + ".JPEG");
             File localFile = null;
             try {
                 localFile = File.createTempFile("images", "jpg");
@@ -72,8 +75,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             }
             File finalLocalFile = localFile;
             image.getFile(localFile).addOnSuccessListener(taskSnapshot -> {
-                holder.authorAvatarImageView.setImageBitmap(EditUserProfile.cropCircle(BitmapFactory.
-                        decodeFile(finalLocalFile.getAbsolutePath())));
+                holder.authorAvatarImageView.setImageBitmap(EditUserProfile.cropCircle(
+                        BitmapFactory.decodeFile(finalLocalFile.getAbsolutePath())));
             }).addOnFailureListener(exception -> {
             });
         }

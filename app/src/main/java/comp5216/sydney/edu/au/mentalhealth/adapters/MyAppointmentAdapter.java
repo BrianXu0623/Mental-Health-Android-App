@@ -14,13 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -78,30 +73,27 @@ public class MyAppointmentAdapter extends RecyclerView.Adapter<MyAppointmentAdap
             db.collection("appointments")
                     .whereEqualTo("appointmentId", appointmentId)
                     .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    db.collection("appointments").document(document.getId()).delete()
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    Toast.makeText(holder.itemView.getContext(), "Appointment deleted successfully!", Toast.LENGTH_SHORT).show();
-                                                    dataList.remove(holder.getAdapterPosition());
-                                                    notifyItemRemoved(holder.getAdapterPosition());
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    Toast.makeText(holder.itemView.getContext(), "Failed to delete appointment. Please try again.", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                }
-                            } else {
-                                Log.w("MyAppointmentAdapter", "Error deleting appointment.", task.getException());
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                db.collection("appointments").document(
+                                        document.getId()).delete()
+                                        .addOnSuccessListener(aVoid -> {
+                                            Toast.makeText(holder.itemView.getContext(),
+                                                    "Appointment deleted successfully!",
+                                                    Toast.LENGTH_SHORT).show();
+                                            dataList.remove(holder.getAdapterPosition());
+                                            notifyItemRemoved(holder.getAdapterPosition());
+                                        })
+                                        .addOnFailureListener(e -> Toast.makeText(
+                                                holder.itemView.getContext(),
+                                                "Failed to delete appointment. " +
+                                                        "Please try again.",
+                                                Toast.LENGTH_SHORT).show());
                             }
+                        } else {
+                            Log.w("MyAppointmentAdapter", "Error deleting appointment.",
+                                    task.getException());
                         }
                     });
         });

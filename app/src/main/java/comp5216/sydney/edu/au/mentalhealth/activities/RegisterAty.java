@@ -48,7 +48,8 @@ public class RegisterAty extends AppCompatActivity {
                     && !TextUtils.isEmpty(regUserName.getText())) {
                 checkName();
             } else {
-                Toast.makeText(this, "Please enter Username", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please enter Username",
+                        Toast.LENGTH_SHORT).show();
             }
         });
 

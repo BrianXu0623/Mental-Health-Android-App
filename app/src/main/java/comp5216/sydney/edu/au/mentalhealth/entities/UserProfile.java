@@ -13,7 +13,8 @@ public class UserProfile {
 
 
     public UserProfile(){}
-    public UserProfile(String UserName, boolean IsDoc, boolean Hidden,String phone, String email, String hobbies, String info){
+    public UserProfile(String UserName, boolean IsDoc, boolean Hidden,String phone, String email,
+                       String hobbies, String info){
 
         this.userName = UserName;
         this.doc = IsDoc;

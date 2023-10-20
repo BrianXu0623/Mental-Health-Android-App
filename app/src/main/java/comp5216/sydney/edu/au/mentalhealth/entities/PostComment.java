@@ -19,7 +19,8 @@ public class PostComment {
     public PostComment() {
     }
 
-    public PostComment(String commentId, String postId, String userId, String text, Timestamp timestamp) {
+    public PostComment(String commentId, String postId, String userId, String text,
+                       Timestamp timestamp) {
         this.commentId = commentId;
         this.postId = postId;
         this.userId = userId;
